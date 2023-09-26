@@ -7,6 +7,10 @@
 
 This project requires implementation of TypeScript and SASS.
 
+## Planning phase
+
+Function-based slice architecture is implemented to the project. The basic elements are presented [here](https://www.figma.com/file/06KbPWGbVj5dkuWYuaIjtg/E-commerce-front-end-project-planning?type=whiteboard&node-id=0%3A1&t=oIyx6JgpCjMEhAbB-1).
+
 ## Requirement
 
 1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
