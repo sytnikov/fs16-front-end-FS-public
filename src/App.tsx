@@ -1,6 +1,11 @@
+import ProductsPage from "./pages/ProductsPage"
+
 const App = () => {
   return (
-    <div>E-commerce website</div>
+    <div>
+      <h1>E-commerce website</h1>
+      <ProductsPage />
+      </div>
   )
 }
 
