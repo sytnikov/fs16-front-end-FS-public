@@ -9,12 +9,11 @@ const ProductsPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync());
+    dispatch(fetchAllProductsAsync({offset: 0, limit: 20}));
   }, []);
 
   return (
     <div>
-      Product list
       {products && products.map((p) => <div key={p.id}>{p.title}</div>)}
     </div>
   );
