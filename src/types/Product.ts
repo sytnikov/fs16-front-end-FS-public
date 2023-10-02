@@ -1,9 +1,10 @@
-import React from 'react'
+import { Category } from './Category'
+
 export interface Product {
   id: number,
   title: string,
   price: number,
   description: string,
-  category: number,
+  category: Category,
   images: string[]
 }
