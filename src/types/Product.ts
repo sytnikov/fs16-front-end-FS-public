@@ -1,6 +1,6 @@
-import { Category } from './Category'
+import Category from "./Category";
 
-export interface Product {
+interface Product {
   id: number,
   title: string,
   price: number,
@@ -8,3 +8,5 @@ export interface Product {
   category: Category,
   images: string[]
 }
+
+export default Product

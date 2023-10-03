@@ -1,4 +1,4 @@
-export interface User {
+interface User {
   id: number;
   name: string;
   role: string;
@@ -6,3 +6,5 @@ export interface User {
   password: string;
   avatar: string;
 }
+
+export default User

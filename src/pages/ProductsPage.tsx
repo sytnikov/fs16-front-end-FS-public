@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import {
+  createProductAsync,
   fetchAllProductsAsync,
   sortByPrice,
 } from "../redux/reducers/productsReducer";
@@ -14,15 +15,15 @@ const ProductsPage = () => {
     (state) => state.productsReducer
   );
   const dispatch = useAppDispatch();
-  const [sortDirection, setSortDirection] = useState("desc");
+  const [sortDirection, setSortDirection] = useState("asc");
   const [search, setSearch] = useState<string | undefined>();
   const filteredProducts = useAppSelector((state) =>
     getFilteredProducts(state, search)
   );
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleProductClick = (id: number) => {
-    navigate(`/products/${id}`)
-  }
+    navigate(`/products/${id}`);
+  };
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync({ offset: 0, limit: 300 }));
@@ -34,10 +35,23 @@ const ProductsPage = () => {
     dispatch(sortByPrice(newSortDirection));
   };
 
+  const newProduct = {
+    title: "MacBook Air",
+    price: 999,
+    description: "Thin laptop by Apple",
+    categoryId: 19,
+    images: ["https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"],
+  };
+  const onAddProduct = () => {
+    dispatch(createProductAsync(newProduct))
+  }
+
   return (
     <div>
+      <button onClick={onAddProduct}>Add Product</button>
       <button onClick={onSortToggle}>
-        Sort by Price: {sortDirection === "asc" ? "Low to High" : "High to Low"}
+        Sort by Price:{" "}
+        {sortDirection === "desc" ? "Low to High" : "High to Low"}
       </button>
       <input
         type="text"
@@ -45,10 +59,13 @@ const ProductsPage = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      {loading && <p>Loading ...</p>}
       {filteredProducts?.map((p) => (
-        <div key={p.id} onClick={() => handleProductClick(p.id)}>
-          {p.id} {p.title} {p.price}
+        <div>
+          <div key={p.id} onClick={() => handleProductClick(p.id)}>
+            {p.id} {p.title} {p.price}
+          </div>
+          <button>Update product</button>
+          <button>Delete product</button>
         </div>
       ))}
     </div>
