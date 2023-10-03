@@ -6,7 +6,8 @@ import {
 } from "../redux/reducers/productsReducer";
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { AppState } from "../redux/store";
+import getFilteredProducts from "../redux/selectors/getFilteredProducts";
+import { useNavigate } from "react-router-dom";
 
 const ProductsPage = () => {
   const { products, loading, error } = useAppSelector(
@@ -15,15 +16,13 @@ const ProductsPage = () => {
   const dispatch = useAppDispatch();
   const [sortDirection, setSortDirection] = useState("desc");
   const [search, setSearch] = useState<string | undefined>();
-
-  const getFilteredProducts = (state: AppState, search: string | undefined) => {
-    return state.productsReducer.products.filter((p) =>
-      p.title.toLowerCase().includes(search?.toLowerCase() || "")
-    );
-  };
   const filteredProducts = useAppSelector((state) =>
     getFilteredProducts(state, search)
   );
+  const navigate = useNavigate()
+  const handleProductClick = (id: number) => {
+    navigate(`/products/${id}`)
+  }
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync({ offset: 0, limit: 300 }));
@@ -48,7 +47,7 @@ const ProductsPage = () => {
       />
       {loading && <p>Loading ...</p>}
       {filteredProducts?.map((p) => (
-        <div key={p.id}>
+        <div key={p.id} onClick={() => handleProductClick(p.id)}>
           {p.id} {p.title} {p.price}
         </div>
       ))}

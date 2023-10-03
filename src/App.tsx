@@ -1,12 +1,10 @@
-import ProductsPage from "./pages/ProductsPage"
+import { RouterProvider } from "react-router-dom"
+
+import router from "./routing/router"
+
 
 const App = () => {
-  return (
-    <div>
-      <h1>E-commerce website</h1>
-      <ProductsPage />
-      </div>
-  )
+  return <RouterProvider router={router}/>
 }
 
 export default App
