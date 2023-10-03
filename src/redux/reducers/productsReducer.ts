@@ -5,6 +5,7 @@ import Product from "../../types/Product";
 import PaginationQuery from "../../types/PaginationQuery";
 import InitialState from "../../types/InitialState";
 import CreateProductInput from "../../types/CreateProductInput";
+import UpdateProductInput from "../../types/UpdateProductInput";
 
 const initialState: InitialState = {
   products: [],
@@ -39,6 +40,35 @@ export const createProductAsync = createAsyncThunk(
     }
   }
 );
+
+export const updateProductAsync = createAsyncThunk(
+  "updateProductAsync",
+  async ({update, id}: UpdateProductInput, { rejectWithValue } ) => {
+    try {
+      const response = await axios.put<Product>(`https://api.escuelajs.co/api/v1/products/${id}`, update)
+      return response.data
+    } catch (e) {
+      const error = e as AxiosError
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const deleteProductAsync = createAsyncThunk(
+  "deletePoductAsync",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete<boolean>(`https://api.escuelajs.co/api/v1/products/${id}`)
+      if (!response.data) {
+        throw new Error("Cannot delete")
+      }
+      return id
+    } catch (e) {
+      const error = e as AxiosError
+      return rejectWithValue(error.message)
+    }
+  }
+)
 
 const productSlice = createSlice({
   name: "productsSlice",
@@ -81,6 +111,17 @@ const productSlice = createSlice({
     });
     builder.addCase(createProductAsync.rejected, (state, action) => {
       state.error = action.payload as string
+    })
+    builder.addCase(updateProductAsync.fulfilled, (state, action) => {
+      const foundIndex = state.products.findIndex(p => p.id === action.payload.id)
+      if (foundIndex > -1) {
+        state.products[foundIndex] = action.payload
+      }
+    });
+    builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
+      if (typeof action.payload === "number") {
+        state.products = state.products.filter(p => p.id !== action.payload)
+      }
     })
   },
 });

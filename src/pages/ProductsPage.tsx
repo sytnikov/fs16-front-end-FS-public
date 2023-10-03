@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 
 import {
   createProductAsync,
+  deleteProductAsync,
   fetchAllProductsAsync,
   sortByPrice,
+  updateProductAsync,
 } from "../redux/reducers/productsReducer";
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
@@ -35,16 +37,36 @@ const ProductsPage = () => {
     dispatch(sortByPrice(newSortDirection));
   };
 
-  const newProduct = {
-    title: "MacBook Air",
-    price: 999,
-    description: "Thin laptop by Apple",
-    categoryId: 19,
-    images: ["https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"],
-  };
+  // creating a mock product
   const onAddProduct = () => {
-    dispatch(createProductAsync(newProduct))
-  }
+    const newProduct = {
+      title: "MacBook Air",
+      price: 999,
+      description: "Thin laptop by Apple",
+      categoryId: 19,
+      images: [
+        "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
+      ],
+    };
+    dispatch(createProductAsync(newProduct));
+  };
+
+  // updating a mock product
+  const onUpdateProduct = (id: number) => {
+    const updatedProduct = {
+      update: {
+        title: "MacBook Pro",
+        price: 1999,
+      },
+      id: id,
+    };
+    dispatch(updateProductAsync(updatedProduct));
+  };
+
+  // deleting a mock product
+  const onDeleteProduct = (id: number) => {
+    dispatch(deleteProductAsync(id));
+  };
 
   return (
     <div>
@@ -64,8 +86,8 @@ const ProductsPage = () => {
           <div key={p.id} onClick={() => handleProductClick(p.id)}>
             {p.id} {p.title} {p.price}
           </div>
-          <button>Update product</button>
-          <button>Delete product</button>
+          <button onClick={() => onUpdateProduct(p.id)}>Update product</button>
+          <button onClick={() => onDeleteProduct(p.id)}>Delete product</button>
         </div>
       ))}
     </div>
