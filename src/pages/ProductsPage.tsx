@@ -11,6 +11,8 @@ import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import getFilteredProducts from "../redux/selectors/getFilteredProducts";
 import { useNavigate } from "react-router-dom";
+import Product from "../types/Product";
+import { addToCart } from "../redux/reducers/cartReducer";
 
 const ProductsPage = () => {
   const { products, loading, error } = useAppSelector(
@@ -43,7 +45,7 @@ const ProductsPage = () => {
       title: "MacBook Air",
       price: 999,
       description: "Thin laptop by Apple",
-      categoryId: 19,
+      categoryId: 1,
       images: [
         "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
       ],
@@ -68,6 +70,10 @@ const ProductsPage = () => {
     dispatch(deleteProductAsync(id));
   };
 
+  const onAddToCart = (product: Product) => {
+    dispatch(addToCart(product))
+  }
+
   return (
     <div>
       <button onClick={onAddProduct}>Add Product</button>
@@ -86,8 +92,9 @@ const ProductsPage = () => {
           <div key={p.id} onClick={() => handleProductClick(p.id)}>
             {p.id} {p.title} {p.price}
           </div>
-          <button onClick={() => onUpdateProduct(p.id)}>Update product</button>
-          <button onClick={() => onDeleteProduct(p.id)}>Delete product</button>
+          {/* <button onClick={() => onUpdateProduct(p.id)}>Update product</button> */}
+          {/* <button onClick={() => onDeleteProduct(p.id)}>Delete product</button> */}
+          <button onClick={() => onAddToCart(p)}>Add to Cart</button>
         </div>
       ))}
     </div>

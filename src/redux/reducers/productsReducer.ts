@@ -3,11 +3,11 @@ import axios, { AxiosError } from "axios";
 
 import Product from "../../types/Product";
 import PaginationQuery from "../../types/PaginationQuery";
-import InitialState from "../../types/InitialState";
 import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
+import { InitialProductsState } from "../../types/InitialState";
 
-const initialState: InitialState = {
+const initialState: InitialProductsState = {
   products: [],
   loading: false,
 };

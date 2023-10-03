@@ -1,9 +1,12 @@
+import CartItem from "./CartItem"
 import Product from "./Product"
 
-interface InitialState {
+export interface InitialProductsState {
   products: Product[]
   loading: boolean
   error?: string
 }
 
-export default InitialState
+export interface InitialCartState {
+  cartItems: CartItem[]
+}
