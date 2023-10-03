@@ -31,7 +31,13 @@ const productSlice = createSlice({
   name: "productsSlice",
   initialState,
   reducers: {
-    sortByPrice: (state, action: PayloadAction<"asc" | "desc">) => {},
+    sortByPrice: (state, action: PayloadAction<string>) => {
+      if (action.payload === "asc") {
+        state.products.sort((a,b) => a.price - b.price)
+      } else {
+        state.products.sort((a,b) => b.price - a.price)
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
@@ -61,4 +67,5 @@ const productSlice = createSlice({
 });
 
 const productsReducer = productSlice.reducer;
+export const {sortByPrice} = productSlice.actions
 export default productsReducer;
