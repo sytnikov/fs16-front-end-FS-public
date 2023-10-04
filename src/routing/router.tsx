@@ -4,6 +4,7 @@ import ProductsPage from "../pages/ProductsPage";
 import RootPage from "../pages/RootPage";
 import SingleProductPage from "../pages/SingleProductPage";
 import CartPage from "../pages/CartPage";
+import UsersPage from "../pages/UsersPage";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "products/:productId",
         element: <SingleProductPage />,
+      },
+      {
+        path: "users",
+        element: <UsersPage />,
       },
       {
         path: "cart",

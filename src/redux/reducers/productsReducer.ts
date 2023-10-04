@@ -5,9 +5,9 @@ import Product from "../../types/Product";
 import PaginationQuery from "../../types/PaginationQuery";
 import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
-import { InitialProductsState } from "../../types/InitialState";
+import { ProductsReducerState } from "../../types/InitialState";
 
-const initialState: InitialProductsState = {
+const initialState: ProductsReducerState = {
   products: [],
   loading: false,
 };
@@ -32,45 +32,53 @@ export const createProductAsync = createAsyncThunk(
   "createProductAsync",
   async (newProduct: CreateProductInput, { rejectWithValue }) => {
     try {
-      const response = await axios.post<Product>("https://api.escuelajs.co/api/v1/products/", newProduct)
-      return response.data
+      const response = await axios.post<Product>(
+        "https://api.escuelajs.co/api/v1/products/",
+        newProduct
+      );
+      return response.data;
     } catch (e) {
-      const error = e as AxiosError
-      return rejectWithValue(error.message)
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
     }
   }
 );
 
 export const updateProductAsync = createAsyncThunk(
   "updateProductAsync",
-  async ({update, id}: UpdateProductInput, { rejectWithValue } ) => {
+  async ({ update, id }: UpdateProductInput, { rejectWithValue }) => {
     try {
-      const response = await axios.put<Product>(`https://api.escuelajs.co/api/v1/products/${id}`, update)
-      return response.data
+      const response = await axios.put<Product>(
+        `https://api.escuelajs.co/api/v1/products/${id}`,
+        update
+      );
+      return response.data;
     } catch (e) {
-      const error = e as AxiosError
-      return rejectWithValue(error.message)
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
     }
   }
-)
+);
 
 export const deleteProductAsync = createAsyncThunk(
   "deletePoductAsync",
   async (id: number, { rejectWithValue }) => {
     try {
-      const response = await axios.delete<boolean>(`https://api.escuelajs.co/api/v1/products/${id}`)
+      const response = await axios.delete<boolean>(
+        `https://api.escuelajs.co/api/v1/products/${id}`
+      );
       if (!response.data) {
-        throw new Error("Cannot delete")
+        throw new Error("Cannot delete");
       }
-      return id
+      return id;
     } catch (e) {
-      const error = e as AxiosError
-      return rejectWithValue(error.message)
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
     }
   }
-)
+);
 
-const productSlice = createSlice({
+const productsSlice = createSlice({
   name: "productsSlice",
   initialState,
   reducers: {
@@ -107,25 +115,27 @@ const productSlice = createSlice({
       }
     });
     builder.addCase(createProductAsync.fulfilled, (state, action) => {
-      state.products.push(action.payload)
+      state.products.push(action.payload);
     });
     builder.addCase(createProductAsync.rejected, (state, action) => {
-      state.error = action.payload as string
-    })
+      state.error = action.payload as string;
+    });
     builder.addCase(updateProductAsync.fulfilled, (state, action) => {
-      const foundIndex = state.products.findIndex(p => p.id === action.payload.id)
+      const foundIndex = state.products.findIndex(
+        (p) => p.id === action.payload.id
+      );
       if (foundIndex > -1) {
-        state.products[foundIndex] = action.payload
+        state.products[foundIndex] = action.payload;
       }
     });
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
-        state.products = state.products.filter(p => p.id !== action.payload)
+        state.products = state.products.filter((p) => p.id !== action.payload);
       }
-    })
+    });
   },
 });
 
-const productsReducer = productSlice.reducer;
-export const { sortByPrice } = productSlice.actions;
+const productsReducer = productsSlice.reducer;
+export const { sortByPrice } = productsSlice.actions;
 export default productsReducer;

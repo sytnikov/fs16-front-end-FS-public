@@ -3,8 +3,15 @@ import { Link } from "react-router-dom"
 const Header = () => {
   return (
     <div>
-      <Link to="/">Products</Link>
-      <Link to="cart">Cart</Link>
+      <nav>
+        <ul>
+          <li><Link to="/">Products</Link></li>
+          <li><Link to="users">Users</Link></li>
+          <li><Link to="cart">Cart</Link></li>
+        </ul>
+      </nav>
+      
+      
     </div>
   )
 }
