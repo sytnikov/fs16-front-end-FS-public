@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { Axios, AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 
 import { UsersReducerState } from "../../types/InitialState";
 import User from "../../types/User";
@@ -30,9 +30,9 @@ const usersSlice = createSlice({
     builder.addCase(fetchAllUsersAsync.fulfilled, (state, action) => {
       state.users = action.payload
     })
-    // builder.addCase(fetchAllUsersAsync.rejected, (state, action) => {
-
-    // })
+    builder.addCase(fetchAllUsersAsync.rejected, (state, action) => {
+      state.error = action.payload
+    })
   },
 });
 

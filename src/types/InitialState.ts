@@ -15,4 +15,5 @@ export interface CartReducerState {
 export interface UsersReducerState {
   users: User[],
   currentUser?: User,
+  error?: string
 }

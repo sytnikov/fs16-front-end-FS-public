@@ -45,7 +45,7 @@ const ProductsPage = () => {
       title: "MacBook Air",
       price: 999,
       description: "Thin laptop by Apple",
-      categoryId: 1,
+      categoryId: 15,
       images: [
         "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
       ],

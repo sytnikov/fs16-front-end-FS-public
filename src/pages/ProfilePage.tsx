@@ -1,7 +1,21 @@
-const ProfilePage = () => {
-  return (
-    <div>ProfilePage</div>
-  )
-}
+import { current } from "@reduxjs/toolkit";
+import useAppSelector from "../hooks/useAppSelector";
 
-export default ProfilePage
+const ProfilePage = () => {
+  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
+
+  return (
+    <div>
+      <p>ProfilePage</p>
+      {currentUser && (
+        <div>
+          <p>{currentUser.name}</p>
+          <p>{currentUser.email}</p>
+          <img src={currentUser.avatar} alt="user avatar pic" />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProfilePage;
