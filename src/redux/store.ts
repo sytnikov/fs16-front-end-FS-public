@@ -10,7 +10,7 @@ import authReducer from "./reducers/authReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cartReducer", "authReducer"],
+  whitelist: ["cartReducer", "authReducer"] // it's not a good idea to add the whole authReducer here
 };
 
 const rootReducer = combineReducers({

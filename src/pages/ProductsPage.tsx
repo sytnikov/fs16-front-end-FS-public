@@ -18,6 +18,7 @@ const ProductsPage = () => {
   const { products, loading, error } = useAppSelector(
     (state) => state.productsReducer
   );
+  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
   const dispatch = useAppDispatch();
   const [sortDirection, setSortDirection] = useState("asc");
   const [search, setSearch] = useState<string | undefined>();
@@ -25,6 +26,7 @@ const ProductsPage = () => {
     getFilteredProducts(state, search)
   );
   const navigate = useNavigate();
+
   const handleProductClick = (id: number) => {
     navigate(`/products/${id}`);
   };
@@ -71,8 +73,8 @@ const ProductsPage = () => {
   };
 
   const onAddToCart = (product: Product) => {
-    dispatch(addToCart(product))
-  }
+    dispatch(addToCart(product));
+  };
 
   return (
     <div>
@@ -91,9 +93,21 @@ const ProductsPage = () => {
         <div>
           <div key={p.id} onClick={() => handleProductClick(p.id)}>
             {p.id} {p.title} {p.price}
+            {/* <img src={p.images[0]} alt="product picture" /> */}
           </div>
-          {/* <button onClick={() => onUpdateProduct(p.id)}>Update product</button> */}
-          {/* <button onClick={() => onDeleteProduct(p.id)}>Delete product</button> */}
+          {currentUser &&
+            currentUser.role ===
+              "admin" &&(
+                <div>
+                  <button onClick={() => onUpdateProduct(p.id)}>
+                    Update product
+                  </button>
+                  <button onClick={() => onDeleteProduct(p.id)}>
+                    Delete product
+                  </button>
+                </div>
+              )}
+
           <button onClick={() => onAddToCart(p)}>Add to Cart</button>
         </div>
       ))}

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import useAppSelector from "../hooks/useAppSelector";
-import { useDispatch } from "react-redux";
-import localStorage from "redux-persist/es/storage";
+import useAppDispatch from "../hooks/useAppDispatch";
 import { logoutUser } from "../redux/reducers/authReducer";
 
 const Header = () => {
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoginPage, setIsLoginPage] = useState(true);
@@ -42,7 +42,7 @@ const Header = () => {
   };
 
   const onLogoutClick = () => {
-    dispatch(logoutUser)
+    dispatch(logoutUser())
     navigate("/")
   };
   // dropdown menu section ends

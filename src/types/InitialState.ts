@@ -14,6 +14,12 @@ export interface CartReducerState {
 
 export interface UsersReducerState {
   users: User[],
+  error?: string
+}
+
+export interface AuthReducerState {
+  accessToken?: string,
+  isAuthenticated?: boolean
   currentUser?: User,
   error?: string
 }

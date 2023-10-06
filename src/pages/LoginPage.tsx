@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { loginUserAsync } from "../redux/reducers/authReducer";
+import { authUserAsync, loginUserAsync } from "../redux/reducers/authReducer";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
@@ -10,6 +10,7 @@ const LoginPage = () => {
   // const currentUser = useAppSelector((state) => state.authReducer.currentUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
+  const accessToken = useAppSelector(state => state.authReducer.accessToken)
 
   const onLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()

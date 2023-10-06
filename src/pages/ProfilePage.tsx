@@ -11,6 +11,7 @@ const ProfilePage = () => {
         <div>
           <p>{currentUser.name}</p>
           <p>{currentUser.email}</p>
+          <p>{currentUser.role}</p>
           <img src={currentUser.avatar} alt="user avatar pic" />
         </div>
       )}
