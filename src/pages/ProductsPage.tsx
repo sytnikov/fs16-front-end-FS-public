@@ -13,18 +13,31 @@ import getFilteredProducts from "../redux/selectors/getFilteredProducts";
 import { useNavigate } from "react-router-dom";
 import Product from "../types/Product";
 import { addToCart } from "../redux/reducers/cartReducer";
+import { fetchAllCategoriesAsync } from "../redux/reducers/categoriesReducer";
+import { AppState } from "../redux/store";
 
 const ProductsPage = () => {
   const { products, loading, error } = useAppSelector(
     (state) => state.productsReducer
   );
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
+  const categories = useAppSelector(
+    (state) => state.categoriesReducer.categories
+  );
   const dispatch = useAppDispatch();
   const [sortDirection, setSortDirection] = useState("asc");
-  const [search, setSearch] = useState<string | undefined>();
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
   const filteredProducts = useAppSelector((state) =>
-    getFilteredProducts(state, search)
+    getFilteredProducts(state, search, category)
   );
+
+  // const filteredProducts = products.filter((p) => {
+  //   const matchesCategory = !category || p.category.id === Number(category);
+  //   const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
+  //   return matchesCategory && matchesSearch;
+  // });
+
   const navigate = useNavigate();
 
   const handleProductClick = (id: number) => {
@@ -33,6 +46,7 @@ const ProductsPage = () => {
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync({ offset: 0, limit: 300 }));
+    dispatch(fetchAllCategoriesAsync());
   }, []);
 
   const onSortToggle = () => {
@@ -78,36 +92,47 @@ const ProductsPage = () => {
 
   return (
     <div>
-      <button onClick={onAddProduct}>Add Product</button>
+      {currentUser && currentUser.role === "admin" && (
+        <div>
+          <button onClick={onAddProduct}>Add Product</button>
+        </div>
+      )}
       <button onClick={onSortToggle}>
         Sort by Price:{" "}
         {sortDirection === "desc" ? "Low to High" : "High to Low"}
       </button>
       <input
         type="text"
-        placeholder="Search Products by Title"
+        placeholder="Search by title"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+      <div>
+        Product categories:
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Filter by category</option>{" "}
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
       {filteredProducts?.map((p) => (
         <div>
           <div key={p.id} onClick={() => handleProductClick(p.id)}>
-            {p.id} {p.title} {p.price}
-            {/* <img src={p.images[0]} alt="product picture" /> */}
+            {p.id} {p.title} {p.category.name} {p.price}
+            {currentUser && currentUser.role === "admin" && (
+              <div>
+                <button onClick={() => onUpdateProduct(p.id)}>
+                  Update product
+                </button>
+                <button onClick={() => onDeleteProduct(p.id)}>
+                  Delete product
+                </button>
+              </div>
+            )}
           </div>
-          {currentUser &&
-            currentUser.role ===
-              "admin" &&(
-                <div>
-                  <button onClick={() => onUpdateProduct(p.id)}>
-                    Update product
-                  </button>
-                  <button onClick={() => onDeleteProduct(p.id)}>
-                    Delete product
-                  </button>
-                </div>
-              )}
-
           <button onClick={() => onAddToCart(p)}>Add to Cart</button>
         </div>
       ))}
