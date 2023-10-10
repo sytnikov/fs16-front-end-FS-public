@@ -6,11 +6,13 @@ import productsReducer, {
   fetchAllProductsAsync,
   initialState,
   sortByPrice,
+  updateProductAsync,
 } from "../../redux/reducers/productsReducer";
 import productsData from "../data/productsData";
 import { ProductsReducerState } from "../../types/InitialState";
 import server from "../shared/server";
 import CreateProductInput from "../../types/CreateProductInput";
+import UpdateProductInput from "../../types/UpdateProductInput";
 
 let store = createStore();
 afterEach(() => {
@@ -64,8 +66,36 @@ describe("Test async thunk productsReducer actions", () => {
       categoryId: 1,
       images: [],
     };
-    await store.dispatch(createProductAsync(inputData))
-    expect(store.getState().productsReducer.products.length).toBe(1)
+    await store.dispatch(createProductAsync(inputData));
+    expect(store.getState().productsReducer.products.length).toBe(1);
+  });
+
+  test("Should update a product", async () => {
+    const input: UpdateProductInput = {
+      id: 1,
+      update: {
+        title: "Successfully updated product",
+        price: 129,
+      },
+    };
+    const action = await store.dispatch(updateProductAsync(input));
+    expect(action.payload).toMatchObject({
+      id: 1,
+      title: "Successfully updated product",
+      price: 129,
+      description:
+        "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
+      images: [
+        "https://i.imgur.com/DumuKkD.jpeg",
+        "https://i.imgur.com/imQx3Az.jpeg",
+        "https://i.imgur.com/aCDF0yh.jpeg",
+      ],
+      category: {
+        id: 3,
+        name: "Chaii",
+        image: "https://i.imgur.com/rUWNzYa.jpeg",
+      },
+    });
   });
 
   test("Should delete an existing product", async () => {

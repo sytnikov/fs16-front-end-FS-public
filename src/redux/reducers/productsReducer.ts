@@ -128,10 +128,16 @@ const productsSlice = createSlice({
         state.products[foundIndex] = action.payload;
       }
     });
+    builder.addCase(updateProductAsync.rejected, (state, action) => {
+      state.error = action.payload as string;
+    });
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
         state.products = state.products.filter((p) => p.id !== action.payload);
       }
+    });
+    builder.addCase(deleteProductAsync.rejected, (state, action) => {
+      state.error = action.payload as string;
     });
   },
 });

@@ -16,6 +16,8 @@ import { addToCart } from "../redux/reducers/cartReducer";
 import { fetchAllCategoriesAsync } from "../redux/reducers/categoriesReducer";
 import AddProductModal from "../components/AddProductModal";
 import CreateProductInput from "../types/CreateProductInput";
+import UpdateProductModal from "../components/UpdateProductModal";
+import UpdateProductInput from "../types/UpdateProductInput";
 
 const ProductsPage = () => {
   const { products, loading, error } = useAppSelector(
@@ -26,72 +28,76 @@ const ProductsPage = () => {
     (state) => state.categoriesReducer.categories
   );
   const dispatch = useAppDispatch();
-  const [sortDirection, setSortDirection] = useState("asc");
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
-  const filteredProducts = useAppSelector((state) =>
-    getFilteredProducts(state, search, category)
-  );
-  
-
   const navigate = useNavigate();
-
-  const handleProductClick = (id: number) => {
-    navigate(`/products/${id}`);
-  };
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync({ offset: 0, limit: 300 }));
     dispatch(fetchAllCategoriesAsync());
   }, []);
 
+  // navigating to a single product page
+  const handleProductClick = (id: number) => {
+    navigate(`/products/${id}`);
+  };
+
+  // filtering by category and searching by title
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const filteredProducts = useAppSelector((state) =>
+    getFilteredProducts(state, search, category)
+  );
+
+  // sorting products by price
+  const [sortDirection, setSortDirection] = useState("asc");
   const onSortToggle = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
     setSortDirection(newSortDirection);
     dispatch(sortByPrice(newSortDirection));
   };
 
-  // creating a mock product
-  // const onAddProduct = () => {
-  //   const newProduct = {
-  //     title: "MacBook Air",
-  //     price: 999,
-  //     description: "Thin laptop by Apple",
-  //     categoryId: 15,
-  //     images: [
-  //       "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
-  //     ],
-  //   };
-  //   dispatch(createProductAsync(newProduct));
-  // };
- 
   // adding a new product
-  const [isAddProductOpen, setIsAddProductOpen] = useState(false) // add peoduct modal is not displayed by default
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false); // add product modal is not displayed by default
   const onAddProductClick = () => {
-    setIsAddProductOpen(true)
+    setIsAddProductOpen(true);
   };
   const onAddProduct = (newProduct: CreateProductInput) => {
-    dispatch(createProductAsync(newProduct))
-    setIsAddProductOpen(false)
-  }
-
-  // updating a mock product
-  const onUpdateProduct = (id: number) => {
-    const updatedProduct = {
-      update: {
-        title: "MacBook Pro",
-        price: 1999,
-      },
-      id: id,
-    };
-    dispatch(updateProductAsync(updatedProduct));
+    dispatch(createProductAsync(newProduct));
+    setIsAddProductOpen(false);
   };
 
-  // deleting a mock product
+  // updating a mock product
+  // const onUpdateProduct = (id: number) => {
+  //   const updatedProduct = {
+  //     update: {
+  //       title: "MacBook Pro",
+  //       price: 1999,
+  //     },
+  //     id: id,
+  //   };
+  //   dispatch(updateProductAsync(updatedProduct));
+  // };
+  const [isUpdateProductOpen, setIsUpdateProductOpen] = useState(false);
+  const [updatingProduct, setUpdatingProduct] = useState(0);
+
+  const onOpenUpdateProduct = (productId: number) => {
+    setIsUpdateProductOpen(true);
+    setUpdatingProduct(productId);
+  };
+  const onCloseUpdateProduct = () => {
+    setIsUpdateProductOpen(false);
+    setUpdatingProduct(0);
+  };
+
+  const onUpdateProduct = (updatedProduct: UpdateProductInput) => {
+    dispatch(updateProductAsync(updatedProduct));
+    setIsAddProductOpen(false);
+  };
+  // deleting a product
   const onDeleteProduct = (id: number) => {
     dispatch(deleteProductAsync(id));
   };
 
+  // adding a new item to cart
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
@@ -101,7 +107,11 @@ const ProductsPage = () => {
       {currentUser && currentUser.role === "admin" && (
         <div>
           <button onClick={onAddProductClick}>Add Product</button>
-          <AddProductModal isOpen={isAddProductOpen} onClose={() => setIsAddProductOpen(false)} onAddProduct={onAddProduct}/>
+          <AddProductModal
+            isOpen={isAddProductOpen}
+            onClose={() => setIsAddProductOpen(false)}
+            onAddProduct={onAddProduct}
+          />
         </div>
       )}
       <button onClick={onSortToggle}>
@@ -131,16 +141,25 @@ const ProductsPage = () => {
             {p.id} {p.title} {p.category.name} {p.price}
           </div>
           {currentUser && currentUser.role === "admin" && (
-              <div>
-                <button onClick={() => onUpdateProduct(p.id)}>
-                  Update product
-                </button>
-                <button onClick={() => onDeleteProduct(p.id)}>
-                  Delete product
-                </button>
-              </div>
-            )}
+            <div>
+              <button onClick={() => onOpenUpdateProduct(p.id)}>
+                Update product
+              </button>
+              
+              <button onClick={() => onDeleteProduct(p.id)}>
+                Delete product
+              </button>
+            </div>
+          )}
           <button onClick={() => onAddToCart(p)}>Add to Cart</button>
+          {isUpdateProductOpen && updatingProduct === p.id && (
+                <UpdateProductModal
+                  isOpen={isUpdateProductOpen}
+                  onClose={onCloseUpdateProduct}
+                  productId={updatingProduct}
+                  onUpdateProduct={onUpdateProduct}
+                />
+              )}
         </div>
       ))}
     </div>

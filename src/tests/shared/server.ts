@@ -5,6 +5,7 @@ import productsData from "../data/productsData";
 import CreateProductInput from "../../types/CreateProductInput";
 import Product from "../../types/Product";
 import categoriesData from "../data/categoriesData";
+import { AxiosError } from "axios";
 
 export const handlers = [
   // rest.get("/api/user", (req, res, ctx) => {
@@ -37,17 +38,47 @@ export const handlers = [
           category: category,
           images: inputData.images,
         };
-        productsData.push(newProduct)
+        productsData.push(newProduct);
         return res(ctx.json(newProduct));
       } else {
         ctx.json({
           path: "/api/v1/products",
           timestamp: "2023-10-09T20:38:15.852Z",
           name: "EntityNotFoundError",
-          message: "Could not find any entity of type \"Category\" matching: {\n    \"id\": 170\n}"
-        })
+          message:
+            'Could not find any entity of type "Category" matching: {\n    "id": 170\n}',
+        });
       }
-      
+    }
+  ),
+  rest.put(
+    "https://api.escuelajs.co/api/v1/products/:id",
+    async (req, res, ctx) => {
+      const update = await req.json();
+      const { id } = req.params;
+      const foundIndex = productsData.findIndex((p) => p.id === Number(id));
+      try {
+        if (foundIndex > -1) {
+          return res(
+            ctx.json({
+              ...productsData[foundIndex],
+              ...update,
+            })
+          );
+        } else {
+          ctx.status(400);
+          return res(
+            ctx.json({
+              // if product id isn't found
+              message:
+                'Could not find any entity of type "Product" matching: {\n    "relations": [\n        "category"\n    ],\n    "where": {\n        "id": 5\n    }\n}',
+            })
+          );
+        }
+      } catch (e) {
+        const error = e as AxiosError;
+        console.log(error.message);
+      }
     }
   ),
 ];

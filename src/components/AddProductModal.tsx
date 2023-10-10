@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
 import AddProductModalProps from "../types/AddProductModalProps";
 import CreateProductInput from "../types/CreateProductInput";
