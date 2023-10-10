@@ -43,7 +43,7 @@ import { AuthReducerState } from "../../types/InitialState";
 //       }
 //     );
 //     console.log("user: ", getProfile.data);
-    
+
 //     return getProfile.data;
 //   } catch (e) {
 //     const error = e as AxiosError;
@@ -108,7 +108,7 @@ export const authUserAsync = createAsyncThunk<
   User,
   string,
   { rejectValue: string }
->("authUserAsync", async (access_token: string, { rejectWithValue }) => {
+>("authUserAsync", async (access_token, { rejectWithValue }) => {
   try {
     const getProfile = await axios.get(
       "https://api.escuelajs.co/api/v1/auth/profile",
@@ -130,8 +130,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
-      state.currentUser = undefined
-    }
+      state.currentUser = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUserAsync.fulfilled, (state, action) => {

@@ -14,7 +14,8 @@ import { useNavigate } from "react-router-dom";
 import Product from "../types/Product";
 import { addToCart } from "../redux/reducers/cartReducer";
 import { fetchAllCategoriesAsync } from "../redux/reducers/categoriesReducer";
-import { AppState } from "../redux/store";
+import AddProductModal from "../components/AddProductModal";
+import CreateProductInput from "../types/CreateProductInput";
 
 const ProductsPage = () => {
   const { products, loading, error } = useAppSelector(
@@ -31,12 +32,7 @@ const ProductsPage = () => {
   const filteredProducts = useAppSelector((state) =>
     getFilteredProducts(state, search, category)
   );
-
-  // const filteredProducts = products.filter((p) => {
-  //   const matchesCategory = !category || p.category.id === Number(category);
-  //   const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
-  //   return matchesCategory && matchesSearch;
-  // });
+  
 
   const navigate = useNavigate();
 
@@ -56,18 +52,28 @@ const ProductsPage = () => {
   };
 
   // creating a mock product
-  const onAddProduct = () => {
-    const newProduct = {
-      title: "MacBook Air",
-      price: 999,
-      description: "Thin laptop by Apple",
-      categoryId: 15,
-      images: [
-        "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
-      ],
-    };
-    dispatch(createProductAsync(newProduct));
+  // const onAddProduct = () => {
+  //   const newProduct = {
+  //     title: "MacBook Air",
+  //     price: 999,
+  //     description: "Thin laptop by Apple",
+  //     categoryId: 15,
+  //     images: [
+  //       "https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg",
+  //     ],
+  //   };
+  //   dispatch(createProductAsync(newProduct));
+  // };
+ 
+  // adding a new product
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false) // add peoduct modal is not displayed by default
+  const onAddProductClick = () => {
+    setIsAddProductOpen(true)
   };
+  const onAddProduct = (newProduct: CreateProductInput) => {
+    dispatch(createProductAsync(newProduct))
+    setIsAddProductOpen(false)
+  }
 
   // updating a mock product
   const onUpdateProduct = (id: number) => {
@@ -94,7 +100,8 @@ const ProductsPage = () => {
     <div>
       {currentUser && currentUser.role === "admin" && (
         <div>
-          <button onClick={onAddProduct}>Add Product</button>
+          <button onClick={onAddProductClick}>Add Product</button>
+          <AddProductModal isOpen={isAddProductOpen} onClose={() => setIsAddProductOpen(false)} onAddProduct={onAddProduct}/>
         </div>
       )}
       <button onClick={onSortToggle}>
@@ -122,7 +129,8 @@ const ProductsPage = () => {
         <div>
           <div key={p.id} onClick={() => handleProductClick(p.id)}>
             {p.id} {p.title} {p.category.name} {p.price}
-            {currentUser && currentUser.role === "admin" && (
+          </div>
+          {currentUser && currentUser.role === "admin" && (
               <div>
                 <button onClick={() => onUpdateProduct(p.id)}>
                   Update product
@@ -132,7 +140,6 @@ const ProductsPage = () => {
                 </button>
               </div>
             )}
-          </div>
           <button onClick={() => onAddToCart(p)}>Add to Cart</button>
         </div>
       ))}

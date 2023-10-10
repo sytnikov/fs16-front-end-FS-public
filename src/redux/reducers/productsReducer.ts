@@ -7,7 +7,7 @@ import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
 import { ProductsReducerState } from "../../types/InitialState";
 
-const initialState: ProductsReducerState = {
+export const initialState: ProductsReducerState = {
   products: [],
   loading: false,
 };
@@ -68,7 +68,7 @@ export const deleteProductAsync = createAsyncThunk(
         `https://api.escuelajs.co/api/v1/products/${id}`
       );
       if (!response.data) {
-        throw new Error("Cannot delete");
+        throw new Error("The product cannot be deleted");
       }
       return id;
     } catch (e) {
