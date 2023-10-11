@@ -1,13 +1,23 @@
 import { useParams } from "react-router-dom";
 import useAppSelector from "../hooks/useAppSelector";
+import useAppDispatch from "../hooks/useAppDispatch";
+import { useEffect } from "react";
+import { fetchSingleProductAsync } from "../redux/reducers/productsReducer";
 
 const SingleProductPage = () => {
   const params = useParams();
   const productId = Number(params.productId);
 
-  const product = useAppSelector((state) =>
-    state.productsReducer.products.find((p) => p.id === productId)
-  );
+  const dispatch = useAppDispatch()
+
+  useEffect(()=>{
+    dispatch(fetchSingleProductAsync(productId))
+  },[])
+
+  const product = useAppSelector((state) => state.productsReducer.product)
+  // const product = useAppSelector((state) =>
+  //   state.productsReducer.products.find((p) => p.id === productId)
+  // );
 
   return (
     <div>

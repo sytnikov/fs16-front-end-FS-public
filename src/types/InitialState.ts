@@ -5,6 +5,7 @@ import Category from "./Category"
 
 export interface ProductsReducerState {
   products: Product[]
+  product?: Product
   loading: boolean
   error?: string
 }

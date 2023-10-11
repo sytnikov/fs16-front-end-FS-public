@@ -1,7 +1,25 @@
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import { useState } from "react";
 
 import AddProductModalProps from "../types/AddProductModalProps";
 import CreateProductInput from "../types/CreateProductInput";
+import { TextField } from "@mui/material";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "none",
+  borderRadius: "6px",
+  boxShadow: 24,
+  p: 4,
+};
 
 const AddProductModal: React.FC<AddProductModalProps> = ({
   isOpen,
@@ -29,45 +47,62 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     return null;
   }
   return (
-    <div>
-      <div>
-        <span onClick={onClose}>
-          &times;
-        </span>
-        <h2>Add a new product</h2>
-        <input
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h5" component="h2">
+          Add a new product
+        </Typography>
+        <TextField
+          fullWidth
+          margin="normal"
           type="text"
-          placeholder="Title"
+          variant="outlined"
+          label="Title"
           value={newProductTitle}
           onChange={(e) => setNewProductTitle(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
           type="number"
-          placeholder="Price"
+          label="Price"
           value={newProductPrice}
           onChange={(e) => setNewProductPrice(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
+          multiline
+          rows={3}
           type="text"
-          placeholder="Description"
+          label="Description"
           value={newProductDescription}
           onChange={(e) => setNewProductDescription(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
           type="number"
-          placeholder="Category ID"
+          label="Category ID"
           value={newProductCategoryId}
           onChange={(e) => setNewProductCategoryId(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
           type="text"
-          placeholder="Image link"
+          label="Image link"
           value={newProductImages}
           onChange={(e) => setNewProductImages(e.target.value)}
         />
-        <button onClick={onAddClick}>Add</button>
-      </div>
-    </div>
+        <Button fullWidth variant="contained" onClick={onAddClick}>Add</Button>
+      </Box>
+    </Modal>
   );
 };
 

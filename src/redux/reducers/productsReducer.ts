@@ -28,6 +28,22 @@ export const fetchAllProductsAsync = createAsyncThunk(
   }
 );
 
+export const fetchSingleProductAsync = createAsyncThunk(
+  "fetchSingleProductAsync",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://api.escuelajs.co/api/v1/products/${id}`
+      );
+      const data: Product = response.data;
+      return data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const createProductAsync = createAsyncThunk(
   "createProductAsync",
   async (newProduct: CreateProductInput, { rejectWithValue }) => {
@@ -111,6 +127,15 @@ const productsSlice = createSlice({
         return {
           ...state,
           error: action.payload.message,
+        };
+      }
+    });
+    builder.addCase(fetchSingleProductAsync.fulfilled, (state, action) => {
+      if (action.payload) {
+        return {
+          ...state,
+          product: action.payload,
+          loading: false,
         };
       }
     });
