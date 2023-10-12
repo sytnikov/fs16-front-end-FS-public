@@ -17,7 +17,7 @@ const CartPage = () => {
       <p>Items in the cart</p>
       {cartItems &&
         cartItems.map((item) => (
-          <div>
+          <div key={item.id}>
             {item.id} {item.title} {item.quantity}
             <button onClick={() => onDeleteFromCart(item)}>Delete</button>
           </div>

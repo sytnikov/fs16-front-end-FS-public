@@ -11,7 +11,7 @@ export const handlers = [
   rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
     return res(ctx.json(productsData))
   }),
-  rest.get("https://api.escuelajs.co/api/v1/users/1", (req, res, ctx) => {
+  rest.get("https://api.escuelajs.co/api/v1/products/1", (req, res, ctx) => {
     return res(ctx.json(productsData[0]))
   }),
   rest.post(
