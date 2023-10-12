@@ -30,10 +30,25 @@ const categoriesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchAllCategoriesAsync.fulfilled, (state, action) => {
-      state.categories = action.payload
-    })
+      return {
+        ...state,
+        categories: action.payload,
+      };
+    });
+    builder.addCase(fetchAllCategoriesAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true
+      };
+    });
+    builder.addCase(fetchAllCategoriesAsync.rejected, (state, action) => {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    });
   },
 });
 
-const categoriesReducer = categoriesSlice.reducer
-export default categoriesReducer
+const categoriesReducer = categoriesSlice.reducer;
+export default categoriesReducer;
