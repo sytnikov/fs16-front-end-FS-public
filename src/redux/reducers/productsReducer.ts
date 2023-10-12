@@ -111,8 +111,7 @@ const productsSlice = createSlice({
       if (Array.isArray(action.payload)) {
         return {
           ...state,
-          products: action.payload,
-          loading: false,
+          products: action.payload
         };
       }
     });
@@ -134,8 +133,21 @@ const productsSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          product: action.payload,
-          loading: false,
+          product: action.payload
+        };
+      }
+    });
+    builder.addCase(fetchSingleProductAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+    builder.addCase(fetchSingleProductAsync.rejected, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        return {
+          ...state,
+          error: action.payload.message,
         };
       }
     });

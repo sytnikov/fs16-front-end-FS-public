@@ -8,16 +8,13 @@ const SingleProductPage = () => {
   const params = useParams();
   const productId = Number(params.productId);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-    dispatch(fetchSingleProductAsync(productId))
-  },[])
+  useEffect(() => {
+    dispatch(fetchSingleProductAsync(productId));
+  }, []);
 
-  const product = useAppSelector((state) => state.productsReducer.product)
-  // const product = useAppSelector((state) =>
-  //   state.productsReducer.products.find((p) => p.id === productId)
-  // );
+  const product = useAppSelector((state) => state.productsReducer.product);
 
   return (
     <div>

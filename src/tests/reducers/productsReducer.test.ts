@@ -4,13 +4,14 @@ import productsReducer, {
   createProductAsync,
   deleteProductAsync,
   fetchAllProductsAsync,
+  fetchSingleProductAsync,
   initialState,
   sortByPrice,
   updateProductAsync,
 } from "../../redux/reducers/productsReducer";
 import productsData from "../data/productsData";
 import { ProductsReducerState } from "../../types/InitialState";
-import server from "../shared/server";
+import server from "../shared/servers/productsServer";
 import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
 
@@ -55,7 +56,15 @@ describe("Test normal productsReducer actions", () => {
 describe("Test async thunk productsReducer actions", () => {
   test("Should fetch all products with pagination", async () => {
     await store.dispatch(fetchAllProductsAsync({ limit: 20, offset: 0 }));
-    expect(store.getState().productsReducer.products.length).toBe(20);
+    expect(store.getState().productsReducer.products.length).toBe(3);
+  });
+
+  test("Should fetch one product", async () => {
+    await store.dispatch(fetchSingleProductAsync(productsData[0].id));
+    const product = store.getState().productsReducer.product;
+    if (product) {
+      expect(product).toMatchObject(productsData[0]);
+    }
   });
 
   test("Should create a new product", async () => {

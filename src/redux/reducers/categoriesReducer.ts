@@ -5,6 +5,7 @@ import Category from "../../types/Category";
 
 const initialState: CategoriesReducerState = {
   categories: [],
+  loading: false,
 };
 
 export const fetchAllCategoriesAsync = createAsyncThunk<
