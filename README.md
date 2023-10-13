@@ -11,7 +11,7 @@ Overall, this project helps provide the basic operations with products, customer
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
 - [Project Features](#project-features)
-- [Architecture & Design](#architecture-&-design)
+- [Architecture and Design](#architecture-and-design)
 - [Testing](#testing)
 - [Live Application](#live-application)
 
@@ -88,7 +88,7 @@ Below is the high-level project folder structure represented.
  └── tsconfig.json
 ```
 
-## Testing:
+## Testing
 
 The test cases for all the Redux store reducers have been built with Jest testing library. In this porject, unit testing approach was used. The test requests are sent to the mock server not the real API.
 
