@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 import {
   fetchAllProductsAsync,
@@ -42,11 +44,43 @@ const ProductsPage = () => {
     dispatch(sortByPrice(newSortDirection));
   };
 
+  const bannerStyle = {
+    background:
+      'url("https://coolbackgrounds.io/images/backgrounds/index/sea-edge-79ab30e2.png")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    padding: "32px",
+    textAlign: "center",
+    color: "white",
+  };
+
   return (
-    <div>
-      <div>
-        <div className="product-filters">
-          <Button variant="contained" onClick={onSortToggle}>
+    <Box>
+      <Box>
+        <Container maxWidth="lg" sx={{ marginTop: "32px", minHeight: "50px" }}>
+          <Paper elevation={4} sx={bannerStyle}>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{
+                mr: 2,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".2rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              WELCOME TO ECO STORE
+            </Typography>
+          </Paper>
+        </Container>
+        <Box className="product-filters">
+          <Button
+            variant="contained"
+            onClick={onSortToggle}
+            sx={{ minWidth: 200 }}
+          >
             Sort by Price:{" "}
             {sortDirection === "desc" ? "Low to High" : "High to Low"}
           </Button>
@@ -75,17 +109,18 @@ const ProductsPage = () => {
             variant="outlined"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            sx={{ minWidth: 200 }}
           />
-        </div>
-        <div className="product-list">
+        </Box>
+        <Box className="product-list">
           {filteredProducts?.map((p) => (
-            <div>
+            <Box>
               <ProductCard product={p} />
-            </div>
+            </Box>
           ))}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

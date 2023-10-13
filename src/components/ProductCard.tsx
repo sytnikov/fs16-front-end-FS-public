@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 import ProductCardProps from "../types/ProductCardProps";
 import useAppSelector from "../hooks/useAppSelector";
@@ -45,12 +46,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
     dispatch(updateProductAsync(updatedProduct));
     setIsUpdateProductOpen(false);
   };
-  // deleting a product
+
   const onDeleteProduct = (id: number) => {
     dispatch(deleteProductAsync(id));
   };
 
-  // adding a new item to cart
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
@@ -70,8 +70,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </Typography>
         </CardContent>
       </Box>
-      <CardActions>
-        <Button size="small" onClick={() => onAddToCart(product)}>
+      <CardActions sx={{gap: 1}}>
+        <Button size="small" variant="contained" endIcon={<AddShoppingCartIcon />} onClick={() => onAddToCart(product)}>
           Add to cart
         </Button>
         {currentUser && currentUser.role === "admin" && (
@@ -87,6 +87,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 isOpen={isUpdateProductOpen}
                 onClose={onCloseUpdateProduct}
                 productId={updatingProduct}
+                product={product}
                 onUpdateProduct={onUpdateProduct}
               />
             )}

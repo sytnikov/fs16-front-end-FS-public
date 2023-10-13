@@ -10,10 +10,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { useLocation, useNavigate } from "react-router-dom";
+import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
+import AddIcon from "@mui/icons-material/Add";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, MouseEvent } from "react";
-import { Link } from "@mui/material";
+import { Fab } from "@mui/material";
 
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
@@ -21,6 +23,7 @@ import { logoutUser } from "../redux/reducers/authReducer";
 import CreateProductInput from "../types/CreateProductInput";
 import { createProductAsync } from "../redux/reducers/productsReducer";
 import AddProductModal from "./AddProductModal";
+import { Scale } from "@mui/icons-material";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -47,7 +50,7 @@ const Header = () => {
 
   // when going back to Home page bring back LogIn button
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (location.pathname === "/" || location.pathname === "/cart") {
       setIsLoginPage(false);
     }
   }, [location.pathname]);
@@ -77,7 +80,6 @@ const Header = () => {
   };
 
   // adding a new product
-
   const onAddProductClick = () => {
     setIsAddProductOpen(true);
   };
@@ -87,10 +89,12 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar sx={{ position: 'static' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <StoreRoundedIcon
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1, fontSize: 40 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -101,12 +105,12 @@ const Header = () => {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".2rem",
               color: "inherit",
               textDecoration: "none",
             }}
           >
-            E-COMM
+            ECO
           </Typography>
 
           {showMenu && (
@@ -140,42 +144,30 @@ const Header = () => {
                 }}
               >
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link
-                      href="/"
-                      sx={{ textDecoration: "none", color: "black" }}
-                    >
-                      Products
-                    </Link>
-                  </Typography>
+                  <Link
+                    to="/"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <Typography textAlign="center">Store</Typography>
+                  </Link>
                 </MenuItem>
                 {currentUser && currentUser.role === "admin" && (
                   <MenuItem onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">
-                      <Link
-                        href="users"
-                        sx={{ textDecoration: "none", color: "black" }}
-                      >
-                        Users
-                      </Link>
-                    </Typography>
+                    <Link
+                      to="dashboard"
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
+                      <Typography textAlign="center">Dashboard</Typography>
+                    </Link>
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link
-                      href="cart"
-                      sx={{ textDecoration: "none", color: "black" }}
-                    >
-                      Cart
-                    </Link>
-                  </Typography>
-                </MenuItem>
               </Menu>
             </Box>
           )}
 
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <StoreRoundedIcon
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1, fontSize: 40 }}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -192,42 +184,32 @@ const Header = () => {
               textDecoration: "none",
             }}
           >
-            E-COMM
+            ECO
           </Typography>
           {showMenu && (
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Link href="/" sx={{ textDecoration: "none", color: "white" }}>
-                  Products
-                </Link>
-              </Button>
-              {currentUser && currentUser.role === "admin" && (
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
                 <Button
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  <Link
-                    href="users"
-                    sx={{ textDecoration: "none", color: "white" }}
-                  >
-                    Users
-                  </Link>
+                  Store
                 </Button>
-              )}
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
+              </Link>
+
+              {currentUser && currentUser.role === "admin" && (
                 <Link
-                  href="cart"
-                  sx={{ textDecoration: "none", color: "white" }}
+                  to="dashboard"
+                  style={{ textDecoration: "none", color: "white" }}
                 >
-                  Cart
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    Dashboard
+                  </Button>{" "}
                 </Link>
-              </Button>
+              )}
             </Box>
           )}
           {!showMenu && (
@@ -237,10 +219,10 @@ const Header = () => {
           )}
 
           {!currentUser && (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box>
               <Tooltip title="Log In">
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={onToggleAuth}
                   sx={{ color: "white" }}
                 >
@@ -250,10 +232,12 @@ const Header = () => {
             </Box>
           )}
           {currentUser && currentUser.role === "admin" && (
-            <Box sx={{ flexGrow: 0, paddingRight: "16px" }}>
+            <Box
+              sx={{ display: { xs: "none", md: "flex" }, paddingRight: "16px" }}
+            >
               <Tooltip title="Create a new product">
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={onAddProductClick}
                   sx={{ color: "white" }}
                 >
@@ -267,11 +251,37 @@ const Header = () => {
               />
             </Box>
           )}
+          {currentUser && currentUser.role === "admin" && (
+            <Box
+              sx={{ display: { xs: "flex", md: "none" }, paddingRight: "16px" }}
+            >
+              <Tooltip title="Create a new product">
+                <Box sx={{ "& > :not(style)": { m: 1 } }}>
+                  <Fab
+                    color="primary"
+                    aria-label="add"
+                    onClick={onAddProductClick}
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                    }}
+                  >
+                    <AddIcon />
+                  </Fab>
+                </Box>
+              </Tooltip>
+              <AddProductModal
+                isOpen={isAddProductOpen}
+                onClose={() => setIsAddProductOpen(false)}
+                onAddProduct={onAddProduct}
+              />
+            </Box>
+          )}
           {currentUser && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Amy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Amy Sharp" src={currentUser.avatar} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -299,6 +309,11 @@ const Header = () => {
               </Menu>
             </Box>
           )}
+          <Link to="cart" style={{ textDecoration: "none", color: "white" }}>
+            <ShoppingCartRoundedIcon
+              sx={{ paddingLeft: "16px", fontSize: 28 }}
+            />
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>

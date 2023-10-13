@@ -1,20 +1,37 @@
 import { useState } from "react";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
 import UpdateProductModalProps from "../types/UpdateProductModalProps";
 import UpdateProductInput from "../types/UpdateProductInput";
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: 250,
+  bgcolor: "background.paper",
+  border: "none",
+  borderRadius: "6px",
+  boxShadow: 24,
+  p: 4,
+};
 
 const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
   isOpen,
   onClose,
   productId,
+  product,
   onUpdateProduct,
 }) => {
-  const [updatingProductTitle, setUpdatingProductTitle] = useState("");
-  const [updatingProductPrice, setUpdatingProductPrice] = useState("");
-  const [updatingProductDescription, setUpdatingProductDescription] = useState("");
-  const [updatingProductCategoryId, setUpdatingProductCategoryId] = useState("");
-  const [updatingProductImages, setUpdatingProductImages] = useState("");
-  
+  const [updatingProductTitle, setUpdatingProductTitle] = useState(product.title);
+  const [updatingProductPrice, setUpdatingProductPrice] = useState(String(product.price));
+  const [updatingProductDescription, setUpdatingProductDescription] =
+    useState(product.description);
+  const [updatingProductCategoryId, setUpdatingProductCategoryId] =
+    useState(String(product.category.id));
+  const [updatingProductImages, setUpdatingProductImages] = useState(String(product.images));
+
   const updatingProduct: UpdateProductInput = {
     id: productId,
     update: {
@@ -23,7 +40,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
       description: updatingProductDescription,
       categoryId: Number(updatingProductCategoryId),
       images: Array(updatingProductImages),
-    }
+    },
   };
 
   const onUpdateClick = () => {
@@ -34,43 +51,64 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
     return null;
   }
   return (
-    <div>
-      <div>
-        <span onClick={onClose}>&times;</span>
-        <h2>Update a product</h2>
-        <input
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h5" component="h2">
+          Updating a product
+        </Typography>
+        <TextField
+          fullWidth
+          margin="normal"
           type="text"
-          placeholder="Title"
+          variant="outlined"
+          label="Title"
           value={updatingProductTitle}
           onChange={(e) => setUpdatingProductTitle(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
           type="number"
-          placeholder="Price"
+          label="Price"
           value={updatingProductPrice}
           onChange={(e) => setUpdatingProductPrice(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
+          multiline
+          rows={3}
           type="text"
-          placeholder="Description"
+          label="Description"
           value={updatingProductDescription}
           onChange={(e) => setUpdatingProductDescription(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
           type="number"
-          placeholder="Category ID"
+          label="Category ID"
           value={updatingProductCategoryId}
           onChange={(e) => setUpdatingProductCategoryId(e.target.value)}
         />
-        <input
+        <TextField
+          fullWidth
+          margin="normal"
           type="text"
-          placeholder="Image link"
+          label="Image link"
           value={updatingProductImages}
           onChange={(e) => setUpdatingProductImages(e.target.value)}
         />
-        <button onClick={onUpdateClick}>Update</button>
-      </div>
-    </div>
+        <Button fullWidth variant="contained" onClick={onUpdateClick}>
+          Update
+        </Button>
+      </Box>
+    </Modal>
   );
 };
 
