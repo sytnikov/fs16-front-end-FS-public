@@ -75,6 +75,11 @@ const CartPage = () => {
           >
             Proceed to checkout
           </Button>
+          <Button variant="outlined" onClick={onEmptyCart} sx={{
+              width: "100%",
+              borderColor: "none",
+              mt: 3,
+            }}>Empty Cart</Button>
         </Box>
       </Box>
     </Box>
