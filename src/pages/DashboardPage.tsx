@@ -10,7 +10,7 @@ const DashboardPage = () => {
   const navigate = useNavigate();
   
   useEffect(()=>{
-    if (!currentUser) {
+    if (!(currentUser && currentUser.role === "admin")) {
       navigate('/');
     }
   }, [])

@@ -89,7 +89,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar sx={{ position: 'static' }}>
+    <AppBar sx={{ position: "static" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <StoreRoundedIcon
@@ -220,15 +220,13 @@ const Header = () => {
 
           {!currentUser && (
             <Box>
-              <Tooltip title="Log In">
-                <Button
-                  variant="contained"
-                  onClick={onToggleAuth}
-                  sx={{ color: "white" }}
-                >
-                  {!isLoginPage ? "Log In" : "Sign Up"}
-                </Button>
-              </Tooltip>
+              <Button
+                variant="contained"
+                onClick={onToggleAuth}
+                sx={{ color: "white" }}
+              >
+                {!isLoginPage ? "Log In" : "Sign Up"}
+              </Button>
             </Box>
           )}
           {currentUser && currentUser.role === "admin" && (
