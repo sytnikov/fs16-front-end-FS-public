@@ -60,7 +60,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <CardMedia sx={{ height: 140 }} image={product.images[0]} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {product.id} {product.title}
+            {product.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {product.description}
