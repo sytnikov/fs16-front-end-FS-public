@@ -12,12 +12,29 @@ export const initialState: ProductsReducerState = {
   loading: false,
 };
 
+// export const fetchAllProductsAsync = createAsyncThunk(
+//   "fetchAllProductsAsync",
+//   async ({ offset, limit }: PaginationQuery, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get(
+//         `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=${limit}`
+//       );
+//       const data: Product[] = response.data;
+//       return data;
+//     } catch (e) {
+//       const error = e as AxiosError;
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
+// fetching all products without pagination
 export const fetchAllProductsAsync = createAsyncThunk(
   "fetchAllProductsAsync",
-  async ({ offset, limit }: PaginationQuery, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=${limit}`
+        `https://api.escuelajs.co/api/v1/products`
       );
       const data: Product[] = response.data;
       return data;

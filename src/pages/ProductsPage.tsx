@@ -5,8 +5,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 import {
   fetchAllProductsAsync,
@@ -25,18 +25,16 @@ const ProductsPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync({ offset: 0, limit: 300 }));
+    dispatch(fetchAllProductsAsync());
     dispatch(fetchAllCategoriesAsync());
   }, []);
 
-  // filtering by category and searching by title
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const filteredProducts = useAppSelector((state) =>
     getFilteredProducts(state, search, category)
   );
 
-  // sorting products by price
   const [sortDirection, setSortDirection] = useState("asc");
   const onSortToggle = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
@@ -53,6 +51,16 @@ const ProductsPage = () => {
     textAlign: "center",
     color: "white",
   };
+
+  const totalProducts = filteredProducts.length;
+  console.log(totalProducts);
+  
+  const [productsPerPage, setProductsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (newPage: number) => {
+    setCurrentPage(newPage)
+  }
 
   return (
     <Box>
@@ -112,13 +120,42 @@ const ProductsPage = () => {
             sx={{ minWidth: 200 }}
           />
         </Box>
+        {/* <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 0}
+          >
+            {"<"}
+          </button>
+          {Array(Math.ceil(totalProducts / productsPerPage))
+            .fill(1)
+            .map((el, index) => (
+              <button onClick={() => setCurrentPage(index)}>{index + 1}</button>
+            ))}
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={
+              currentPage >= (filteredProducts.length - productsPerPage) / productsPerPage
+            }
+          >
+            {">"}
+          </button> */}
         <Box className="product-list">
-          {filteredProducts?.map((p) => (
-            <Box>
-              <ProductCard product={p} />
-            </Box>
-          ))}
+          {filteredProducts
+            ?.slice(
+              productsPerPage * (currentPage-1),
+              productsPerPage * currentPage
+            )
+            .map((p) => (
+              <Box>
+                <ProductCard product={p} />
+              </Box>
+            ))}
+          
         </Box>
+        
+        <Stack spacing={2}>
+          <Pagination count={Math.ceil(totalProducts / productsPerPage)} page={currentPage} onChange={(e, newPage) => onPageChange(newPage)} shape="rounded" />
+        </Stack>
       </Box>
     </Box>
   );

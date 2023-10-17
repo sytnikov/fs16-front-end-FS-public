@@ -54,8 +54,8 @@ describe("Test normal productsReducer actions", () => {
 });
 
 describe("Test async thunk productsReducer actions", () => {
-  test("Should fetch all products with pagination", async () => {
-    await store.dispatch(fetchAllProductsAsync({ limit: 20, offset: 0 }));
+  test("Should fetch all products without pagination", async () => {
+    await store.dispatch(fetchAllProductsAsync());
     expect(store.getState().productsReducer.products.length).toBe(3);
   });
 

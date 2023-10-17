@@ -16,6 +16,9 @@ code {
   justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 1rem;
+    & :hover {
+      cursor: pointer;
+  }
 }
 
 .cart-list {
