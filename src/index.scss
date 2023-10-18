@@ -1,34 +1,42 @@
 body {
   margin: 40;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
+.page-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
 .product-list {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 1rem;
-    & :hover {
-      cursor: pointer;
+  & :hover {
+    cursor: pointer;
   }
 }
 
 .cart-list {
-  display:flex;
+  display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
 .user-profile {
-  display:flex;
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
@@ -42,7 +50,7 @@ code {
 }
 
 .product-filters {
-  display:flex;
+  display: flex;
   justify-content: center;
   flex-wrap: wrap;
   margin: 2rem 0;

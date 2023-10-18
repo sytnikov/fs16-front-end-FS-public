@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Modal, TextField, Typography } from "@mui/material";
 
 import UpdateProductModalProps from "../types/UpdateProductModalProps";
 import UpdateProductInput from "../types/UpdateProductInput";
+import useAppSelector from "../hooks/useAppSelector";
 
 const style = {
   position: "absolute" as "absolute",
@@ -24,13 +25,23 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
   product,
   onUpdateProduct,
 }) => {
-  const [updatingProductTitle, setUpdatingProductTitle] = useState(product.title);
-  const [updatingProductPrice, setUpdatingProductPrice] = useState(String(product.price));
-  const [updatingProductDescription, setUpdatingProductDescription] =
-    useState(product.description);
-  const [updatingProductCategoryId, setUpdatingProductCategoryId] =
-    useState(String(product.category.id));
-  const [updatingProductImages, setUpdatingProductImages] = useState(String(product.images));
+  const [updatingProductTitle, setUpdatingProductTitle] = useState(
+    product.title
+  );
+  const [updatingProductPrice, setUpdatingProductPrice] = useState(
+    String(product.price)
+  );
+  const [updatingProductDescription, setUpdatingProductDescription] = useState(
+    product.description
+  );
+  const [updatingProductCategoryId, setUpdatingProductCategoryId] = useState(
+    String(product.category.id)
+  );
+  const [updatingProductImages, setUpdatingProductImages] = useState(
+    String(product.images)
+  );
+
+  const categories = useAppSelector((state) => state.categoriesReducer.categories)
 
   const updatingProduct: UpdateProductInput = {
     id: productId,
@@ -89,13 +100,21 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
           onChange={(e) => setUpdatingProductDescription(e.target.value)}
         />
         <TextField
+          select
           fullWidth
           margin="normal"
           type="number"
           label="Category ID"
           value={updatingProductCategoryId}
           onChange={(e) => setUpdatingProductCategoryId(e.target.value)}
-        />
+        >
+          {categories &&
+            categories.map((cat) => (
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name}
+              </MenuItem>
+            ))}
+        </TextField>
         <TextField
           fullWidth
           margin="normal"

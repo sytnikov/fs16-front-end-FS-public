@@ -57,7 +57,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <Box onClick={() => handleProductClick(product.id)}>
-        <CardMedia sx={{ height: 140 }} image={product.images[0]} />
+        <CardMedia sx={{ height: 180 }} image={product.images[0]} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {product.title}

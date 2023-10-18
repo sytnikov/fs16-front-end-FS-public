@@ -3,10 +3,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
+import { MenuItem, TextField } from "@mui/material";
 
 import AddProductModalProps from "../types/AddProductModalProps";
 import CreateProductInput from "../types/CreateProductInput";
-import { TextField } from "@mui/material";
+import useAppSelector from "../hooks/useAppSelector";
 
 const style = {
   position: "absolute" as "absolute",
@@ -31,6 +32,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   const [newProductDescription, setNewProductDescription] = useState("");
   const [newProductCategoryId, setNewProductCategoryId] = useState("");
   const [newProductImages, setNewProductImages] = useState("");
+
+  const categories = useAppSelector(
+    (state) => state.categoriesReducer.categories
+  );
 
   const newProduct: CreateProductInput = {
     title: newProductTitle,
@@ -85,13 +90,21 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           onChange={(e) => setNewProductDescription(e.target.value)}
         />
         <TextField
+          select
           fullWidth
           margin="normal"
           type="number"
-          label="Category ID"
+          label="Category"
           value={newProductCategoryId}
           onChange={(e) => setNewProductCategoryId(e.target.value)}
-        />
+        >
+          {categories &&
+            categories.map((cat) => (
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name}
+              </MenuItem>
+            ))}
+        </TextField>
         <TextField
           fullWidth
           margin="normal"
@@ -100,7 +113,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           value={newProductImages}
           onChange={(e) => setNewProductImages(e.target.value)}
         />
-        <Button fullWidth variant="contained" onClick={onAddClick}>Add</Button>
+        <Button fullWidth variant="contained" onClick={onAddClick}>
+          Add
+        </Button>
       </Box>
     </Modal>
   );

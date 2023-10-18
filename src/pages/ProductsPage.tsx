@@ -42,47 +42,18 @@ const ProductsPage = () => {
     dispatch(sortByPrice(newSortDirection));
   };
 
-  const bannerStyle = {
-    background:
-      'url("https://coolbackgrounds.io/images/backgrounds/index/sea-edge-79ab30e2.png")',
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    padding: "32px",
-    textAlign: "center",
-    color: "white",
-  };
-
   const totalProducts = filteredProducts.length;
-  console.log(totalProducts);
-  
   const [productsPerPage, setProductsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   const onPageChange = (newPage: number) => {
-    setCurrentPage(newPage)
-  }
+    setCurrentPage(newPage);
+    window.scrollTo(0, 0)
+  };
 
   return (
     <Box>
       <Box>
-        <Container maxWidth="lg" sx={{ marginTop: "32px", minHeight: "50px" }}>
-          <Paper elevation={4} sx={bannerStyle}>
-            <Typography
-              variant="h4"
-              gutterBottom
-              sx={{
-                mr: 2,
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".2rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              WELCOME TO ECO STORE
-            </Typography>
-          </Paper>
-        </Container>
         <Box className="product-filters">
           <Button
             variant="contained"
@@ -120,41 +91,25 @@ const ProductsPage = () => {
             sx={{ minWidth: 200 }}
           />
         </Box>
-        {/* <button
-            onClick={() => setCurrentPage(currentPage - 1)}
-            disabled={currentPage === 0}
-          >
-            {"<"}
-          </button>
-          {Array(Math.ceil(totalProducts / productsPerPage))
-            .fill(1)
-            .map((el, index) => (
-              <button onClick={() => setCurrentPage(index)}>{index + 1}</button>
-            ))}
-          <button
-            onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={
-              currentPage >= (filteredProducts.length - productsPerPage) / productsPerPage
-            }
-          >
-            {">"}
-          </button> */}
         <Box className="product-list">
           {filteredProducts
             ?.slice(
-              productsPerPage * (currentPage-1),
+              productsPerPage * (currentPage - 1),
               productsPerPage * currentPage
             )
             .map((p) => (
               <Box>
-                <ProductCard product={p} />
+                <ProductCard product={p}/>
               </Box>
             ))}
-          
         </Box>
-        
-        <Stack spacing={2}>
-          <Pagination count={Math.ceil(totalProducts / productsPerPage)} page={currentPage} onChange={(e, newPage) => onPageChange(newPage)} shape="rounded" />
+        <Stack className="page-element" spacing={2}>
+          <Pagination
+            count={Math.ceil(totalProducts / productsPerPage)}
+            page={currentPage}
+            onChange={(e, newPage) => onPageChange(newPage)}
+            shape="rounded"
+          />
         </Stack>
       </Box>
     </Box>
