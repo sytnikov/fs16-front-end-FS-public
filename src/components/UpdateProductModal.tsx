@@ -10,12 +10,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  minWidth: 250,
+  minWidth: 280,
   bgcolor: "background.paper",
   border: "none",
   borderRadius: "6px",
   boxShadow: 24,
-  p: 4,
+  p: 3,
 };
 
 const UpdateProductModal: React.FC<UpdateProductModalProps> = ({

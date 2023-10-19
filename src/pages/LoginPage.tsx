@@ -8,6 +8,7 @@ import {
   TextField,
   Button,
   Box,
+  Link,
 } from "@mui/material";
 
 import { loginUserAsync } from "../redux/reducers/authReducer";
@@ -55,6 +56,11 @@ const LoginPage = () => {
             <Button type="submit" variant="contained" color="primary">
               Login
             </Button>
+          </Box>
+          <Box mt={2}>
+            <Link href="/signup">
+              Don't have an account yet?
+            </Link>
           </Box>
         </form>
       </Paper>

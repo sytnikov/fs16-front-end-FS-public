@@ -71,7 +71,7 @@ const ProductsPage = () => {
           <Box sx={{ minWidth: 200 }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
-                Filter by category
+                Category
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -119,7 +119,7 @@ const ProductsPage = () => {
           </Button>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">
-              Filter by category
+              Category
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"

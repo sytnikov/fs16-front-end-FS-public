@@ -33,7 +33,6 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const [isLoginPage, setIsLoginPage] = useState(true);
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -53,20 +52,14 @@ const Header = () => {
   };
 
   // when going back to Home page bring back LogIn button
-  useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "/cart") {
-      setIsLoginPage(false);
-    }
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   if (location.pathname === "/" || location.pathname === "/cart") {
+  //     setIsLoginPage(false);
+  //   }
+  // }, [location.pathname]);
 
   const onToggleAuth = () => {
-    if (!isLoginPage) {
-      navigate("login");
-      setIsLoginPage(true);
-    } else {
-      navigate("signup");
-      setIsLoginPage(false);
-    }
+    navigate("login");
   };
 
   const showMenu = !["/login", "/signup"].includes(location.pathname);
@@ -95,7 +88,9 @@ const Header = () => {
   const theme = useTheme();
   const { toggleColorMode } = useContext(ColorModeContext);
 
-  const cartSize = useAppSelector((state) => state.cartReducer.cartItems.length)
+  const cartSize = useAppSelector(
+    (state) => state.cartReducer.cartItems.length
+  );
 
   return (
     <AppBar sx={{ position: "static" }}>
@@ -235,7 +230,7 @@ const Header = () => {
                 onClick={onToggleAuth}
                 sx={{ color: "white" }}
               >
-                {!isLoginPage ? "Log In" : "Sign Up"}
+                Log In
               </Button>
             </Box>
           )}

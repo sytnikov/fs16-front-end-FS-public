@@ -3,6 +3,7 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { fetchAllUsersAsync } from "../redux/reducers/usersReducer";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box } from "@mui/material";
 
 const UserList = () => {
   const users = useAppSelector((state) => state.usersReducer.users);
@@ -26,7 +27,7 @@ const UserList = () => {
     { field: "role", headerName: "Role", width: 130 },
   ];
   return (
-    <div style={{ height: "100%", width: "100%" }}>
+    <Box sx={{ margin: "1rem" }}>
       <DataGrid
         rows={users}
         columns={columns}
@@ -38,7 +39,7 @@ const UserList = () => {
         pageSizeOptions={[5, 10]}
         checkboxSelection
       />
-    </div>
+    </Box>
   );
 };
 
