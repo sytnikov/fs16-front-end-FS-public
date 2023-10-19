@@ -54,7 +54,7 @@ const CartPage = () => {
             </Box>
           ))}
         </Box>
-        <Box sx={{ pr: 10 }}>
+        <Box sx={{ pr: 10, m: 2 }}>
           <Typography sx={{ fontSize: "28px", fontWeight: "400" }}>
             Subtotal ({totalItems} items):{" "}
             <Typography
@@ -68,8 +68,7 @@ const CartPage = () => {
             variant="contained"
             sx={{
               width: "100%",
-              color: "white",
-              backgroundColor: "#FFA814",
+              color: "inherit",
               mt: 3,
             }}
           >

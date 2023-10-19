@@ -52,7 +52,7 @@ const ProfilePage = () => {
         </Typography>
       </Box>
 
-      <Paper elevation={3} style={{ padding: "16px" }}>
+      <Paper elevation={3} style={{ padding: "16px", margin: 20 }}>
         {currentUser && (
           <Box className="user-profile">
             <Box>

@@ -12,10 +12,13 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import AddIcon from "@mui/icons-material/Add";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState, MouseEvent } from "react";
-import { Fab } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState, MouseEvent, useContext } from "react";
+import { Fab, useTheme } from "@mui/material";
+import { Link } from "@mui/material";
 
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
@@ -24,6 +27,7 @@ import CreateProductInput from "../types/CreateProductInput";
 import { createProductAsync } from "../redux/reducers/productsReducer";
 import AddProductModal from "./AddProductModal";
 import { Scale } from "@mui/icons-material";
+import { ColorModeContext } from "../context/ColorModeContext";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -88,6 +92,9 @@ const Header = () => {
     setIsAddProductOpen(false);
   };
 
+  const theme = useTheme();
+  const { toggleColorMode } = useContext(ColorModeContext);
+
   return (
     <AppBar sx={{ position: "static" }}>
       <Container maxWidth="xl">
@@ -145,8 +152,8 @@ const Header = () => {
               >
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Link
-                    to="/"
-                    style={{ textDecoration: "none", color: "black" }}
+                    href="/"
+                    style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <Typography textAlign="center">Store</Typography>
                   </Link>
@@ -154,8 +161,8 @@ const Header = () => {
                 {currentUser && currentUser.role === "admin" && (
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Link
-                      to="dashboard"
-                      style={{ textDecoration: "none", color: "black" }}
+                      href="dashboard"
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <Typography textAlign="center">Dashboard</Typography>
                     </Link>
@@ -188,23 +195,25 @@ const Header = () => {
           </Typography>
           {showMenu && (
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              <Link
+                href="/"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
                 <Button
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, color: "inherit", display: "block" }}
                 >
                   Store
                 </Button>
               </Link>
-
               {currentUser && currentUser.role === "admin" && (
                 <Link
-                  to="dashboard"
-                  style={{ textDecoration: "none", color: "white" }}
+                  href="dashboard"
+                  style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <Button
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{ my: 2, color: "inherit", display: "block" }}
                   >
                     Dashboard
                   </Button>{" "}
@@ -217,7 +226,6 @@ const Header = () => {
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
             ></Box>
           )}
-
           {!currentUser && (
             <Box>
               <Button
@@ -237,7 +245,7 @@ const Header = () => {
                 <Button
                   variant="contained"
                   onClick={onAddProductClick}
-                  sx={{ color: "white" }}
+                  sx={{ color: "inherit" }}
                 >
                   Add product
                 </Button>
@@ -275,6 +283,7 @@ const Header = () => {
               />
             </Box>
           )}
+
           {currentUser && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
@@ -307,10 +316,15 @@ const Header = () => {
               </Menu>
             </Box>
           )}
-          <Link to="cart" style={{ textDecoration: "none", color: "white" }}>
-            <ShoppingCartRoundedIcon
-              sx={{ paddingLeft: "16px", fontSize: 28 }}
-            />
+          <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
+            {theme.palette.mode === "dark" ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </IconButton>
+          <Link href="/cart" color="inherit">
+            <ShoppingCartRoundedIcon sx={{ ml: 1, mt: 1, fontSize: 24 }} />
           </Link>
         </Toolbar>
       </Container>
