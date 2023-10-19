@@ -61,7 +61,6 @@ export const handlers = [
           ctx.status(400);
           return res(
             ctx.json({
-              // if product id isn't found
               message:
                 'Could not find any entity of type "Product" matching: {\n    "relations": [\n        "category"\n    ],\n    "where": {\n        "id": 5\n    }\n}',
             })
