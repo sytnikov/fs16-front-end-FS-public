@@ -15,7 +15,7 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{minHeight: "40rem"}}>
       <Box className="heading">
         <Typography sx={{ fontSize: "36px", fontWeight: "900" }}>
           User Profile

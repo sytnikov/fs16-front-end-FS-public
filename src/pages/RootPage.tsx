@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 
 const RootPage = () => {
   return (
-    <Box sx={{height: "100%"}}>
+    <Box>
       <Header />
       <Outlet />
       <Footer />
