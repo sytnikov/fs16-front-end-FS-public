@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
+
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import {
@@ -7,13 +8,17 @@ import {
   emptyCart,
   increaseQuantity,
 } from "../redux/reducers/cartReducer";
-
 import CartItem from "../types/CartItem";
 import CartCard from "../components/CartCard";
 
 const CartPage = () => {
-  const cartItems = useAppSelector((state) => state.cartReducer.cartItems);
   const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cartReducer.cartItems);
+  const totalItems = cartItems.reduce((prev, curr) => prev + curr.quantity, 0);
+  const totalSum = cartItems.reduce(
+    (prev, curr) => prev + curr.quantity * curr.price,
+    0
+  );
 
   const onDeleteFromCart = (item: CartItem) => {
     dispatch(deleteFromCart(item));
@@ -28,14 +33,8 @@ const CartPage = () => {
     dispatch(emptyCart());
   };
 
-  const totalItems = cartItems.reduce((prev, curr) => prev + curr.quantity, 0);
-  const totalSum = cartItems.reduce(
-    (prev, curr) => prev + curr.quantity * curr.price,
-    0
-  );
-
   return (
-    <Box>
+    <Box sx={{minHeight: "40rem"}}>
       <Box className="heading">
         <Typography sx={{ fontSize: "36px", fontWeight: "900" }}>
           Shopping cart
@@ -95,15 +94,15 @@ const CartPage = () => {
             There are no items in the cart yet.
           </Typography>
           <Button
-              href="/"
-              variant="contained"
-              sx={{
-                color: "inherit",
-                mt: 3,
-              }}
-            >
-              Continue shopping
-            </Button>
+            href="/"
+            variant="contained"
+            sx={{
+              color: "inherit",
+              mt: 3,
+            }}
+          >
+            Continue shopping
+          </Button>
         </Box>
       )}
     </Box>

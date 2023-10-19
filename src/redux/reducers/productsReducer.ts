@@ -2,7 +2,6 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
 import Product from "../../types/Product";
-import PaginationQuery from "../../types/PaginationQuery";
 import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
 import { ProductsReducerState } from "../../types/InitialState";
@@ -12,23 +11,6 @@ export const initialState: ProductsReducerState = {
   loading: false,
 };
 
-// export const fetchAllProductsAsync = createAsyncThunk(
-//   "fetchAllProductsAsync",
-//   async ({ offset, limit }: PaginationQuery, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.get(
-//         `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=${limit}`
-//       );
-//       const data: Product[] = response.data;
-//       return data;
-//     } catch (e) {
-//       const error = e as AxiosError;
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// fetching all products without pagination
 export const fetchAllProductsAsync = createAsyncThunk(
   "fetchAllProductsAsync",
   async (_, { rejectWithValue }) => {
@@ -128,7 +110,7 @@ const productsSlice = createSlice({
       if (Array.isArray(action.payload)) {
         return {
           ...state,
-          products: action.payload
+          products: action.payload,
         };
       }
     });
@@ -150,7 +132,7 @@ const productsSlice = createSlice({
       if (action.payload) {
         return {
           ...state,
-          product: action.payload
+          product: action.payload,
         };
       }
     });

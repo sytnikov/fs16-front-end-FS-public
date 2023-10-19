@@ -1,18 +1,18 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
+import { AxiosError } from "axios";
 
 import productsData from "../../data/productsData";
 import CreateProductInput from "../../../types/CreateProductInput";
 import Product from "../../../types/Product";
 import categoriesData from "../../data/categoriesData";
-import { AxiosError } from "axios";
 
 export const handlers = [
   rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
-    return res(ctx.json(productsData))
+    return res(ctx.json(productsData));
   }),
   rest.get("https://api.escuelajs.co/api/v1/products/1", (req, res, ctx) => {
-    return res(ctx.json(productsData[0]))
+    return res(ctx.json(productsData[0]));
   }),
   rest.post(
     "https://api.escuelajs.co/api/v1/products",

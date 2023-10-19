@@ -1,8 +1,7 @@
 import CartItem from "../../types/CartItem";
-import { CartReducerState } from "../../types/InitialState";
 import categoriesData from "./categoriesData";
 
-const cartData: CartItem[]= [
+const cartData: CartItem[] = [
   {
     id: 1,
     title: "Handcrafted Bronze Gloves",

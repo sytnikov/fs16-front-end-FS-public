@@ -1,26 +1,16 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import { useState } from "react";
-import { MenuItem, TextField } from "@mui/material";
+import {
+  MenuItem,
+  TextField,
+  Box,
+  Button,
+  Typography,
+  Modal,
+} from "@mui/material";
 
 import AddProductModalProps from "../types/AddProductModalProps";
 import CreateProductInput from "../types/CreateProductInput";
 import useAppSelector from "../hooks/useAppSelector";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: 280,
-  bgcolor: "background.paper",
-  border: "none",
-  borderRadius: "6px",
-  boxShadow: 24,
-  p: 3,
-};
 
 const AddProductModal: React.FC<AddProductModalProps> = ({
   isOpen,
@@ -58,7 +48,20 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          position: "absolute" as "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          minWidth: 280,
+          bgcolor: "background.paper",
+          border: "none",
+          borderRadius: "6px",
+          boxShadow: 24,
+          p: 3,
+        }}
+      >
         <Typography id="modal-modal-title" variant="h5" component="h2">
           Add a new product
         </Typography>

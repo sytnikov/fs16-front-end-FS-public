@@ -1,10 +1,12 @@
-import Card from "@mui/material/Card";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Box, Paper } from "@mui/material";
 
 import CartCardProps from "../types/CartCardProps";
 

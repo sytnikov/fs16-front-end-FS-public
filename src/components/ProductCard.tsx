@@ -1,10 +1,12 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -22,12 +24,11 @@ import { addToCart } from "../redux/reducers/cartReducer";
 import UpdateProductModal from "./UpdateProductModal";
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
   const [isUpdateProductOpen, setIsUpdateProductOpen] = useState(false);
   const [updatingProduct, setUpdatingProduct] = useState(0);
-
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const handleProductClick = (id: number) => {
     navigate(`/products/${id}`);
@@ -37,6 +38,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     setIsUpdateProductOpen(true);
     setUpdatingProduct(productId);
   };
+
   const onCloseUpdateProduct = () => {
     setIsUpdateProductOpen(false);
     setUpdatingProduct(0);
@@ -54,6 +56,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <Box onClick={() => handleProductClick(product.id)}>
@@ -70,8 +73,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </Typography>
         </CardContent>
       </Box>
-      <CardActions sx={{gap: 1}}>
-        <Button size="small" variant="contained" endIcon={<AddShoppingCartIcon />} onClick={() => onAddToCart(product)}>
+      <CardActions sx={{ gap: 1 }}>
+        <Button
+          size="small"
+          variant="contained"
+          endIcon={<AddShoppingCartIcon />}
+          onClick={() => onAddToCart(product)}
+        >
           Add to cart
         </Button>
         {currentUser && currentUser.role === "admin" && (

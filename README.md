@@ -57,7 +57,7 @@ Here's the list of the main pages of the app:
 - Cart
 - Profile
 - Admin dashboard
-- Signup and Login
+- Login and SignUp
 
 There are also modals implemented to add and update products.
 
@@ -68,12 +68,13 @@ Below is the high-level project folder structure represented.
  ├── public
  ├── src
  |  ├── components
+ |  ├── context
  |  ├── hooks
  |  ├── img
  |  ├── pages
  |  ├── redux
  |  ├── routing
- |  ├── routing
+ |  ├── tests
  |  ├── types
  |  ├── App.tsx
  |  ├── index.scss

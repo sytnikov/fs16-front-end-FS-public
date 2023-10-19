@@ -14,11 +14,10 @@ import {
 import { loginUserAsync } from "../redux/reducers/authReducer";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +26,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 20 }}>
+    <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem"}}>
       <Paper elevation={3} sx={{ padding: "16px" }}>
         <Typography variant="h5" gutterBottom>
           Log in to ECO
@@ -58,9 +57,7 @@ const LoginPage = () => {
             </Button>
           </Box>
           <Box mt={2}>
-            <Link href="/signup">
-              Don't have an account yet?
-            </Link>
+            <Link href="/signup">Don't have an account yet?</Link>
           </Box>
         </form>
       </Paper>

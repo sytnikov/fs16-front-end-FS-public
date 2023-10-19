@@ -1,5 +1,4 @@
 import { FormEvent, useState } from "react";
-import useAppDispatch from "../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
 import {
   Container,
@@ -10,24 +9,25 @@ import {
   Box,
 } from "@mui/material";
 
+import useAppDispatch from "../hooks/useAppDispatch";
 import { createUserAsync } from "../redux/reducers/usersReducer";
 import CreateUserInput from "../types/CreateUserInput";
 
 const SignupPage = () => {
-  const [name, setName] = useState("")
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState("https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=826&t=st=1697154846~exp=1697155446~hmac=a3cd0cc3cd6fae6d41c989a361bc5aa5b2fe3b5fe69c665cc1cdd2d7748e13bd")
-
+  const [avatar, setAvatar] = useState(
+    "https://fastly.picsum.photos/id/16/2500/1667.jpg?hmac=uAkZwYc5phCRNFTrV_prJ_0rP0EdwJaZ4ctje2bY7aE"
+  );
   const newUser: CreateUserInput = {
     name: name,
     email: email,
     password: password,
     avatar: avatar,
-  }
-
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,13 +36,13 @@ const SignupPage = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 20 }}>
+    <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem" }}>
       <Paper elevation={3} sx={{ padding: "16px" }}>
         <Typography variant="h5" gutterBottom>
           Sign up to ECO
         </Typography>
         <form onSubmit={handleSubmit}>
-        <TextField
+          <TextField
             label="Name"
             variant="outlined"
             fullWidth

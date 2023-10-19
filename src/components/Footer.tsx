@@ -13,7 +13,7 @@ const Footer = () => {
       sx={{
         backgroundColor: "primary.main",
         p: 2,
-        mt: "auto",
+        mt: "3rem",
       }}
     >
       <Container maxWidth="lg">
@@ -25,10 +25,10 @@ const Footer = () => {
             <FontAwesomeIcon icon={faInstagram} />
           </Link>
           <Link color="inherit" href="https://twitter.com/">
-            <FontAwesomeIcon icon={faTwitter} />
+          <FontAwesomeIcon icon={faTwitter} />
           </Link>
           <Link color="inherit" href="https://www.facebook.com/">
-            <FontAwesomeIcon icon={faFacebook} />
+          <FontAwesomeIcon icon={faFacebook} />
           </Link>
         </Box>
       </Container>

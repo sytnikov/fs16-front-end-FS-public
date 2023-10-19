@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -8,7 +9,6 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 import useAppSelector from "../hooks/useAppSelector";
@@ -18,22 +18,21 @@ import { addToCart } from "../redux/reducers/cartReducer";
 import Product from "../types/Product";
 
 const SingleProductPage = () => {
+  const dispatch = useAppDispatch();
   const params = useParams();
   const productId = Number(params.productId);
-
-  const dispatch = useAppDispatch();
+  const product = useAppSelector((state) => state.productsReducer.product);
 
   useEffect(() => {
     dispatch(fetchSingleProductAsync(productId));
   }, []);
 
-  const product = useAppSelector((state) => state.productsReducer.product);
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
 
   return (
-    <Container maxWidth="md" style={{ marginTop: "24px" }}>
+    <Container maxWidth="md" style={{ marginTop: "24px", minHeight: "40rem" }}>
       {product && (
         <Paper elevation={3} style={{ padding: "16px" }}>
           <Grid container spacing={3}>
@@ -62,7 +61,12 @@ const SingleProductPage = () => {
               <Typography variant="h6" gutterBottom>
                 Price: ${product.price}
               </Typography>
-              <Button size="small" variant="contained" endIcon={<AddShoppingCartIcon />} onClick={() => onAddToCart(product)}>
+              <Button
+                size="small"
+                variant="contained"
+                endIcon={<AddShoppingCartIcon />}
+                onClick={() => onAddToCart(product)}
+              >
                 Add to cart
               </Button>
             </Grid>

@@ -1,22 +1,16 @@
 import { useState } from "react";
-import { Box, Button, MenuItem, Modal, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import UpdateProductModalProps from "../types/UpdateProductModalProps";
 import UpdateProductInput from "../types/UpdateProductInput";
 import useAppSelector from "../hooks/useAppSelector";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: 280,
-  bgcolor: "background.paper",
-  border: "none",
-  borderRadius: "6px",
-  boxShadow: 24,
-  p: 3,
-};
 
 const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
   isOpen,
@@ -40,9 +34,9 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
   const [updatingProductImages, setUpdatingProductImages] = useState(
     String(product.images)
   );
-
-  const categories = useAppSelector((state) => state.categoriesReducer.categories)
-
+  const categories = useAppSelector(
+    (state) => state.categoriesReducer.categories
+  );
   const updatingProduct: UpdateProductInput = {
     id: productId,
     update: {
@@ -68,7 +62,20 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          position: "absolute" as "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          minWidth: 280,
+          bgcolor: "background.paper",
+          border: "none",
+          borderRadius: "6px",
+          boxShadow: 24,
+          p: 3,
+        }}
+      >
         <Typography id="modal-modal-title" variant="h5" component="h2">
           Updating a product
         </Typography>

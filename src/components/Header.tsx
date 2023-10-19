@@ -1,24 +1,28 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState, MouseEvent, useContext } from "react";
+import {
+  Badge,
+  Fab,
+  useTheme,
+  Link,
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  IconButton,
+  MenuItem,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import AddIcon from "@mui/icons-material/Add";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState, MouseEvent, useContext } from "react";
-import { Badge, Fab, useTheme } from "@mui/material";
-import { Link } from "@mui/material";
 
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
@@ -26,7 +30,6 @@ import { logoutUser } from "../redux/reducers/authReducer";
 import CreateProductInput from "../types/CreateProductInput";
 import { createProductAsync } from "../redux/reducers/productsReducer";
 import AddProductModal from "./AddProductModal";
-import { Scale } from "@mui/icons-material";
 import { ColorModeContext } from "../context/ColorModeContext";
 
 const Header = () => {
@@ -34,10 +37,8 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -50,20 +51,17 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  // when going back to Home page bring back LogIn button
-  // useEffect(() => {
-  //   if (location.pathname === "/" || location.pathname === "/cart") {
-  //     setIsLoginPage(false);
-  //   }
-  // }, [location.pathname]);
+  const showMenu = !["/login", "/signup"].includes(location.pathname);
+  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
+  const theme = useTheme();
+  const { toggleColorMode } = useContext(ColorModeContext);
+  const cartSize = useAppSelector(
+    (state) => state.cartReducer.cartItems.length
+  );
 
   const onToggleAuth = () => {
     navigate("login");
   };
-
-  const showMenu = !["/login", "/signup"].includes(location.pathname);
-  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
 
   const onProfileClick = () => {
     setAnchorElUser(null);
@@ -76,21 +74,14 @@ const Header = () => {
     navigate("/");
   };
 
-  // adding a new product
   const onAddProductClick = () => {
     setIsAddProductOpen(true);
   };
+
   const onAddProduct = (newProduct: CreateProductInput) => {
     dispatch(createProductAsync(newProduct));
     setIsAddProductOpen(false);
   };
-
-  const theme = useTheme();
-  const { toggleColorMode } = useContext(ColorModeContext);
-
-  const cartSize = useAppSelector(
-    (state) => state.cartReducer.cartItems.length
-  );
 
   return (
     <AppBar sx={{ position: "static" }}>

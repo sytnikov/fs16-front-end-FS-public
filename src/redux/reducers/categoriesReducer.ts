@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CategoriesReducerState } from "../../types/InitialState";
 import axios, { AxiosError } from "axios";
+
+import { CategoriesReducerState } from "../../types/InitialState";
 import Category from "../../types/Category";
 
 const initialState: CategoriesReducerState = {
@@ -38,7 +39,7 @@ const categoriesSlice = createSlice({
     builder.addCase(fetchAllCategoriesAsync.pending, (state, action) => {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     });
     builder.addCase(fetchAllCategoriesAsync.rejected, (state, action) => {
