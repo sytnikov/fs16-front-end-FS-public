@@ -17,7 +17,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import AddIcon from "@mui/icons-material/Add";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, MouseEvent, useContext } from "react";
-import { Fab, useTheme } from "@mui/material";
+import { Badge, Fab, useTheme } from "@mui/material";
 import { Link } from "@mui/material";
 
 import useAppSelector from "../hooks/useAppSelector";
@@ -94,6 +94,8 @@ const Header = () => {
 
   const theme = useTheme();
   const { toggleColorMode } = useContext(ColorModeContext);
+
+  const cartSize = useAppSelector((state) => state.cartReducer.cartItems.length)
 
   return (
     <AppBar sx={{ position: "static" }}>
@@ -324,7 +326,9 @@ const Header = () => {
             )}
           </IconButton>
           <Link href="/cart" color="inherit">
-            <ShoppingCartRoundedIcon sx={{ ml: 1, mt: 1, fontSize: 24 }} />
+            <Badge badgeContent={cartSize} color="info">
+              <ShoppingCartRoundedIcon sx={{ ml: 1, fontSize: 24 }} />
+            </Badge>
           </Link>
         </Toolbar>
       </Container>

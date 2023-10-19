@@ -41,46 +41,71 @@ const CartPage = () => {
           Shopping cart
         </Typography>
       </Box>
-      <Box className="product-list">
-        <Box className="cart-list">
-          {cartItems?.map((item) => (
-            <Box key={item.id}>
-              <CartCard
-                cartItem={item}
-                onDeleteFromCart={onDeleteFromCart}
-                onIncreaseQuantity={onIncreaseQuantity}
-                onDecreaseQuantity={onDecreaseQuantity}
-              />
-            </Box>
-          ))}
-        </Box>
-        <Box sx={{ pr: 10, m: 2 }}>
-          <Typography sx={{ fontSize: "28px", fontWeight: "400" }}>
-            Subtotal ({totalItems} items):{" "}
-            <Typography
-              component="span"
-              sx={{ fontSize: "28px", fontWeight: "900" }}
-            >
-              ${totalSum}
+      {cartItems.length > 0 && (
+        <Box className="product-list">
+          <Box className="cart-list">
+            {cartItems?.map((item) => (
+              <Box key={item.id}>
+                <CartCard
+                  cartItem={item}
+                  onDeleteFromCart={onDeleteFromCart}
+                  onIncreaseQuantity={onIncreaseQuantity}
+                  onDecreaseQuantity={onDecreaseQuantity}
+                />
+              </Box>
+            ))}
+          </Box>
+          <Box sx={{ m: 2 }}>
+            <Typography sx={{ fontSize: "28px", fontWeight: "400" }}>
+              Subtotal ({totalItems} items):{" "}
+              <Typography
+                component="span"
+                sx={{ fontSize: "28px", fontWeight: "900" }}
+              >
+                ${totalSum}
+              </Typography>
             </Typography>
+            <Button
+              variant="contained"
+              sx={{
+                width: "100%",
+                color: "inherit",
+                mt: 3,
+              }}
+            >
+              Proceed to checkout
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={onEmptyCart}
+              sx={{
+                width: "100%",
+                borderColor: "none",
+                mt: 3,
+              }}
+            >
+              Empty Cart
+            </Button>
+          </Box>
+        </Box>
+      )}
+      {cartItems.length === 0 && (
+        <Box className="heading">
+          <Typography sx={{ fontSize: "18px", fontWeight: "700" }}>
+            There are no items in the cart yet.
           </Typography>
           <Button
-            variant="contained"
-            sx={{
-              width: "100%",
-              color: "inherit",
-              mt: 3,
-            }}
-          >
-            Proceed to checkout
-          </Button>
-          <Button variant="outlined" onClick={onEmptyCart} sx={{
-              width: "100%",
-              borderColor: "none",
-              mt: 3,
-            }}>Empty Cart</Button>
+              href="/"
+              variant="contained"
+              sx={{
+                color: "inherit",
+                mt: 3,
+              }}
+            >
+              Continue shopping
+            </Button>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };
