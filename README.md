@@ -1,15 +1,12 @@
-# Front-end Project for Full-stack
+# Front-end Project
 
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
+The main project features are represented in the picture below. If the features is starred, it is accessible only for the users with the admin rights.
 
-This project requires implementation of TypeScript and SASS.
+![project-features](project-features.png)
 
-## Requirement
+## Architecture & Design
 
-1. Use the API endpoint from your backend project to create an e-commerce website.
+1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
 2. Create at lease 4 pages (can be more if you want): Page for all products, product page,
    profile page (only available if user logins), and cart page (cart page could be a page or a modal)
 3. Create Redux store for following features:
@@ -21,33 +18,57 @@ This project requires implementation of TypeScript and SASS.
 5. Implement unit testing for the reducers
 6. Deploy the application and rewrite README file.
 
-## Bonus
+To manage the state globally Redux Toolkit library is used. There are 5 reducers responsible for state management.
 
-1. Use context API to switch theme
-2. Use pagination when fetching/displaying all the products
-3. Implement performance optimization where applicable
+Here's the list of the main pages of the app:
 
-## Instruction to start the project
+- Homepage/Store
+- Single product
+- Cart
+- Profile
+- Admin dashboard
+- Login and SignUp
 
-In the project directory, you can run:
+There are also modals implemented to add and update products.
 
-### `npm install`
+Below is the high-level project folder structure represented.
 
-Install all the dependencies
+```
+ .
+ ├── public
+ ├── src
+ |  ├── components
+ |  ├── context
+ |  ├── hooks
+ |  ├── img
+ |  ├── pages
+ |  ├── redux
+ |  ├── routing
+ |  ├── tests
+ |  ├── types
+ |  ├── App.tsx
+ |  ├── index.scss
+ |  ├── index.tsx
+ |  ├── react-app-env.d.ts
+ |  ├── reportWebVitals.ts
+ |  └── setup.Tests.ts
+ ├── .gitignore
+ ├── package.json
+ ├── project-features.png
+ ├── README.md
+ └── tsconfig.json
+```
 
-### `npm start`
+## Testing
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The test cases for all the Redux store reducers have been built with Jest testing library. In this porject, unit testing approach was used. The test requests are sent to the mock server not the real API.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Run `npm test` to implement all the tests.
 
-### `npm test`
+## Live Application
 
-Launches the test runner in the interactive watch mode
+Run `npm run build` to build the app for production to the `build` folder in the project directory. It will correctly bundle React in production mode and optimize the build for the best performance.
 
-### `npm run build`
+The app is deployed with [Vercel](https://vercel.com/).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+[Click here](https://fs16-6-frontend-project-iota.vercel.app) to interact with the ECO website live.

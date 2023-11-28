@@ -1,0 +1,78 @@
+body {
+  margin: 40;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.page-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem;
+  & :hover {
+    cursor: pointer;
+  }
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.social-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  & :hover {
+    cursor: pointer;
+    color: #ee9b00;
+    transition: all 0.3s;
+  }
+}
+
+.user-profile {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  gap: 1rem;
+}
+
+.heading {
+  margin: 2rem 1rem 1rem 2rem;
+}
