@@ -32,8 +32,9 @@ const ProductsPage = () => {
   const [category, setCategory] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
   const filteredProducts = useAppSelector((state) =>
-    getFilteredProducts(state, search, category)
+  getFilteredProducts(state, search, category)
   );
+  console.log('filteredProducts:', filteredProducts)
   const totalProducts = filteredProducts.length;
   const [productsPerPage, setProductsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);

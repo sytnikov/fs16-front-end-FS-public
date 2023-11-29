@@ -37,7 +37,7 @@ describe("Test normal cartReducer actions", () => {
   test("Should delete a product from the cart", () => {
     const cart = cartReducer(state, deleteFromCart(cartData[0])).cartItems
     expect(cart.length).toBe(1)
-    expect(cart[0].id).toBe(2)
+    expect(cart[0].id).toBe("2")
   })
 
   test("Should empty the cart", () => {

@@ -6,9 +6,12 @@ import productsData from "../../data/productsData";
 import CreateProductInput from "../../../types/CreateProductInput";
 import Product from "../../../types/Product";
 import categoriesData from "../../data/categoriesData";
+import { baseURL } from "../../../common/common";
+
+const productURL = `${baseURL}/products`
 
 export const handlers = [
-  rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
+  rest.get(productURL, (req, res, ctx) => {
     return res(ctx.json(productsData));
   }),
   rest.get("https://api.escuelajs.co/api/v1/products/1", (req, res, ctx) => {
@@ -23,11 +26,11 @@ export const handlers = [
       );
       if (category) {
         const newProduct: Product = {
-          id: productsData.length + 1,
-          title: inputData.title,
+          id: String(productsData.length + 1),
+          name: inputData.name,
           price: inputData.price,
           description: inputData.description,
-          category: category,
+          categoryId: category.id,
           images: inputData.images,
         };
         productsData.push(newProduct);
@@ -48,7 +51,7 @@ export const handlers = [
     async (req, res, ctx) => {
       const update = await req.json();
       const { id } = req.params;
-      const foundIndex = productsData.findIndex((p) => p.id === Number(id));
+      const foundIndex = productsData.findIndex((p) => p.id === id);
       try {
         if (foundIndex > -1) {
           return res(
@@ -76,7 +79,7 @@ export const handlers = [
     "https://api.escuelajs.co/api/v1/products/:id",
     (req, res, ctx) => {
       const { id } = req.params;
-      if (productsData.find((p) => p.id === Number(id))) {
+      if (productsData.find((p) => p.id === id)) {
         return res(ctx.json(true));
       } else {
         return res(ctx.json(false));

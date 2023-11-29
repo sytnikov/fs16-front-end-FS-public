@@ -23,10 +23,10 @@ const CartPage = () => {
   const onDeleteFromCart = (item: CartItem) => {
     dispatch(deleteFromCart(item));
   };
-  const onIncreaseQuantity = (id: number) => {
+  const onIncreaseQuantity = (id: string) => {
     dispatch(increaseQuantity(id));
   };
-  const onDecreaseQuantity = (id: number) => {
+  const onDecreaseQuantity = (id: string) => {
     dispatch(decreaseQuantity(id));
   };
   const onEmptyCart = () => {

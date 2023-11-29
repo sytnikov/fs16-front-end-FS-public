@@ -20,7 +20,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
   onUpdateProduct,
 }) => {
   const [updatingProductTitle, setUpdatingProductTitle] = useState(
-    product.title
+    product.name
   );
   const [updatingProductPrice, setUpdatingProductPrice] = useState(
     String(product.price)
@@ -29,7 +29,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
     product.description
   );
   const [updatingProductCategoryId, setUpdatingProductCategoryId] = useState(
-    String(product.category.id)
+    String(product.categoryId)
   );
   const [updatingProductImages, setUpdatingProductImages] = useState(
     String(product.images)
@@ -40,10 +40,10 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
   const updatingProduct: UpdateProductInput = {
     id: productId,
     update: {
-      title: updatingProductTitle,
+      name: updatingProductTitle,
       price: Number(updatingProductPrice),
       description: updatingProductDescription,
-      categoryId: Number(updatingProductCategoryId),
+      categoryId: String(updatingProductCategoryId),
       images: Array(updatingProductImages),
     },
   };

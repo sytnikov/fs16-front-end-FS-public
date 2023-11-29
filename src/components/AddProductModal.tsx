@@ -28,10 +28,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   );
 
   const newProduct: CreateProductInput = {
-    title: newProductTitle,
+    name: newProductTitle,
     price: Number(newProductPrice),
     description: newProductDescription,
-    categoryId: Number(newProductCategoryId),
+    categoryId: newProductCategoryId,
     images: Array(newProductImages),
   };
 

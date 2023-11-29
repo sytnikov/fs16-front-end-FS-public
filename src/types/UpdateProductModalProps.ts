@@ -4,7 +4,7 @@ import UpdateProductInput from "./UpdateProductInput";
 interface UpdateProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  productId: number;
+  productId: string;
   product: Product;
   onUpdateProduct: (updatingProduct: UpdateProductInput) => void;
 }

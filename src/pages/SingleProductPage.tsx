@@ -20,7 +20,7 @@ import Product from "../types/Product";
 const SingleProductPage = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
-  const productId = Number(params.productId);
+  const productId = params.productId as string;
   const product = useAppSelector((state) => state.productsReducer.product);
 
   useEffect(() => {
@@ -49,14 +49,14 @@ const SingleProductPage = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="h4" gutterBottom>
-                {product.title}
+                {product.name}
               </Typography>
               <Typography variant="body1" gutterBottom>
                 {product.description}
               </Typography>
               <Divider sx={{ mt: 2, mb: 2 }} />
               <Typography variant="body1" gutterBottom>
-                Category: {product.category.name}
+                Category: {product.categoryId}
               </Typography>
               <Typography variant="h6" gutterBottom>
                 Price: ${product.price}

@@ -1,8 +1,8 @@
 interface CreateProductInput {
-  title: string,
+  name: string,
   price: number,
   description: string,
-  categoryId: number,
+  categoryId: string,
   images: string[]
 }
 

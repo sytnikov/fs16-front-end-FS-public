@@ -22,7 +22,7 @@ const CartCard = ({
       <CardContent sx={{ display: "flex", flexDirection: "column" }}>
         <Box>
           <Typography gutterBottom variant="h5" component="div">
-            {cartItem.title}
+            {cartItem.name}
           </Typography>
           <Typography variant="h6" color="text.primary">
             Price: {cartItem.price}
@@ -74,7 +74,7 @@ const CartCard = ({
       <CardContent sx={{ display: "flex", flexDirection: "column" }}>
         <Box>
           <Typography gutterBottom variant="h5" component="div">
-            {cartItem.title}
+            {cartItem.name}
           </Typography>
           <Typography
             variant="h6"

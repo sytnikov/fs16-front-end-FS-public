@@ -5,6 +5,9 @@ import Product from "../../types/Product";
 import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
 import { ProductsReducerState } from "../../types/InitialState";
+import { baseURL } from "../../common/common";
+
+const productURL = `${baseURL}/products`
 
 export const initialState: ProductsReducerState = {
   products: [],
@@ -15,13 +18,12 @@ export const fetchAllProductsAsync = createAsyncThunk(
   "fetchAllProductsAsync",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `https://api.escuelajs.co/api/v1/products`
-      );
+      const response = await axios.get(productURL);
       const data: Product[] = response.data;
       return data;
     } catch (e) {
       const error = e as AxiosError;
+      console.log('error:', error)
       return rejectWithValue(error.message);
     }
   }
@@ -29,7 +31,7 @@ export const fetchAllProductsAsync = createAsyncThunk(
 
 export const fetchSingleProductAsync = createAsyncThunk(
   "fetchSingleProductAsync",
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `https://api.escuelajs.co/api/v1/products/${id}`
@@ -77,7 +79,7 @@ export const updateProductAsync = createAsyncThunk(
 
 export const deleteProductAsync = createAsyncThunk(
   "deletePoductAsync",
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const response = await axios.delete<boolean>(
         `https://api.escuelajs.co/api/v1/products/${id}`

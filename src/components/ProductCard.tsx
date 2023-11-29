@@ -28,20 +28,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
   const [isUpdateProductOpen, setIsUpdateProductOpen] = useState(false);
-  const [updatingProduct, setUpdatingProduct] = useState(0);
+  const [updatingProduct, setUpdatingProduct] = useState("");
 
-  const handleProductClick = (id: number) => {
+  const handleProductClick = (id: string) => {
     navigate(`/products/${id}`);
   };
 
-  const onOpenUpdateProduct = (productId: number) => {
+  const onOpenUpdateProduct = (productId: string) => {
     setIsUpdateProductOpen(true);
     setUpdatingProduct(productId);
   };
 
   const onCloseUpdateProduct = () => {
     setIsUpdateProductOpen(false);
-    setUpdatingProduct(0);
+    setUpdatingProduct("");
   };
 
   const onUpdateProduct = (updatedProduct: UpdateProductInput) => {
@@ -49,7 +49,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     setIsUpdateProductOpen(false);
   };
 
-  const onDeleteProduct = (id: number) => {
+  const onDeleteProduct = (id: string) => {
     dispatch(deleteProductAsync(id));
   };
 
@@ -63,7 +63,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <CardMedia sx={{ height: 180 }} image={product.images[0]} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {product.title}
+            {product.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {product.description}
