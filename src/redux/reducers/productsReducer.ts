@@ -34,7 +34,7 @@ export const fetchSingleProductAsync = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `https://api.escuelajs.co/api/v1/products/${id}`
+        `${productURL}/${id}`
       );
       const data: Product = response.data;
       return data;
@@ -63,10 +63,10 @@ export const createProductAsync = createAsyncThunk(
 
 export const updateProductAsync = createAsyncThunk(
   "updateProductAsync",
-  async ({ update, id }: UpdateProductInput, { rejectWithValue }) => {
+  async ({ update, _id }: UpdateProductInput, { rejectWithValue }) => {
     try {
       const response = await axios.put<Product>(
-        `https://api.escuelajs.co/api/v1/products/${id}`,
+        `https://api.escuelajs.co/api/v1/products/${_id}`,
         update
       );
       return response.data;
@@ -160,7 +160,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(updateProductAsync.fulfilled, (state, action) => {
       const foundIndex = state.products.findIndex(
-        (p) => p.id === action.payload.id
+        (p) => p._id === action.payload._id
       );
       if (foundIndex > -1) {
         state.products[foundIndex] = action.payload;
@@ -171,7 +171,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
-        state.products = state.products.filter((p) => p.id !== action.payload);
+        state.products = state.products.filter((p) => p._id !== action.payload);
       }
     });
     builder.addCase(deleteProductAsync.rejected, (state, action) => {

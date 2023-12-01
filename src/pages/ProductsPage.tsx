@@ -80,7 +80,7 @@ const ProductsPage = () => {
               onChange={(e) => setCategory(e.target.value)}
             >
               {categories.map((category) => (
-                <MenuItem key={category.id} value={category.id}>
+                <MenuItem key={category._id} value={category._id}>
                   {category.name}
                 </MenuItem>
               ))}
@@ -126,7 +126,7 @@ const ProductsPage = () => {
             onChange={(e) => setCategory(e.target.value)}
           >
             {categories.map((category) => (
-              <MenuItem key={category.id} value={category.id}>
+              <MenuItem key={category._id} value={category._id}>
                 {category.name}
               </MenuItem>
             ))}
@@ -150,6 +150,7 @@ const ProductsPage = () => {
             <Box>
               <ProductCard product={p} />
             </Box>
+            
           ))}
       </Box>
       <Stack className="page-element" spacing={2}>

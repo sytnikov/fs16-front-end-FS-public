@@ -24,6 +24,7 @@ import { addToCart } from "../redux/reducers/cartReducer";
 import UpdateProductModal from "./UpdateProductModal";
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  console.log('product:', product)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
@@ -59,7 +60,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <Box onClick={() => handleProductClick(product.id)}>
+      <Box onClick={() => handleProductClick(product._id)}>
         <CardMedia sx={{ height: 180 }} image={product.images[0]} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -86,11 +87,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <Box>
             <Button
               size="small"
-              onClick={() => onOpenUpdateProduct(product.id)}
+              onClick={() => onOpenUpdateProduct(product._id)}
             >
               Update
             </Button>
-            {isUpdateProductOpen && updatingProduct === product.id && (
+            {isUpdateProductOpen && updatingProduct === product._id && (
               <UpdateProductModal
                 isOpen={isUpdateProductOpen}
                 onClose={onCloseUpdateProduct}
@@ -99,7 +100,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 onUpdateProduct={onUpdateProduct}
               />
             )}
-            <Button size="small" onClick={() => onDeleteProduct(product.id)}>
+            <Button size="small" onClick={() => onDeleteProduct(product._id)}>
               Delete
             </Button>
           </Box>

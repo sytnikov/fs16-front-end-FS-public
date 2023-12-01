@@ -15,7 +15,7 @@ export const handlers = [
     const {email, password} = await req.json()
     const foundUser = usersData.find(u => u.email === email && u.password === password)
     if (foundUser) {
-      return res(ctx.json({access_token: access_token + "_" + foundUser.id}))
+      return res(ctx.json({access_token: access_token + "_" + foundUser._id}))
     } else {
       ctx.status(401)
       return res(ctx.json("Cannot authenticate user"))
@@ -25,7 +25,7 @@ export const handlers = [
     const token = req.headers.get("authorization")?.split(" ")[1]
     const originalToken = token?.split("_")[0]
     const userId = token?.split("_")[1]
-    const user = usersData.find(u => u.id === Number(userId))
+    const user = usersData.find(u => u._id === Number(userId))
     if (user && originalToken === access_token) {
       return res(ctx.json(user))
     } else {
@@ -40,7 +40,7 @@ export const handlers = [
       const role = "customer"
       if (inputData) {
         const newUser: User = {
-          id: usersData.length + 1,
+          _id: usersData.length + 1,
           name: inputData.name,
           email: inputData.email,
           password: inputData.password,

@@ -34,7 +34,7 @@ const CartCard = ({
             variant="contained"
             size="small"
             sx={{ fontWeight: 900 }}
-            onClick={() => onDecreaseQuantity(cartItem.id)}
+            onClick={() => onDecreaseQuantity(cartItem._id)}
           >
             -
           </Button>
@@ -47,7 +47,7 @@ const CartCard = ({
             variant="contained"
             size="small"
             sx={{ fontWeight: 900 }}
-            onClick={() => onIncreaseQuantity(cartItem.id)}
+            onClick={() => onIncreaseQuantity(cartItem._id)}
           >
             +
           </Button>
@@ -90,7 +90,7 @@ const CartCard = ({
             variant="contained"
             size="small"
             sx={{ fontWeight: 900 }}
-            onClick={() => onDecreaseQuantity(cartItem.id)}
+            onClick={() => onDecreaseQuantity(cartItem._id)}
           >
             -
           </Button>
@@ -103,7 +103,7 @@ const CartCard = ({
             variant="contained"
             size="small"
             sx={{ fontWeight: 900 }}
-            onClick={() => onIncreaseQuantity(cartItem.id)}
+            onClick={() => onIncreaseQuantity(cartItem._id)}
           >
             +
           </Button>

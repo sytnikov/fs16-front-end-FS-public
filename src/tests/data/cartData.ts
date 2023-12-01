@@ -3,7 +3,7 @@ import categoriesData from "./categoriesData";
 
 const cartData: CartItem[] = [
   {
-    id: "1",
+    _id: "1",
     name: "Handcrafted Bronze Gloves",
     price: 359,
     description:
@@ -14,11 +14,11 @@ const cartData: CartItem[] = [
       "https://i.imgur.com/aCDF0yh.jpeg",
     ],
 
-    categoryId: categoriesData[2].id,
+    categoryId: categoriesData[2]._id,
     quantity: 1,
   },
   {
-    id: "2",
+    _id: "2",
     name: "Generic Concrete Tuna",
     price: 140,
     description:
@@ -28,7 +28,7 @@ const cartData: CartItem[] = [
       "https://i.imgur.com/5iNAL9T.jpeg",
       "https://i.imgur.com/OARGZQW.jpeg",
     ],
-    categoryId: categoriesData[0].id,
+    categoryId: categoriesData[0]._id,
     quantity: 20,
   },
 ];

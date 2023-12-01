@@ -3,7 +3,7 @@ import categoriesData from "./categoriesData";
 
 const productsData: Product[] = [
   {
-    id: "1",
+    _id: "1",
     name: "Handcrafted Bronze Gloves",
     price: 359,
     description:
@@ -14,11 +14,11 @@ const productsData: Product[] = [
       "https://i.imgur.com/aCDF0yh.jpeg",
     ],
 
-    categoryId: categoriesData[2].id,
+    categoryId: categoriesData[2]._id,
     stock: 10,
   },
   {
-    id: "2",
+    _id: "2",
     name: "Generic Concrete Tuna",
     price: 140,
     description:
@@ -28,11 +28,11 @@ const productsData: Product[] = [
       "https://i.imgur.com/5iNAL9T.jpeg",
       "https://i.imgur.com/OARGZQW.jpeg",
     ],
-    categoryId: categoriesData[0].id,
+    categoryId: categoriesData[0]._id,
     stock: 5
   },
   {
-    id: "3",
+    _id: "3",
     name: "Handcrafted Wooden Gloves",
     price: 844,
     description:
@@ -43,7 +43,7 @@ const productsData: Product[] = [
       "https://i.imgur.com/aCDF0yh.jpeg",
     ],
 
-    categoryId: categoriesData[1].id,
+    categoryId: categoriesData[1]._id,
     stock: 19
   },
 ];

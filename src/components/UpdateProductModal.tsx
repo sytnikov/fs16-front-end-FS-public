@@ -38,7 +38,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
     (state) => state.categoriesReducer.categories
   );
   const updatingProduct: UpdateProductInput = {
-    id: productId,
+    _id: productId,
     update: {
       name: updatingProductTitle,
       price: Number(updatingProductPrice),
@@ -117,7 +117,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
         >
           {categories &&
             categories.map((cat) => (
-              <MenuItem key={cat.id} value={cat.id}>
+              <MenuItem key={cat._id} value={cat._id}>
                 {cat.name}
               </MenuItem>
             ))}
@@ -139,3 +139,6 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
 };
 
 export default UpdateProductModal;
+
+
+

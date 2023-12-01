@@ -103,7 +103,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         >
           {categories &&
             categories.map((cat) => (
-              <MenuItem key={cat.id} value={cat.id}>
+              <MenuItem key={cat._id} value={cat._id}>
                 {cat.name}
               </MenuItem>
             ))}

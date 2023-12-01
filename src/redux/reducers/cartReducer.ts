@@ -15,7 +15,7 @@ const cartSlice = createSlice({
     addToCart: (state, action: PayloadAction<Product>) => {
       const cartItem: CartItem = { ...action.payload, quantity: 1 };
       const foundIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item._id === action.payload._id
       );
       if (foundIndex === -1) {
         state.cartItems.push(cartItem);
@@ -25,7 +25,7 @@ const cartSlice = createSlice({
     },
     increaseQuantity: (state, action: PayloadAction<string>) => {
       const foundIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item._id === action.payload
       );
       if (foundIndex !== -1) {
         state.cartItems[foundIndex].quantity++;
@@ -33,7 +33,7 @@ const cartSlice = createSlice({
     },
     decreaseQuantity: (state, action: PayloadAction<string>) => {
       const foundIndex = state.cartItems.findIndex(
-        (item) => item.id === action.payload
+        (item) => item._id === action.payload
       );
       if (foundIndex !== -1) {
         if (state.cartItems[foundIndex].quantity === 1) {
@@ -45,7 +45,7 @@ const cartSlice = createSlice({
     },
     deleteFromCart: (state, action: PayloadAction<CartItem>) => {
       state.cartItems = state.cartItems.filter(
-        (item) => item.id !== action.payload.id
+        (item) => item._id !== action.payload._id
       );
     },
     emptyCart: () => {

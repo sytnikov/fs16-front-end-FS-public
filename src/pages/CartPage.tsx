@@ -44,7 +44,7 @@ const CartPage = () => {
         <Box className="product-list">
           <Box className="cart-list">
             {cartItems?.map((item) => (
-              <Box key={item.id}>
+              <Box key={item._id}>
                 <CartCard
                   cartItem={item}
                   onDeleteFromCart={onDeleteFromCart}

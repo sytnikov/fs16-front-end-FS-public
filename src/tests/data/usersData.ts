@@ -2,7 +2,7 @@ import User from "../../types/User";
 
 const usersData: User[] = [
   {
-    id: 1,
+    _id: 1,
     email: "john@mail.com",
     password: "changeme",
     name: "Jhon",
@@ -10,7 +10,7 @@ const usersData: User[] = [
     avatar: "https://i.imgur.com/kTPCFG2.jpeg",
   },
   {
-    id: 2,
+    _id: 2,
     email: "maria@mail.com",
     password: "12345",
     name: "Maria",
@@ -18,7 +18,7 @@ const usersData: User[] = [
     avatar: "https://i.imgur.com/aCDF0yh.jpeg",
   },
   {
-    id: 3,
+    _id: 3,
     email: "admin@mail.com",
     password: "admin123",
     name: "Admin",

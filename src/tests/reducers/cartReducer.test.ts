@@ -20,24 +20,24 @@ describe("Test normal cartReducer actions", () => {
   })
 
   test("Should increase the number of product items in the cart", () => {
-    const cart = cartReducer(state, increaseQuantity(cartData[0].id)).cartItems
+    const cart = cartReducer(state, increaseQuantity(cartData[0]._id)).cartItems
     expect(cart[0].quantity).toBe(2)
   })
 
   test("Should decrease the number of product items in the cart", () => {
-    const cart = cartReducer(state, decreaseQuantity(cartData[1].id)).cartItems
+    const cart = cartReducer(state, decreaseQuantity(cartData[1]._id)).cartItems
     expect(cart[1].quantity).toBe(19)
   })
 
   test("Should delete a product from the cart when the quantity becomes < 1", () => {
-    const cart = cartReducer(state, decreaseQuantity(cartData[0].id)).cartItems
+    const cart = cartReducer(state, decreaseQuantity(cartData[0]._id)).cartItems
     expect(cart.length).toBe(1)
   })
 
   test("Should delete a product from the cart", () => {
     const cart = cartReducer(state, deleteFromCart(cartData[0])).cartItems
     expect(cart.length).toBe(1)
-    expect(cart[0].id).toBe("2")
+    expect(cart[0]._id).toBe("2")
   })
 
   test("Should empty the cart", () => {

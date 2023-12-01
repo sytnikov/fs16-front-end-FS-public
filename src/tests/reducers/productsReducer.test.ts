@@ -59,7 +59,7 @@ describe("Test async thunk productsReducer actions", () => {
   });
 
   test("Should fetch one product", async () => {
-    await store.dispatch(fetchSingleProductAsync(productsData[0].id));
+    await store.dispatch(fetchSingleProductAsync(productsData[0]._id));
     const product = store.getState().productsReducer.product;
     if (product) {
       expect(product).toMatchObject(productsData[0]);
@@ -80,7 +80,7 @@ describe("Test async thunk productsReducer actions", () => {
 
   test("Should update a product", async () => {
     const input: UpdateProductInput = {
-      id: "1",
+      _id: "1",
       update: {
         name: "Successfully updated product",
         price: 129,
@@ -88,7 +88,7 @@ describe("Test async thunk productsReducer actions", () => {
     };
     const action = await store.dispatch(updateProductAsync(input));
     expect(action.payload).toMatchObject({
-      id: "1",
+      _id: "1",
       name: "Successfully updated product",
       price: 129,
       description:

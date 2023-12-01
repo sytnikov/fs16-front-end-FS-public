@@ -32,7 +32,7 @@ const SingleProductPage = () => {
   };
 
   return (
-    <Container maxWidth="md" style={{ marginTop: "24px", minHeight: "" }}>
+    <Container maxWidth="md" style={{ marginTop: "24px", marginBottom: "24px", minHeight: "40rem" }}>
       {product && (
         <Paper elevation={3} style={{ padding: "16px" }}>
           <Grid container spacing={3}>
