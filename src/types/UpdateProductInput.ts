@@ -1,6 +1,6 @@
 import CreateProductInput from "./CreateProductInput";
 
-interface UpdateProductInput {
+type UpdateProductInput = {
   update: Partial<CreateProductInput>,
   _id: string
 } 

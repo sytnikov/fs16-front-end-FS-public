@@ -23,7 +23,7 @@ export const fetchAllProductsAsync = createAsyncThunk(
       return data;
     } catch (e) {
       const error = e as AxiosError;
-      console.log('error:', error)
+      // console.log('error:', error)
       return rejectWithValue(error.message);
     }
   }

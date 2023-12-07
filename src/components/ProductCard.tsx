@@ -24,7 +24,6 @@ import { addToCart } from "../redux/reducers/cartReducer";
 import UpdateProductModal from "./UpdateProductModal";
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  console.log('product:', product)
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);

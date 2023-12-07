@@ -1,7 +1,7 @@
 import Product from "./Product";
 import UpdateProductInput from "./UpdateProductInput";
 
-interface UpdateProductModalProps {
+type UpdateProductModalProps = {
   isOpen: boolean;
   onClose: () => void;
   productId: string;

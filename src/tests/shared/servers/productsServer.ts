@@ -71,7 +71,6 @@ export const handlers = [
         }
       } catch (e) {
         const error = e as AxiosError;
-        console.log(error.message);
       }
     }
   ),

@@ -2,31 +2,33 @@ import CartItem from "./CartItem";
 import Product from "./Product";
 import User from "./User";
 import Category from "./Category";
+import { AxiosError } from "axios";
+import { ErrorMessage } from "./ErrorMessage";
 
-export interface ProductsReducerState {
+export type ProductsReducerState = {
   products: Product[];
   product?: Product;
   loading: boolean;
   error?: string;
 }
 
-export interface UsersReducerState {
+export type UsersReducerState = {
   users: User[];
   loading: boolean;
-  error?: string;
+  error?: any;
 }
 
-export interface CartReducerState {
+export type CartReducerState = {
   cartItems: CartItem[];
 }
 
-export interface AuthReducerState {
+export type AuthReducerState = {
   accessToken?: string;
   currentUser?: User;
   error?: string;
 }
 
-export interface CategoriesReducerState {
+export type CategoriesReducerState = {
   categories: Category[];
   loading: boolean
   error?: string;

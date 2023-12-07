@@ -1,6 +1,6 @@
 import Product from "./Product";
 
-interface ProductCardProps {
+type ProductCardProps = {
   product: Product;
 }
 

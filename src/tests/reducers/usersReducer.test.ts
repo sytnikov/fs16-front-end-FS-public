@@ -21,8 +21,7 @@ describe("Test async thunk usersReducer actions", () => {
     const inputData: CreateUserInput = {
       name: "John Doe",
       email: "john.doe@mail.com",
-      password: "pass",
-      avatar: "https://i.imgur.com/aCDF0yh.jpeg",
+      password: "pass"
     };
     await store.dispatch(createUserAsync(inputData));
     expect(store.getState().usersReducer.users.length).toBe(1);

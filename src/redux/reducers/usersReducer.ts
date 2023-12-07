@@ -1,40 +1,55 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios, { Axios, AxiosError } from "axios";
 
 import { UsersReducerState } from "../../types/InitialState";
 import User from "../../types/User";
 import CreateUserInput from "../../types/CreateUserInput";
+import { baseURL } from "../../common/common";
+import useAppDispatch from "../../hooks/useAppDispatch";
+import { ErrorMessage } from "../../types/ErrorMessage";
+
+const userUrl = `${baseURL}/users`
 
 const initialState: UsersReducerState = {
   users: [],
   loading: false
 };
 
-export const fetchAllUsersAsync = createAsyncThunk<User[], void, {rejectValue: string} >(
+export const fetchAllUsersAsync = createAsyncThunk<User[], void, {rejectValue: any} >(
   "fetchAllUsersAsync",
   async (_, {rejectWithValue}) => {
     try {
       const response = await axios.get("https://api.escuelajs.co/api/v1/users")
       return response.data
     } catch (e) {
-      const error = e as AxiosError
-      return rejectWithValue(error.message)
+      const error = e as any
+      return rejectWithValue(error)
     }
   }
 );
 
-export const createUserAsync = createAsyncThunk(
+export const createUserAsync = createAsyncThunk<User, CreateUserInput, { rejectValue: ErrorMessage[]}>(
   "createUserAsync",
-  async (newUser: CreateUserInput, { rejectWithValue }) => {
+  async (newUserInfo: CreateUserInput, { rejectWithValue }) => {
     try {
       const response = await axios.post<User>(
-        "https://api.escuelajs.co/api/v1/users/",
-        newUser
+        `${userUrl}/register`,
+        newUserInfo
       );
+      // if (response.status === 201) {
+      //   alert("Account successfully created")
+      // }
       return response.data;
     } catch (e) {
-      const error = e as AxiosError;
-      return rejectWithValue(error.message);
+      const error = e as any;
+      // console.log('errorReducer:', error)
+      if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
+        return rejectWithValue(error.response.data.errors);
+      }
+      return rejectWithValue([{ field: 'general', message: 'Failed to create user' }]);
+      // const error = e as AxiosError;
+      // console.log('error:', error)
+      // return rejectWithValue(error);
     }
   }
 );
@@ -67,7 +82,8 @@ const usersSlice = createSlice({
       state.users.push(action.payload);
     });
     builder.addCase(createUserAsync.rejected, (state, action) => {
-      state.error = action.payload as string;
+      state.error = action.payload
+      
     });
   },
 });

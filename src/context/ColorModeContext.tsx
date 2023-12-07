@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { deepPurple, grey, deepOrange, blueGrey } from "@mui/material/colors";
 
 import { Theme } from "../types/Theme";
-import { ColorModeProviderProps } from "../types/ColorModeProviderProps";
+import ColorModeProviderProps from "../types/ColorModeProviderProps";
 
 export const ColorModeContext = createContext({
   toggleColorMode: () => {},
@@ -25,7 +25,6 @@ export default function ColorModeProvider({
     toggleColorMode: () => {
       const newMode = mode === "dark" ? "light" : "dark";
       setMode(newMode);
-      console.log("mode:", newMode);
       localStorage.setItem("themeMode", newMode);
     },
   };

@@ -34,7 +34,6 @@ const ProductsPage = () => {
   const filteredProducts = useAppSelector((state) =>
   getFilteredProducts(state, search, category)
   );
-  console.log('filteredProducts:', filteredProducts)
   const totalProducts = filteredProducts.length;
   const [productsPerPage, setProductsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -147,7 +146,7 @@ const ProductsPage = () => {
             productsPerPage * currentPage
           )
           .map((p) => (
-            <Box>
+            <Box key={p._id}>
               <ProductCard product={p} />
             </Box>
             

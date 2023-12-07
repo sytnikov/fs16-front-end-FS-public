@@ -1,6 +1,6 @@
 import CreateProductInput from "./CreateProductInput"
 
-interface AddProductModalProps {
+type AddProductModalProps = {
   isOpen: boolean,
   onClose: () => void,
   onAddProduct: (newProduct: CreateProductInput) => void

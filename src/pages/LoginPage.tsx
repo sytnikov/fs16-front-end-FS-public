@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,12 +16,16 @@ import { loginUserAsync } from "../redux/reducers/authReducer";
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [logInData, setLogInData] = useState({email: "", password: ""})
 
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setLogInData({...logInData, [e.target.name]: e.target.value})
+  }
+  
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(loginUserAsync({ email, password }));
+    dispatch(loginUserAsync(logInData));
     navigate("/");
   };
 
@@ -37,8 +41,8 @@ const LoginPage = () => {
             variant="outlined"
             fullWidth
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={logInData.email}
+            onChange={onChangeHandler}
             margin="normal"
           />
           <TextField
@@ -47,8 +51,8 @@ const LoginPage = () => {
             variant="outlined"
             fullWidth
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={logInData.password}
+            onChange={onChangeHandler}
             margin="normal"
           />
           <Box mt={2}>
@@ -57,7 +61,7 @@ const LoginPage = () => {
             </Button>
           </Box>
           <Box mt={2}>
-            <Link href="/signup">Don't have an account yet?</Link>
+            <Link href="/register">Don't have an account yet?</Link>
           </Box>
         </form>
       </Paper>

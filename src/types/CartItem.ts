@@ -1,6 +1,6 @@
 import Product from "./Product";
 
-interface CartItem extends Product {
+type CartItem = Product & {
   quantity: number
 }
 

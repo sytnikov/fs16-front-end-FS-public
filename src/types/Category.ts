@@ -1,4 +1,4 @@
-interface Category {
+type Category = {
   _id: string;
   name: string;
   images: string[];

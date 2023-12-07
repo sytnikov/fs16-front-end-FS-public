@@ -1,5 +1,7 @@
 import { ReactNode } from "react"
 
-export type ColorModeProviderProps = {
+type ColorModeProviderProps = {
   children: ReactNode
 }
+
+export default ColorModeProviderProps

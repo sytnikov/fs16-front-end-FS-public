@@ -1,4 +1,4 @@
-interface CreateProductInput {
+type CreateProductInput = {
   name: string,
   price: number,
   description: string,

@@ -20,7 +20,7 @@ import categoriesReducer from "./reducers/categoriesReducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cartReducer", "authReducer"],
+  whitelist: ["cartReducer", "authReducer"]
 };
 
 const rootReducer = combineReducers({
