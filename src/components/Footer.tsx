@@ -18,7 +18,7 @@ const Footer = () => {
     >
       <Container maxWidth="lg">
         <Typography variant="body2" align="center">
-          &copy; {new Date().getFullYear()} ECO Store, LLC. All rights reserved
+          &copy; {new Date().getFullYear()} TopSpin Store, LLC. All rights reserved
         </Typography>
         <Box className="social-list">
           <Link color="inherit" href="https://www.instagram.com/">

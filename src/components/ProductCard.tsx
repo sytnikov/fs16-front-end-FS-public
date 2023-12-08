@@ -82,7 +82,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
           Add to cart
         </Button>
-        {currentUser && currentUser.role === "admin" && (
+        {currentUser && currentUser.role === "ADMIN" && (
           <Box>
             <Button
               size="small"

@@ -3,6 +3,9 @@ import axios, { AxiosError } from "axios";
 
 import { CategoriesReducerState } from "../../types/InitialState";
 import Category from "../../types/Category";
+import { baseURL } from "../../common/common";
+
+const categoryUrl = `${baseURL}/categories`
 
 const initialState: CategoriesReducerState = {
   categories: [],
@@ -15,9 +18,7 @@ export const fetchAllCategoriesAsync = createAsyncThunk<
   { rejectValue: string }
 >("fetchAllCategoriesAsync", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(
-      "https://api.escuelajs.co/api/v1/categories"
-    );
+    const response = await axios.get(categoryUrl);
     return response.data;
   } catch (e) {
     const error = e as AxiosError;

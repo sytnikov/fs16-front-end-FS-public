@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import {
   Box,
   Button,
@@ -12,7 +12,7 @@ import UpdateProductModalProps from "../types/UpdateProductModalProps";
 import UpdateProductInput from "../types/UpdateProductInput";
 import useAppSelector from "../hooks/useAppSelector";
 
-const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
+const UpdateProductModal: FC<UpdateProductModalProps> = ({
   isOpen,
   onClose,
   productId,

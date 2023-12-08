@@ -78,7 +78,7 @@ const RegisterPage = () => {
     <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem" }}>
       <Paper elevation={3} sx={{ padding: "16px" }}>
         <Typography variant="h5" gutterBottom>
-          Sign up to ECO
+          Create a TopSpin Store account
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField

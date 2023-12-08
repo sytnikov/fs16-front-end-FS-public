@@ -8,6 +8,11 @@ import { fetchAllUsersAsync } from "../redux/reducers/usersReducer";
 
 const UserList = () => {
   const users = useAppSelector((state) => state.usersReducer.users);
+  console.log('users:', users)
+  const updatedUsers = users.map((user) => {
+    const { _id, ...rest } = user;
+    return { id: _id, ...rest };
+  });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -17,7 +22,7 @@ const UserList = () => {
   const columns: GridColDef[] = [
     {
       field: "avatar",
-      headerName: "",
+      headerName: "Avatar",
       width: 70,
       renderCell: (params) => (
         <img
@@ -27,15 +32,14 @@ const UserList = () => {
         />
       ),
     },
-    { field: "id", headerName: "ID", width: 30 },
     { field: "name", headerName: "Name", width: 200 },
     { field: "email", headerName: "Email", width: 270 },
-    { field: "role", headerName: "Role", width: 130 },
+    { field: "roleId", headerName: "Role", width: 130, renderCell: (params) => <span>{params.value.name.toLowerCase()}</span> },
   ];
   return (
     <Box sx={{ margin: "2rem" }}>
       <DataGrid
-        rows={users}
+        rows={updatedUsers}
         columns={columns}
         initialState={{
           pagination: {

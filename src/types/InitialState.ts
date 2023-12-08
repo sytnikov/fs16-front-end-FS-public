@@ -2,8 +2,7 @@ import CartItem from "./CartItem";
 import Product from "./Product";
 import User from "./User";
 import Category from "./Category";
-import { AxiosError } from "axios";
-import { ErrorMessage } from "./ErrorMessage";
+import CurrentUser from "./CurrentUser";
 
 export type ProductsReducerState = {
   products: Product[];
@@ -24,7 +23,7 @@ export type CartReducerState = {
 
 export type AuthReducerState = {
   accessToken?: string;
-  currentUser?: User;
+  currentUser?: CurrentUser;
   error?: string;
 }
 

@@ -7,13 +7,14 @@ import useAppSelector from "../hooks/useAppSelector";
 
 const DashboardPage = () => {
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
+  console.log('currentUser:', currentUser)
   const navigate = useNavigate();
   
   useEffect(()=>{
-    if (!(currentUser && currentUser.role === "admin")) {
+    if (!(currentUser && currentUser.role === "ADMIN")) {
       navigate('/');
     }
-  }, [])
+  }, [currentUser, navigate])
   
   return (
     <Box sx={{minHeight: "40rem"}}>

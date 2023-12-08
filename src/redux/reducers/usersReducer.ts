@@ -19,8 +19,9 @@ export const fetchAllUsersAsync = createAsyncThunk<User[], void, {rejectValue: a
   "fetchAllUsersAsync",
   async (_, {rejectWithValue}) => {
     try {
-      const response = await axios.get("https://api.escuelajs.co/api/v1/users")
-      return response.data
+      const response = await axios.get(userUrl)
+      console.log('response:', response)
+      return response.data.users
     } catch (e) {
       const error = e as any
       return rejectWithValue(error)

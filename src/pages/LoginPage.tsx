@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -8,7 +8,6 @@ import {
   TextField,
   Button,
   Box,
-  Link,
 } from "@mui/material";
 
 import { loginUserAsync } from "../redux/reducers/authReducer";
@@ -16,13 +15,13 @@ import { loginUserAsync } from "../redux/reducers/authReducer";
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [logInData, setLogInData] = useState({email: "", password: ""})
+  const [logInData, setLogInData] = useState({ email: "", password: "" });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setLogInData({...logInData, [e.target.name]: e.target.value})
-  }
-  
+    setLogInData({ ...logInData, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(loginUserAsync(logInData));
@@ -30,10 +29,10 @@ const LoginPage = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem"}}>
+    <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem" }}>
       <Paper elevation={3} sx={{ padding: "16px" }}>
         <Typography variant="h5" gutterBottom>
-          Log in to ECO
+          Log into TopSpin Store
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -61,7 +60,12 @@ const LoginPage = () => {
             </Button>
           </Box>
           <Box mt={2}>
-            <Link href="/register">Don't have an account yet?</Link>
+            <Link
+              to="/register"
+              style={{ textDecoration: "underline", color: "inherit" }}
+            >
+              Don't have an account yet?
+            </Link>
           </Box>
         </form>
       </Paper>

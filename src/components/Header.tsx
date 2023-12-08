@@ -117,7 +117,7 @@ const Header = () => {
                   <Typography textAlign="center">Store</Typography>
                 </Link>
               </MenuItem>
-              {currentUser && currentUser.role === "admin" && (
+              {currentUser && currentUser.role === "ADMIN" && (
                 <MenuItem onClick={handleCloseNavMenu}>
                   <Link
                     to="dashboard"
@@ -139,7 +139,7 @@ const Header = () => {
                 Store
               </Button>
             </Link>
-            {currentUser && currentUser.role === "admin" && (
+            {currentUser && currentUser.role === "ADMIN" && (
               <Link
                 to="dashboard"
                 style={{ textDecoration: "none", color: "inherit" }}
