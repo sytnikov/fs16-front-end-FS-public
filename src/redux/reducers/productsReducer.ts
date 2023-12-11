@@ -9,6 +9,8 @@ import { baseURL } from "../../common/common";
 
 const productURL = `${baseURL}/products`
 
+const token = localStorage.getItem("token")
+
 export const initialState: ProductsReducerState = {
   products: [],
   loading: false,
@@ -50,7 +52,7 @@ export const createProductAsync = createAsyncThunk(
   async (newProduct: CreateProductInput, { rejectWithValue }) => {
     try {
       const response = await axios.post<Product>(
-        "https://api.escuelajs.co/api/v1/products/",
+        productURL,
         newProduct
       );
       return response.data;
@@ -66,7 +68,7 @@ export const updateProductAsync = createAsyncThunk(
   async ({ update, _id }: UpdateProductInput, { rejectWithValue }) => {
     try {
       const response = await axios.put<Product>(
-        `https://api.escuelajs.co/api/v1/products/${_id}`,
+        `${productURL}/${_id}`,
         update
       );
       return response.data;
@@ -79,15 +81,16 @@ export const updateProductAsync = createAsyncThunk(
 
 export const deleteProductAsync = createAsyncThunk(
   "deletePoductAsync",
-  async (id: string, { rejectWithValue }) => {
+  async (_id: string, { rejectWithValue }) => {
     try {
       const response = await axios.delete<boolean>(
-        `https://api.escuelajs.co/api/v1/products/${id}`
+        `${productURL}/${_id}`,
+        {headers: {Authorization: `Bearer ${token}`}}
       );
       if (!response.data) {
         throw new Error("The product cannot be deleted");
       }
-      return id;
+      return _id;
     } catch (e) {
       const error = e as AxiosError;
       return rejectWithValue(error.message);

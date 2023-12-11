@@ -20,7 +20,6 @@ export const fetchAllUsersAsync = createAsyncThunk<User[], void, {rejectValue: a
   async (_, {rejectWithValue}) => {
     try {
       const response = await axios.get(userUrl)
-      console.log('response:', response)
       return response.data.users
     } catch (e) {
       const error = e as any

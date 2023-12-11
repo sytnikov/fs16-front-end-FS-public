@@ -31,6 +31,7 @@ const ProductsPage = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
+  
   const filteredProducts = useAppSelector((state) =>
   getFilteredProducts(state, search, category)
   );
@@ -78,11 +79,13 @@ const ProductsPage = () => {
               label="Category"
               onChange={(e) => setCategory(e.target.value)}
             >
+              
               {categories.map((category) => (
                 <MenuItem key={category._id} value={category._id}>
                   {category.name}
                 </MenuItem>
               ))}
+              <MenuItem value="">- All products -</MenuItem>
             </Select>
           </FormControl>
         </Box>

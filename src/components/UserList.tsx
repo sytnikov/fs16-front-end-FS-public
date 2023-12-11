@@ -8,7 +8,6 @@ import { fetchAllUsersAsync } from "../redux/reducers/usersReducer";
 
 const UserList = () => {
   const users = useAppSelector((state) => state.usersReducer.users);
-  console.log('users:', users)
   const updatedUsers = users.map((user) => {
     const { _id, ...rest } = user;
     return { id: _id, ...rest };

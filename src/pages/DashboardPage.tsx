@@ -1,23 +1,38 @@
-import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { Box, Button, Tooltip, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import UserList from "../components/UserList";
 import useAppSelector from "../hooks/useAppSelector";
+import useAppDispatch from "../hooks/useAppDispatch";
+import { createProductAsync } from "../redux/reducers/productsReducer";
+import UserList from "../components/UserList";
+import ProductList from "../components/ProductList";
+import AddProductModal from "../components/AddProductModal";
+import CreateProductInput from "../types/CreateProductInput";
 
 const DashboardPage = () => {
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
-  console.log('currentUser:', currentUser)
   const navigate = useNavigate();
-  
-  useEffect(()=>{
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
     if (!(currentUser && currentUser.role === "ADMIN")) {
-      navigate('/');
+      navigate("/");
     }
-  }, [currentUser, navigate])
+  }, [currentUser, navigate]);
+
+  const onAddProductClick = () => {
+    setIsAddProductOpen(true)
+  }
   
+  const onAddProduct = (newProduct: CreateProductInput) => {
+    dispatch(createProductAsync(newProduct));
+    setIsAddProductOpen(false);
+  }
+
   return (
-    <Box sx={{minHeight: "40rem"}}>
+    <Box sx={{ minHeight: "40rem" }}>
       <Box className="heading">
         <Typography sx={{ fontSize: "36px", fontWeight: "900" }}>
           Admin dashboard
@@ -30,6 +45,31 @@ const DashboardPage = () => {
           </Typography>
         </Box>
         <UserList />
+      </Box>
+      <Box>
+        <Box
+          className="heading"
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Typography sx={{ fontSize: "24px", fontWeight: "700" }}>
+            Products list
+          </Typography>
+          <Tooltip title="Create a new product">
+            <Button
+              variant="contained"
+              onClick={onAddProductClick}
+              sx={{ color: "inherit" }}
+            >
+              Add product
+            </Button>
+          </Tooltip>
+        </Box>
+        <AddProductModal
+          isOpen={isAddProductOpen}
+          onClose={() => setIsAddProductOpen(false)}
+          onAddProduct={onAddProduct}
+        />
+        <ProductList />
       </Box>
     </Box>
   );

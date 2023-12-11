@@ -23,6 +23,7 @@ export type CartReducerState = {
 
 export type AuthReducerState = {
   accessToken?: string;
+  isValidUser?: boolean;
   currentUser?: CurrentUser;
   error?: string;
 }

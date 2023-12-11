@@ -9,6 +9,7 @@ import ProfilePage from "../pages/ProfilePage";
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/RegisterPage";
 import ErrorPage from "../pages/ErrorPage";
+import ProtectedRoute from "./protectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -22,11 +23,11 @@ const router = createBrowserRouter([
       },
       {
         path: "products/:productId",
-        element: <SingleProductPage />,
+        element: <ProtectedRoute page={SingleProductPage} />,
       },
       {
         path: "dashboard",
-        element: <DashboardPage />,
+        element: <ProtectedRoute page={DashboardPage}/>,
       },
       {
         path: "cart",

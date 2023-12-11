@@ -6,9 +6,9 @@ type Product = {
   description: string;
   price: number;
   images: string[];
-  categoryId: string;
-  stock?: number,
-  creationAt?: string;
+  categoryId: Category;
+  stock: number;
+  createdAt?: string;
   updatedAt?: string;
 }
 

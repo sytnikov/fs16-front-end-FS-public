@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import {
   MenuItem,
   TextField,
@@ -12,7 +12,7 @@ import AddProductModalProps from "../types/AddProductModalProps";
 import CreateProductInput from "../types/CreateProductInput";
 import useAppSelector from "../hooks/useAppSelector";
 
-const AddProductModal: React.FC<AddProductModalProps> = ({
+const AddProductModal: FC<AddProductModalProps> = ({
   isOpen,
   onClose,
   onAddProduct,
@@ -25,7 +25,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
   const categories = useAppSelector(
     (state) => state.categoriesReducer.categories
-  );
+    );
 
   const newProduct: CreateProductInput = {
     name: newProductTitle,
@@ -97,13 +97,14 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           fullWidth
           margin="normal"
           type="number"
+          name="categoryId"
           label="Category"
           value={newProductCategoryId}
           onChange={(e) => setNewProductCategoryId(e.target.value)}
         >
           {categories &&
             categories.map((cat) => (
-              <MenuItem key={cat._id} value={cat._id}>
+              <MenuItem key={cat._id} value={cat.name}>
                 {cat.name}
               </MenuItem>
             ))}

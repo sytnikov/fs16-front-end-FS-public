@@ -16,10 +16,10 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
+import SportsTennisOutlinedIcon from '@mui/icons-material/SportsTennisOutlined';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import Brightness3Icon from '@mui/icons-material/Brightness3';
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 
@@ -77,7 +77,7 @@ const Header = () => {
     <AppBar sx={{ position: "static" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <StoreRoundedIcon
+          <SportsTennisOutlinedIcon
             sx={{ display: { xs: "none", md: "flex" }, mr: 1, fontSize: 40 }}
           />
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -232,9 +232,9 @@ const Header = () => {
           )}
           <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
             {theme.palette.mode === "dark" ? (
-              <Brightness7Icon />
+              <LightModeIcon />
             ) : (
-              <Brightness4Icon />
+              <Brightness3Icon />
             )}
           </IconButton>
           <Link to="/cart" style={{ textDecoration: "none", color: "inherit" }}>

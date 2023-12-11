@@ -22,10 +22,16 @@ const SingleProductPage = () => {
   const params = useParams();
   const productId = params.productId as string;
   const product = useAppSelector((state) => state.productsReducer.product);
+  const categories = useAppSelector((state) => state.categoriesReducer.categories)
 
   useEffect(() => {
     dispatch(fetchSingleProductAsync(productId));
   }, []);
+
+  // const getCategoryName = (categoryId: string) => {
+  //   const category = categories.find((cat) => cat._id === categoryId)
+  //   return category ? category.name : "Category not found"
+  // }
 
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));
@@ -56,7 +62,7 @@ const SingleProductPage = () => {
               </Typography>
               <Divider sx={{ mt: 2, mb: 2 }} />
               <Typography variant="body1" gutterBottom>
-                Category: {product.categoryId}
+                Category: {product.categoryId.name}
               </Typography>
               <Typography variant="h6" gutterBottom>
                 Price: ${product.price}
