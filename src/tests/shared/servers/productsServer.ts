@@ -30,7 +30,7 @@ export const handlers = [
           name: inputData.name,
           price: inputData.price,
           description: inputData.description,
-          categoryId: category._id,
+          categoryId: category,
           images: inputData.images,
         };
         productsData.push(newProduct);

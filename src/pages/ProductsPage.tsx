@@ -36,13 +36,13 @@ const ProductsPage = () => {
   getFilteredProducts(state, search, category)
   );
   const totalProducts = filteredProducts.length;
-  const [productsPerPage, setProductsPerPage] = useState(10);
+  const [productsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync());
     dispatch(fetchAllCategoriesAsync());
-  }, []);
+  }, [dispatch]);
 
   const onSortToggle = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";

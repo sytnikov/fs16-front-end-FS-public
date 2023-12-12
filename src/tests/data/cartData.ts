@@ -1,5 +1,4 @@
 import CartItem from "../../types/CartItem";
-import categoriesData from "./categoriesData";
 
 const cartData: CartItem[] = [
   {
@@ -13,8 +12,13 @@ const cartData: CartItem[] = [
       "https://i.imgur.com/imQx3Az.jpeg",
       "https://i.imgur.com/aCDF0yh.jpeg",
     ],
-
-    categoryId: categoriesData[2]._id,
+    categoryId: {
+      _id: "2",
+      name: "Equipment",
+      images: [
+          "https://img.tenniswarehouse-europe.com/fpcache/1176/marketing/PERCEPTFP-md.jpg"
+      ]
+  },
     quantity: 1,
   },
   {
@@ -28,7 +32,13 @@ const cartData: CartItem[] = [
       "https://i.imgur.com/5iNAL9T.jpeg",
       "https://i.imgur.com/OARGZQW.jpeg",
     ],
-    categoryId: categoriesData[0]._id,
+    categoryId: {
+      _id: "2",
+      name: "Equipment",
+      images: [
+          "https://img.tenniswarehouse-europe.com/fpcache/1176/marketing/PERCEPTFP-md.jpg"
+      ]
+  },
     quantity: 20,
   },
 ];

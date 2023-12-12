@@ -6,26 +6,26 @@ import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
 import { ProductsReducerState } from "../../types/InitialState";
 import { baseURL } from "../../common/common";
+import config from "../../common/config";
 
-const productURL = `${baseURL}/products`
-
-const token = localStorage.getItem("token")
+const productURL = `${baseURL}/products`;
 
 export const initialState: ProductsReducerState = {
   products: [],
-  loading: false,
+  isLoading: false,
+  isError: false,
+  message: "",
 };
 
 export const fetchAllProductsAsync = createAsyncThunk(
   "fetchAllProductsAsync",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(productURL);
-      const data: Product[] = response.data;
-      return data;
+      const response = await axios.get<Product[]>(productURL);
+      const products = response.data;
+      return products;
     } catch (e) {
       const error = e as AxiosError;
-      // console.log('error:', error)
       return rejectWithValue(error.message);
     }
   }
@@ -35,10 +35,8 @@ export const fetchSingleProductAsync = createAsyncThunk(
   "fetchSingleProductAsync",
   async (id: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${productURL}/${id}`
-      );
-      const data: Product = response.data;
+      const response = await axios.get<Product>(`${productURL}/${id}`);
+      const data = response.data;
       return data;
     } catch (e) {
       const error = e as AxiosError;
@@ -51,11 +49,9 @@ export const createProductAsync = createAsyncThunk(
   "createProductAsync",
   async (newProduct: CreateProductInput, { rejectWithValue }) => {
     try {
-      const response = await axios.post<Product>(
-        productURL,
-        newProduct
-      );
-      return response.data;
+      const response = await axios.post(productURL, newProduct, config);
+      const data: Product = response.data;
+      return data;
     } catch (e) {
       const error = e as AxiosError;
       return rejectWithValue(error.message);
@@ -69,7 +65,8 @@ export const updateProductAsync = createAsyncThunk(
     try {
       const response = await axios.put<Product>(
         `${productURL}/${_id}`,
-        update
+        update,
+        config
       );
       return response.data;
     } catch (e) {
@@ -83,14 +80,16 @@ export const deleteProductAsync = createAsyncThunk(
   "deletePoductAsync",
   async (_id: string, { rejectWithValue }) => {
     try {
-      const response = await axios.delete<boolean>(
+      console.log('👀 Enter reducer', )
+      const response = await axios.delete<string>(
         `${productURL}/${_id}`,
-        {headers: {Authorization: `Bearer ${token}`}}
+        config
       );
-      if (!response.data) {
-        throw new Error("The product cannot be deleted");
-      }
-      return _id;
+      // if (!response.data) {
+      //   throw new Error("The product cannot be deleted");
+      // }
+      console.log('response:', response.data)
+      return response.data;
     } catch (e) {
       const error = e as AxiosError;
       return rejectWithValue(error.message);
@@ -109,59 +108,84 @@ const productsSlice = createSlice({
         state.products.sort((a, b) => b.price - a.price);
       }
     },
+    reset: (state) => initialState
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
-      if (Array.isArray(action.payload)) {
-        return {
-          ...state,
-          products: action.payload,
-        };
-      }
-    });
-    builder.addCase(fetchAllProductsAsync.pending, (state, action) => {
+    builder.addCase(fetchAllProductsAsync.pending, (state) => {
       return {
         ...state,
-        loading: true,
+        isLoading: true,
+      };
+    });
+    builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        products: action.payload,
       };
     });
     builder.addCase(fetchAllProductsAsync.rejected, (state, action) => {
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
-          error: action.payload.message,
+          isError: true,
+          isLoading: false,
+          message: action.payload.message,
         };
       }
     });
-    builder.addCase(fetchSingleProductAsync.fulfilled, (state, action) => {
-      if (action.payload) {
-        return {
-          ...state,
-          product: action.payload,
-        };
-      }
-    });
-    builder.addCase(fetchSingleProductAsync.pending, (state, action) => {
+    builder.addCase(fetchSingleProductAsync.pending, (state) => {
       return {
         ...state,
-        loading: true,
+        isLoading: true,
+      };
+    });
+    builder.addCase(fetchSingleProductAsync.fulfilled, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        product: action.payload,
       };
     });
     builder.addCase(fetchSingleProductAsync.rejected, (state, action) => {
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
+          isError: true,
           error: action.payload.message,
         };
       }
     });
+    builder.addCase(createProductAsync.pending, (state) => {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    });
     builder.addCase(createProductAsync.fulfilled, (state, action) => {
-      state.products.push(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        products: [...state.products, action.payload],
+      };
     });
     builder.addCase(createProductAsync.rejected, (state, action) => {
-      state.error = action.payload as string;
+      if (action.payload instanceof AxiosError) {
+        return {
+          ...state,
+          isError: true,
+          error: action.payload.message,
+        };
+      }
+    });
+    builder.addCase(updateProductAsync.pending, (state) => {
+      return {
+        ...state,
+        isLoading: true,
+      };
     });
     builder.addCase(updateProductAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
       const foundIndex = state.products.findIndex(
         (p) => p._id === action.payload._id
       );
@@ -170,19 +194,38 @@ const productsSlice = createSlice({
       }
     });
     builder.addCase(updateProductAsync.rejected, (state, action) => {
-      state.error = action.payload as string;
+      if (action.payload instanceof AxiosError) {
+        return {
+          ...state,
+          isError: true,
+          error: action.payload.message,
+        };
+      }
+    });
+    builder.addCase(deleteProductAsync.pending, (state) => {
+      return {
+        ...state,
+        isLoading: true,
+      };
     });
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
-      if (typeof action.payload === "number") {
+      state.isLoading = false
+      if (typeof action.payload === "string") {
         state.products = state.products.filter((p) => p._id !== action.payload);
       }
     });
     builder.addCase(deleteProductAsync.rejected, (state, action) => {
-      state.error = action.payload as string;
+      if (action.payload instanceof AxiosError) {
+        return {
+          ...state,
+          isError: true,
+          error: action.payload.message,
+        };
+      }
     });
   },
 });
 
 const productsReducer = productsSlice.reducer;
-export const { sortByPrice } = productsSlice.actions;
+export const { sortByPrice, reset } = productsSlice.actions;
 export default productsReducer;

@@ -12,23 +12,26 @@ const userUrl = `${baseURL}/users`
 
 const initialState: UsersReducerState = {
   users: [],
-  loading: false
+  isLoading: false,
+  isError: false,
+  message: ""
 };
 
-export const fetchAllUsersAsync = createAsyncThunk<User[], void, {rejectValue: any} >(
+export const fetchAllUsersAsync = createAsyncThunk(
   "fetchAllUsersAsync",
   async (_, {rejectWithValue}) => {
     try {
-      const response = await axios.get(userUrl)
-      return response.data.users
+      const response = await axios.get<User[]>(userUrl)
+      const users = response.data
+      return users
     } catch (e) {
-      const error = e as any
-      return rejectWithValue(error)
+      const error = e as AxiosError
+      return rejectWithValue(error.message)
     }
   }
 );
 
-export const createUserAsync = createAsyncThunk<User, CreateUserInput, { rejectValue: ErrorMessage[]}>(
+export const createUserAsync = createAsyncThunk(
   "createUserAsync",
   async (newUserInfo: CreateUserInput, { rejectWithValue }) => {
     try {
@@ -36,20 +39,11 @@ export const createUserAsync = createAsyncThunk<User, CreateUserInput, { rejectV
         `${userUrl}/register`,
         newUserInfo
       );
-      // if (response.status === 201) {
-      //   alert("Account successfully created")
-      // }
-      return response.data;
+      const user = response.data
+      return user;
     } catch (e) {
-      const error = e as any;
-      // console.log('errorReducer:', error)
-      if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
-        return rejectWithValue(error.response.data.errors);
-      }
-      return rejectWithValue([{ field: 'general', message: 'Failed to create user' }]);
-      // const error = e as AxiosError;
-      // console.log('error:', error)
-      // return rejectWithValue(error);
+      const error = e as AxiosError;
+      return rejectWithValue(error);
     }
   }
 );
@@ -57,36 +51,57 @@ export const createUserAsync = createAsyncThunk<User, CreateUserInput, { rejectV
 const usersSlice = createSlice({
   name: "usersSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => initialState
+  },
   extraReducers: (builder) => {
+    builder.addCase(fetchAllUsersAsync.pending, (state) => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    })
     builder.addCase(fetchAllUsersAsync.fulfilled, (state, action) => {
       return {
         ...state,
+        isLoading: false,
         users: action.payload,
-        loading: false
-      }
-    })
-    builder.addCase(fetchAllUsersAsync.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true
       }
     })
     builder.addCase(fetchAllUsersAsync.rejected, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        return {
+          ...state,
+          isError: true,
+          error: action.payload.message,
+        };
+      }
+    })
+    builder.addCase(createUserAsync.pending, (state) => {
       return {
         ...state,
-        error: action.payload,
+        isLoading: true
       }
     })
     builder.addCase(createUserAsync.fulfilled, (state, action) => {
-      state.users.push(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        users: [...state.users, action.payload],
+      };
     });
     builder.addCase(createUserAsync.rejected, (state, action) => {
-      state.error = action.payload
-      
+      if (action.payload instanceof AxiosError) {
+        return {
+          ...state,
+          isError: true,
+          error: action.payload.message,
+        };
+      }
     });
   },
 });
 
 const usersReducer = usersSlice.reducer;
+export const {reset} = usersSlice.actions
 export default usersReducer;

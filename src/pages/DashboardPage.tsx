@@ -1,8 +1,8 @@
 import { Box, Button, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
 
-import useAppSelector from "../hooks/useAppSelector";
+// import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { createProductAsync } from "../redux/reducers/productsReducer";
 import UserList from "../components/UserList";
@@ -12,15 +12,15 @@ import CreateProductInput from "../types/CreateProductInput";
 
 const DashboardPage = () => {
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
-  const navigate = useNavigate();
+  // const currentUser = useAppSelector((state) => state.authReducer.currentUser);
+  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!(currentUser && currentUser.role === "ADMIN")) {
-      navigate("/");
-    }
-  }, [currentUser, navigate]);
+  // useEffect(() => {
+  //   if (!(currentUser && currentUser.role === "ADMIN")) {
+  //     navigate("/");
+  //   }
+  // }, [currentUser, navigate]);
 
   const onAddProductClick = () => {
     setIsAddProductOpen(true)

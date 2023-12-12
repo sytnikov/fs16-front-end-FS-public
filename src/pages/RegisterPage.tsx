@@ -27,17 +27,17 @@ const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({name: "", email: "", password: ""})
-  const [toast, setToast] = useState({open: false, created: false})
-  const formErrors: ErrorMessage[] = useAppSelector(state => state.usersReducer.error)
+  // const [toast, setToast] = useState({open: false, created: false})
+  // const formErrors: ErrorMessage[] = useAppSelector(state => state.usersReducer.error)
 
-  const errorMap: any = [];
+  // const errorMap: any = [];
 
-  formErrors?.forEach((error) => {
-    const field = error.field.split('.')[1];
-    if (field) {
-      errorMap[field] = error.message;
-    }
-  });
+  // formErrors?.forEach((error) => {
+  //   const field = error.field.split('.')[1];
+  //   if (field) {
+  //     errorMap[field] = error.message;
+  //   }
+  // });
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -48,31 +48,31 @@ const RegisterPage = () => {
     e.preventDefault();
     try {
       const resultAction = await dispatch(createUserAsync(userInfo));
-      if (resultAction.meta.requestStatus === 'fulfilled') {
-        setToast({open: true, created: true})
-      }
+      // if (resultAction.meta.requestStatus === 'fulfilled') {
+      //   setToast({open: true, created: true})
+      // }
     } catch (error) {
       alert("error")
     }
   };
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setToast({...toast, open: false});
-  };
+  // const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  //   if (reason === 'clickaway') {
+  //     return;
+  //   }
+  //   setToast({...toast, open: false});
+  // };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (toast.created) {
-        navigate("/login");
-      }
-    }, 3000)
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [toast.created, navigate])
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (toast.created) {
+  //       navigate("/login");
+  //     }
+  //   }, 3000)
+  //   return () => {
+  //     clearTimeout(timer)
+  //   }
+  // }, [toast.created, navigate])
 
   return (
     <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem" }}>
@@ -90,7 +90,7 @@ const RegisterPage = () => {
             onChange={onChangeHandler}
             margin="normal"
           />
-          {errorMap.name && <div>{errorMap.name}</div>}
+          {/* {errorMap.name && <div>{errorMap.name}</div>} */}
           <TextField
             label="Email"
             variant="outlined"
@@ -100,7 +100,7 @@ const RegisterPage = () => {
             onChange={onChangeHandler}
             margin="normal"
           />
-          {errorMap.email && <div>{errorMap.email}</div>}
+          {/* {errorMap.email && <div>{errorMap.email}</div>} */}
           <TextField
             label="Password"
             type="password"
@@ -111,18 +111,18 @@ const RegisterPage = () => {
             onChange={onChangeHandler}
             margin="normal"
           />
-          {errorMap.password && <div>{errorMap.password}</div>}
+          {/* {errorMap.password && <div>{errorMap.password}</div>} */}
           <Box mt={2}>
             <Button type="submit" variant="contained" color="primary">
               Sign up
             </Button>
           </Box>
         </form>
-        <Snackbar open={toast.open} autoHideDuration={2500} onClose={handleClose}>
+        {/* <Snackbar open={toast.open} autoHideDuration={2500} onClose={handleClose}>
           <Alert onClose={handleClose} severity={"success"} sx={{color: "#ffff"}}>
             Account successfully created!
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
       </Paper>
     </Container>
   );

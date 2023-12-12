@@ -6,7 +6,7 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import { logoutUser, validateUserAsync } from "../redux/reducers/authReducer";
 import ProtectedRouteProps from "../types/ProtectedRouteProps";
 
-const ProtectedRoute = (props: ProtectedRouteProps) => {
+const ProtectedRouteAdmin = (props: ProtectedRouteProps) => {
 
   const { page: Page } = props;
 
@@ -40,4 +40,4 @@ const ProtectedRoute = (props: ProtectedRouteProps) => {
   return <Page />;
 }
 
-export default ProtectedRoute
+export default ProtectedRouteAdmin

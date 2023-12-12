@@ -4,23 +4,40 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
-import { deleteProductAsync, fetchAllProductsAsync } from "../redux/reducers/productsReducer";
+import { deleteProductAsync, fetchAllProductsAsync, reset } from "../redux/reducers/productsReducer";
 import { DeleteOutline, ModeOutlined } from "@mui/icons-material";
+import Spinner from "./Spinner";
 
 const ProductList = () => {
-  const products = useAppSelector((state) => state.productsReducer.products);
+  const {products, isLoading, isError, message} = useAppSelector((state) => state.productsReducer);
+  console.log('products:', products)
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  
   const updatedProducts = products.map((p) => {
     const { _id, ...rest } = p;
     return { id: _id, ...rest };
   });
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (isError) {
+      console.log(message)
+    }
     dispatch(fetchAllProductsAsync());
-  }, []);
+    return () => {
+      dispatch(reset())
+    }
+  }, [isError, message, dispatch]);
 
+  if (isLoading) {
+    return <Spinner />
+  }
+
+  const onUpdateProduct = (id: string) => {
+
+  }
+  
   const onDeleteProduct = (id: string) => {
     setOpenConfirmation(true);
     setProductId(id);
@@ -49,7 +66,7 @@ const ProductList = () => {
       renderCell: (params) => (
         <img
           src={params.value[0]}
-          alt="Image"
+          alt="Product"
           style={{ width: "30px", height: "30px", borderRadius: "50%" }}
         />
       ),
@@ -63,7 +80,7 @@ const ProductList = () => {
       width: 120,
       renderCell: (params) => (
         <>
-        <IconButton>
+        <IconButton aria-label="update" onClick={() => onUpdateProduct(params.row.id)}>
           <ModeOutlined />
         </IconButton>
         <IconButton aria-label="delete" onClick={() => onDeleteProduct(params.row.id)}>
@@ -84,7 +101,6 @@ const ProductList = () => {
           },
         }}
         pageSizeOptions={[5, 10]}
-        // checkboxSelection
       />
       <Dialog
         open={openConfirmation}

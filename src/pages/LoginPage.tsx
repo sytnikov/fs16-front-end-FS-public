@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 import { loginUserAsync } from "../redux/reducers/authReducer";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -55,7 +56,7 @@ const LoginPage = () => {
             margin="normal"
           />
           <Box mt={2}>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" onClick={() => toast.success("Wow!")}>
               Login
             </Button>
           </Box>

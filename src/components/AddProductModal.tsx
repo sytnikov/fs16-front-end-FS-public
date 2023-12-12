@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import {
   MenuItem,
   TextField,
@@ -11,32 +11,58 @@ import {
 import AddProductModalProps from "../types/AddProductModalProps";
 import CreateProductInput from "../types/CreateProductInput";
 import useAppSelector from "../hooks/useAppSelector";
+import useAppDispatch from "../hooks/useAppDispatch";
+import { fetchAllCategoriesAsync } from "../redux/reducers/categoriesReducer";
 
 const AddProductModal: FC<AddProductModalProps> = ({
   isOpen,
   onClose,
   onAddProduct,
 }) => {
-  const [newProductTitle, setNewProductTitle] = useState("");
-  const [newProductPrice, setNewProductPrice] = useState("");
-  const [newProductDescription, setNewProductDescription] = useState("");
-  const [newProductCategoryId, setNewProductCategoryId] = useState("");
-  const [newProductImages, setNewProductImages] = useState("");
-
+  const dispatch = useAppDispatch()
   const categories = useAppSelector(
     (state) => state.categoriesReducer.categories
-    );
+  );
+  const [newProductInfo, setNewProductInfo] = useState<CreateProductInput>({
+    name: "Test",
+    price: 10,
+    description: "Test description",
+    categoryId: "",
+    images: ["test"],
+    stock: 20,
+  });
 
-  const newProduct: CreateProductInput = {
-    name: newProductTitle,
-    price: Number(newProductPrice),
-    description: newProductDescription,
-    categoryId: newProductCategoryId,
-    images: Array(newProductImages),
+  useEffect(() => {
+    dispatch(fetchAllCategoriesAsync())
+  }, [dispatch])
+
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.name === "price") {
+      setNewProductInfo({
+        ...newProductInfo,
+        [e.target.name]: parseFloat(e.target.value),
+      });
+    } else if (e.target.name === "stock") {
+      setNewProductInfo({
+        ...newProductInfo,
+        [e.target.name]: parseInt(e.target.value),
+      });
+    } else if (e.target.name === "images") {
+      setNewProductInfo({
+        ...newProductInfo,
+        [e.target.name]: Array(e.target.value),
+      });
+    } else {
+      setNewProductInfo({
+        ...newProductInfo,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const onAddClick = () => {
-    onAddProduct(newProduct);
+    onAddProduct(newProductInfo);
   };
   if (!isOpen) {
     return null;
@@ -70,17 +96,19 @@ const AddProductModal: FC<AddProductModalProps> = ({
           margin="normal"
           type="text"
           variant="outlined"
+          name="name"
           label="Title"
-          value={newProductTitle}
-          onChange={(e) => setNewProductTitle(e.target.value)}
+          value={newProductInfo.name}
+          onChange={onChangeHandler}
         />
         <TextField
           fullWidth
           margin="normal"
           type="number"
+          name="price"
           label="Price"
-          value={newProductPrice}
-          onChange={(e) => setNewProductPrice(e.target.value)}
+          value={newProductInfo.price}
+          onChange={onChangeHandler}
         />
         <TextField
           fullWidth
@@ -88,23 +116,24 @@ const AddProductModal: FC<AddProductModalProps> = ({
           multiline
           rows={3}
           type="text"
+          name="description"
           label="Description"
-          value={newProductDescription}
-          onChange={(e) => setNewProductDescription(e.target.value)}
+          value={newProductInfo.description}
+          onChange={onChangeHandler}
         />
         <TextField
           select
           fullWidth
           margin="normal"
-          type="number"
+          type="text"
           name="categoryId"
           label="Category"
-          value={newProductCategoryId}
-          onChange={(e) => setNewProductCategoryId(e.target.value)}
+          value={newProductInfo.categoryId}
+          onChange={onChangeHandler}
         >
           {categories &&
             categories.map((cat) => (
-              <MenuItem key={cat._id} value={cat.name}>
+              <MenuItem key={cat._id} value={cat._id}>
                 {cat.name}
               </MenuItem>
             ))}
@@ -113,9 +142,19 @@ const AddProductModal: FC<AddProductModalProps> = ({
           fullWidth
           margin="normal"
           type="text"
-          label="Image link"
-          value={newProductImages}
-          onChange={(e) => setNewProductImages(e.target.value)}
+          name="images"
+          label="Images"
+          value={newProductInfo.images}
+          onChange={onChangeHandler}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          type="number"
+          name="stock"
+          label="Stock"
+          value={newProductInfo.stock}
+          onChange={onChangeHandler}
         />
         <Button fullWidth variant="contained" onClick={onAddClick}>
           Add

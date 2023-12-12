@@ -4,10 +4,11 @@ import { Box } from "@mui/material";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
-import { fetchAllUsersAsync } from "../redux/reducers/usersReducer";
+import { fetchAllUsersAsync, reset } from "../redux/reducers/usersReducer";
+import Spinner from "./Spinner";
 
 const UserList = () => {
-  const users = useAppSelector((state) => state.usersReducer.users);
+  const {users, isLoading, isError, message} = useAppSelector((state) => state.usersReducer);
   const updatedUsers = users.map((user) => {
     const { _id, ...rest } = user;
     return { id: _id, ...rest };
@@ -15,8 +16,18 @@ const UserList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (isError) {
+      console.log(message)
+    }
     dispatch(fetchAllUsersAsync());
-  }, []);
+    return () => {
+      dispatch(reset())
+    }
+  }, [isError, message, dispatch]);
+
+  if (isLoading) {
+    return <Spinner />
+  }
 
   const columns: GridColDef[] = [
     {

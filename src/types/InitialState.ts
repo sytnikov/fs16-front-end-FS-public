@@ -7,14 +7,16 @@ import CurrentUser from "./CurrentUser";
 export type ProductsReducerState = {
   products: Product[];
   product?: Product;
-  loading: boolean;
-  error?: string;
+  isLoading: boolean;
+  isError: boolean;
+  message: string;
 }
 
 export type UsersReducerState = {
   users: User[];
-  loading: boolean;
-  error?: any;
+  isLoading: boolean;
+  isError: boolean;
+  message: string;
 }
 
 export type CartReducerState = {

@@ -26,7 +26,9 @@ describe("Test normal productsReducer actions", () => {
   test("Should sort products by price in ascending order", () => {
     const state: ProductsReducerState = {
       products: productsData,
-      loading: false,
+      isLoading: false,
+      isError: false,
+      message: ""
     };
     const products = productsReducer(state, sortByPrice("asc")).products;
     expect(products[0]).toBe(productsData[1]);
@@ -36,7 +38,9 @@ describe("Test normal productsReducer actions", () => {
   test("Should sort products by price in descending order", () => {
     const state: ProductsReducerState = {
       products: productsData,
-      loading: false,
+      isLoading: false,
+      isError: false,
+      message: ""
     };
     const products = productsReducer(state, sortByPrice("desc")).products;
     expect(products[0]).toBe(productsData[2]);

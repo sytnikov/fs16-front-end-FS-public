@@ -3,7 +3,8 @@ type CreateProductInput = {
   price: number,
   description: string,
   categoryId: string,
-  images: string[]
+  images: string[],
+  stock?: number
 }
 
 export default CreateProductInput

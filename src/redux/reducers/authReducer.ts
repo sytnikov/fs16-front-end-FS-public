@@ -34,9 +34,7 @@ export const validateUserAsync = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(`${userUrl}/validate-user`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data: boolean = response.data;
       return data;
@@ -60,9 +58,9 @@ const authSlice = createSlice({
     builder.addCase(loginUserAsync.fulfilled, (state, action) => {
       state.currentUser = action.payload;
     });
-    // builder.addCase(loginUserAsync.rejected, (state, action) => {
-    //   state.error = action.payload;
-    // });
+    builder.addCase(loginUserAsync.rejected, (state, action) => {
+      state.error = action.payload;
+    });
     builder.addCase(validateUserAsync.fulfilled, (state, action) => {
       state.isValidUser = action.payload;
     });

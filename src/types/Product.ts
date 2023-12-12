@@ -7,7 +7,7 @@ type Product = {
   price: number;
   images: string[];
   categoryId: Category;
-  stock: number;
+  stock?: number;
   createdAt?: string;
   updatedAt?: string;
 }
