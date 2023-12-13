@@ -27,6 +27,8 @@ import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { logoutUser } from "../redux/reducers/authReducer";
 import { ColorModeContext } from "../context/ColorModeContext";
+import { toast } from "react-toastify";
+import { reset } from "../redux/reducers/usersReducer";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -46,7 +48,6 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const showMenu = !["/login", "/register"].includes(location.pathname);
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
   const theme = useTheme();
   const { toggleColorMode } = useContext(ColorModeContext);
@@ -67,10 +68,17 @@ const Header = () => {
     navigate("/profile");
   };
 
+  const onOrdersClick = () => {
+    setAnchorElUser(null);
+    navigate("/orders");
+  };
+
   const onLogoutClick = () => {
     dispatch(logoutUser());
     setAnchorElUser(null);
     navigate("/");
+    toast.success("Successfully logged out")
+    dispatch(reset())
   };
 
   return (
@@ -223,6 +231,9 @@ const Header = () => {
               >
                 <MenuItem onClick={onProfileClick}>
                   <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+                <MenuItem onClick={onOrdersClick}>
+                  <Typography textAlign="center">Orders</Typography>
                 </MenuItem>
                 <MenuItem onClick={onLogoutClick}>
                   <Typography textAlign="center">Log out</Typography>

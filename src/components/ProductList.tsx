@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
+import { toast } from "react-toastify";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
@@ -9,8 +10,7 @@ import { DeleteOutline, ModeOutlined } from "@mui/icons-material";
 import Spinner from "./Spinner";
 
 const ProductList = () => {
-  const {products, isLoading, isError, message} = useAppSelector((state) => state.productsReducer);
-  console.log('products:', products)
+  const {products, isLoading, isError } = useAppSelector((state) => state.productsReducer);
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
   const dispatch = useAppDispatch();
@@ -22,13 +22,13 @@ const ProductList = () => {
 
   useEffect(() => {
     if (isError) {
-      console.log(message)
+      toast.error("")
     }
     dispatch(fetchAllProductsAsync());
     return () => {
       dispatch(reset())
     }
-  }, [isError, message, dispatch]);
+  }, [isError, dispatch]);
 
   if (isLoading) {
     return <Spinner />

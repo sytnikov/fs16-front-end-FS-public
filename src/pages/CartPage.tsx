@@ -15,10 +15,11 @@ const CartPage = () => {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cartReducer.cartItems);
   const totalItems = cartItems.reduce((prev, curr) => prev + curr.quantity, 0);
-  const totalSum = cartItems.reduce(
-    (prev, curr) => prev + curr.quantity * curr.price,
-    0
-  );
+  const totalSum =
+    Math.round(
+      cartItems.reduce((prev, curr) => prev + curr.quantity * curr.price, 0) *
+        100
+    ) / 100;
 
   const onDeleteFromCart = (item: CartItem) => {
     dispatch(deleteFromCart(item));
@@ -34,7 +35,7 @@ const CartPage = () => {
   };
 
   return (
-    <Box sx={{minHeight: "40rem"}}>
+    <Box sx={{ minHeight: "40rem" }}>
       <Box className="heading">
         <Typography sx={{ fontSize: "36px", fontWeight: "900" }}>
           Shopping cart

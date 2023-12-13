@@ -6,7 +6,7 @@ import CreateProductInput from "../../types/CreateProductInput";
 import UpdateProductInput from "../../types/UpdateProductInput";
 import { ProductsReducerState } from "../../types/InitialState";
 import { baseURL } from "../../common/common";
-import config from "../../common/config";
+import { getConfig }from "../../common/config";
 
 const productURL = `${baseURL}/products`;
 
@@ -14,7 +14,6 @@ export const initialState: ProductsReducerState = {
   products: [],
   isLoading: false,
   isError: false,
-  message: "",
 };
 
 export const fetchAllProductsAsync = createAsyncThunk(
@@ -36,8 +35,8 @@ export const fetchSingleProductAsync = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await axios.get<Product>(`${productURL}/${id}`);
-      const data = response.data;
-      return data;
+      const singleProduct = response.data;
+      return singleProduct;
     } catch (e) {
       const error = e as AxiosError;
       return rejectWithValue(error.message);
@@ -49,9 +48,9 @@ export const createProductAsync = createAsyncThunk(
   "createProductAsync",
   async (newProduct: CreateProductInput, { rejectWithValue }) => {
     try {
-      const response = await axios.post(productURL, newProduct, config);
-      const data: Product = response.data;
-      return data;
+      const response = await axios.post<Product>(productURL, newProduct, getConfig());
+      const createdProduct = response.data;
+      return createdProduct;
     } catch (e) {
       const error = e as AxiosError;
       return rejectWithValue(error.message);
@@ -66,9 +65,10 @@ export const updateProductAsync = createAsyncThunk(
       const response = await axios.put<Product>(
         `${productURL}/${_id}`,
         update,
-        config
+        getConfig()
       );
-      return response.data;
+      const updatedProduct = response.data
+      return updatedProduct;
     } catch (e) {
       const error = e as AxiosError;
       return rejectWithValue(error.message);
@@ -83,12 +83,8 @@ export const deleteProductAsync = createAsyncThunk(
       console.log('👀 Enter reducer', )
       const response = await axios.delete<string>(
         `${productURL}/${_id}`,
-        config
+        getConfig()
       );
-      // if (!response.data) {
-      //   throw new Error("The product cannot be deleted");
-      // }
-      console.log('response:', response.data)
       return response.data;
     } catch (e) {
       const error = e as AxiosError;
@@ -128,8 +124,8 @@ const productsSlice = createSlice({
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
-          isError: true,
           isLoading: false,
+          isError: true,
           message: action.payload.message,
         };
       }
@@ -151,6 +147,7 @@ const productsSlice = createSlice({
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
+          isLoading: false,
           isError: true,
           error: action.payload.message,
         };
@@ -173,6 +170,7 @@ const productsSlice = createSlice({
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
+          isLoading: false,
           isError: true,
           error: action.payload.message,
         };
@@ -197,6 +195,7 @@ const productsSlice = createSlice({
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
+          isLoading: false,
           isError: true,
           error: action.payload.message,
         };
@@ -218,6 +217,7 @@ const productsSlice = createSlice({
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
+          isLoading: false,
           isError: true,
           error: action.payload.message,
         };

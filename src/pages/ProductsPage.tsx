@@ -22,27 +22,37 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import getFilteredProducts from "../redux/selectors/getFilteredProducts";
 import { fetchAllCategoriesAsync } from "../redux/reducers/categoriesReducer";
 import ProductCard from "../components/ProductCard";
+import Spinner from "../components/Spinner";
+import { toast } from "react-toastify";
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
-  const categories = useAppSelector(
-    (state) => state.categoriesReducer.categories
+  const { categories } = useAppSelector((state) => state.categoriesReducer);
+  const { isLoading, isError } = useAppSelector(
+    (state) => state.productsReducer
   );
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
-  
+
   const filteredProducts = useAppSelector((state) =>
-  getFilteredProducts(state, search, category)
+    getFilteredProducts(state, search, category)
   );
   const totalProducts = filteredProducts.length;
   const [productsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    if (isError) {
+      toast.error("")
+    }
     dispatch(fetchAllProductsAsync());
     dispatch(fetchAllCategoriesAsync());
-  }, [dispatch]);
+  }, [isError, dispatch]);
+
+  if (isLoading) {
+    return <Spinner/>
+  }
 
   const onSortToggle = () => {
     const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
@@ -56,7 +66,7 @@ const ProductsPage = () => {
   };
 
   return (
-    <Box sx={{minHeight: "40rem"}}>
+    <Box sx={{ minHeight: "40rem" }}>
       <Box
         className="product-filters"
         sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
@@ -79,7 +89,6 @@ const ProductsPage = () => {
               label="Category"
               onChange={(e) => setCategory(e.target.value)}
             >
-              
               {categories.map((category) => (
                 <MenuItem key={category._id} value={category._id}>
                   {category.name}
@@ -132,6 +141,7 @@ const ProductsPage = () => {
                 {category.name}
               </MenuItem>
             ))}
+            <MenuItem value="">- All products -</MenuItem>
           </Select>
         </FormControl>
         <TextField
@@ -152,7 +162,6 @@ const ProductsPage = () => {
             <Box key={p._id}>
               <ProductCard product={p} />
             </Box>
-            
           ))}
       </Box>
       <Stack className="page-element" spacing={2}>

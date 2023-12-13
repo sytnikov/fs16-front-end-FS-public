@@ -43,6 +43,7 @@ export const createUserAsync = createAsyncThunk(
       return user;
     } catch (e) {
       const error = e as AxiosError;
+      console.log('error:', error)
       return rejectWithValue(error);
     }
   }
@@ -72,6 +73,7 @@ const usersSlice = createSlice({
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
+          isLoading: false,
           isError: true,
           error: action.payload.message,
         };
@@ -87,15 +89,15 @@ const usersSlice = createSlice({
       return {
         ...state,
         isLoading: false,
-        users: [...state.users, action.payload],
       };
     });
     builder.addCase(createUserAsync.rejected, (state, action) => {
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
+          isLoading: false,
           isError: true,
-          error: action.payload.message,
+          message: action.payload.response?.data.message,
         };
       }
     });

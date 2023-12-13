@@ -10,7 +10,6 @@ const ProtectedRoute = (props: ProtectedRouteProps) => {
 
   const { page: Page } = props;
 
-  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -24,18 +23,6 @@ const ProtectedRoute = (props: ProtectedRouteProps) => {
     };
     checkUserValidity();
   }, [dispatch, navigate]);
-
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     navigate("/login");
-  //   }
-  // }, [currentUser, navigate]);
-
-  // useEffect(() => {
-  //   if (!(currentUser?.role === "ADMIN")) {
-  //     navigate("/");
-  //   }
-  // }, [currentUser, navigate]);
 
   return <Page />;
 }

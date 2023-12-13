@@ -10,6 +10,7 @@ import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/RegisterPage";
 import ErrorPage from "../pages/ErrorPage";
 import ProtectedRoute from "./protectedRoute";
+import OrdersPage from "../pages/OrdersPage";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "orders",
+        element: <OrdersPage />,
       },
       {
         path: "login",

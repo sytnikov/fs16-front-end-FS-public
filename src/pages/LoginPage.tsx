@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -11,23 +11,41 @@ import {
 } from "@mui/material";
 
 import { loginUserAsync } from "../redux/reducers/authReducer";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import useAppSelector from "../hooks/useAppSelector";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [logInData, setLogInData] = useState({ email: "", password: "" });
-
+  const { message } = useAppSelector((state) => state.authReducer);
+  
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setLogInData({ ...logInData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(loginUserAsync(logInData));
-    navigate("/");
+    const resultAction = await dispatch(loginUserAsync(logInData));
+    if (resultAction.meta.requestStatus === "fulfilled") {
+      toast.success("Logged in successfully");
+      navigate("/");
+    } else if (resultAction.meta.requestStatus === "rejected") {
+      toast.error(message);
+    }
   };
+
+  // useEffect(() => {
+  //   if (isError) {
+  //     toast.error("There's an error")
+  //   }
+  //   if (currentUser) {
+  //     toast.success("There's a user")
+  //   }
+
+  // }, [isError, toast])
+  
 
   return (
     <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem" }}>
@@ -56,7 +74,7 @@ const LoginPage = () => {
             margin="normal"
           />
           <Box mt={2}>
-            <Button type="submit" variant="contained" color="primary" onClick={() => toast.success("Wow!")}>
+            <Button type="submit" variant="contained" color="primary">
               Login
             </Button>
           </Box>
