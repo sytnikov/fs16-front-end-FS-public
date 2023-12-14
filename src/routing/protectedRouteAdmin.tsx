@@ -25,17 +25,17 @@ const ProtectedRouteAdmin = (props: ProtectedRouteProps) => {
     checkUserValidity();
   }, [dispatch, navigate]);
 
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     navigate("/login");
-  //   }
-  // }, [currentUser, navigate]);
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/login");
+    }
+  }, [currentUser, navigate]);
 
-  // useEffect(() => {
-  //   if (!(currentUser?.role === "ADMIN")) {
-  //     navigate("/");
-  //   }
-  // }, [currentUser, navigate]);
+  useEffect(() => {
+    if (!(currentUser?.role === "ADMIN")) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
 
   return <Page />;
 }

@@ -42,6 +42,7 @@ export type CartReducerState = {
 export type OrdersReducerState = {
   orders: Order[];
   isLoading: boolean;
+  isSuccess: boolean;
   isError: boolean;
   message: string;
 }

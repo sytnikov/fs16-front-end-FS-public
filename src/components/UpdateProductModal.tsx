@@ -1,8 +1,7 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import {
   Box,
   Button,
-  MenuItem,
   Modal,
   TextField,
   Typography,
@@ -10,7 +9,7 @@ import {
 
 import UpdateProductModalProps from "../types/UpdateProductModalProps";
 import UpdateProductInput from "../types/UpdateProductInput";
-import useAppSelector from "../hooks/useAppSelector";
+import useAppDispatch from "../hooks/useAppDispatch";
 
 const UpdateProductModal: FC<UpdateProductModalProps> = ({
   isOpen,
@@ -19,37 +18,34 @@ const UpdateProductModal: FC<UpdateProductModalProps> = ({
   product,
   onUpdateProduct,
 }) => {
-  const [updatingProductTitle, setUpdatingProductTitle] = useState(
-    product.name
-  );
-  const [updatingProductPrice, setUpdatingProductPrice] = useState(
-    String(product.price)
-  );
-  const [updatingProductDescription, setUpdatingProductDescription] = useState(
-    product.description
-  );
-  const [updatingProductCategoryId, setUpdatingProductCategoryId] = useState(
-    String(product.categoryId)
-  );
-  const [updatingProductImages, setUpdatingProductImages] = useState(
-    String(product.images)
-  );
-  const categories = useAppSelector(
-    (state) => state.categoriesReducer.categories
-  );
-  const updatingProduct: UpdateProductInput = {
+  const dispatch = useAppDispatch()
+
+  const [updatingProductInfo, setUpdatingProductInfo] = useState<UpdateProductInput>({
     _id: productId,
     update: {
-      name: updatingProductTitle,
-      price: Number(updatingProductPrice),
-      description: updatingProductDescription,
-      categoryId: String(updatingProductCategoryId),
-      images: Array(updatingProductImages),
-    },
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      images: product.images,
+      stock: product.stock,
+    }
+  });
+  console.log('updatingProductInfo:', updatingProductInfo)
+  
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setUpdatingProductInfo((prevState) => ({
+      ...prevState,
+      update: {
+        ...prevState.update,
+        [name]: value,
+      },
+    }));
   };
 
   const onUpdateClick = () => {
-    onUpdateProduct(updatingProduct);
+    onUpdateProduct(updatingProductInfo);
   };
 
   if (!isOpen) {
@@ -84,17 +80,19 @@ const UpdateProductModal: FC<UpdateProductModalProps> = ({
           margin="normal"
           type="text"
           variant="outlined"
+          name="name"
           label="Title"
-          value={updatingProductTitle}
-          onChange={(e) => setUpdatingProductTitle(e.target.value)}
+          value={updatingProductInfo.update.name}
+          onChange={onChangeHandler}
         />
         <TextField
           fullWidth
           margin="normal"
           type="number"
+          name="price"
           label="Price"
-          value={updatingProductPrice}
-          onChange={(e) => setUpdatingProductPrice(e.target.value)}
+          value={updatingProductInfo.update.price}
+          onChange={onChangeHandler}
         />
         <TextField
           fullWidth
@@ -102,33 +100,19 @@ const UpdateProductModal: FC<UpdateProductModalProps> = ({
           multiline
           rows={3}
           type="text"
+          name="description"
           label="Description"
-          value={updatingProductDescription}
-          onChange={(e) => setUpdatingProductDescription(e.target.value)}
+          value={updatingProductInfo.update.description}
+          onChange={onChangeHandler}
         />
-        <TextField
-          select
-          fullWidth
-          margin="normal"
-          type="number"
-          label="Category ID"
-          value={updatingProductCategoryId}
-          onChange={(e) => setUpdatingProductCategoryId(e.target.value)}
-        >
-          {categories &&
-            categories.map((cat) => (
-              <MenuItem key={cat._id} value={cat._id}>
-                {cat.name}
-              </MenuItem>
-            ))}
-        </TextField>
         <TextField
           fullWidth
           margin="normal"
           type="text"
+          name="images"
           label="Image link"
-          value={updatingProductImages}
-          onChange={(e) => setUpdatingProductImages(e.target.value)}
+          value={updatingProductInfo.update.images}
+          onChange={onChangeHandler}
         />
         <Button fullWidth variant="contained" onClick={onUpdateClick}>
           Update

@@ -16,25 +16,21 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import { fetchSingleProductAsync } from "../redux/reducers/productsReducer";
 import { addToCart } from "../redux/reducers/cartReducer";
 import Product from "../types/Product";
+import { toast } from "react-toastify";
 
 const SingleProductPage = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const productId = params.productId as string;
-  const product = useAppSelector((state) => state.productsReducer.product);
-  const categories = useAppSelector((state) => state.categoriesReducer.categories)
+  const {product, isLoading} = useAppSelector((state) => state.productsReducer);
 
   useEffect(() => {
     dispatch(fetchSingleProductAsync(productId));
   }, []);
 
-  // const getCategoryName = (categoryId: string) => {
-  //   const category = categories.find((cat) => cat._id === categoryId)
-  //   return category ? category.name : "Category not found"
-  // }
-
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));
+    toast.success("Product added to cart")
   };
 
   return (

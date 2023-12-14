@@ -24,11 +24,11 @@ const AddProductModal: FC<AddProductModalProps> = ({
     (state) => state.categoriesReducer.categories
   );
   const [newProductInfo, setNewProductInfo] = useState<CreateProductInput>({
-    name: "Test",
-    price: 10,
+    name: "Asics Gel Resolution 9 AC Black/Camel Men's Shoes",
+    price: 76,
     description: "Test description",
     categoryId: "",
-    images: ["test"],
+    images: ["https://img.tenniswarehouse-europe.com/watermark/rs.php?path=AMGR9CB-1.jpg&nw=1080"],
     stock: 20,
   });
 

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { logoutUser, validateUserAsync } from "../redux/reducers/authReducer";
+import { logoutUser, reset, validateUserAsync } from "../redux/reducers/authReducer";
 import ProtectedRouteProps from "../types/ProtectedRouteProps";
 
 const ProtectedRoute = (props: ProtectedRouteProps) => {
@@ -18,6 +18,7 @@ const ProtectedRoute = (props: ProtectedRouteProps) => {
       const isUserValid = await dispatch(validateUserAsync());
       if (!isUserValid.payload) {
         dispatch(logoutUser());
+        dispatch(reset())
         navigate("/login");
       }
     };

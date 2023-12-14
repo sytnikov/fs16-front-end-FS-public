@@ -1,4 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
@@ -10,10 +12,22 @@ import {
 } from "../redux/reducers/cartReducer";
 import CartItem from "../types/CartItem";
 import CartCard from "../components/CartCard";
+import { createOrderAsync, reset } from "../redux/reducers/ordersReducer";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const cartItems = useAppSelector((state) => state.cartReducer.cartItems);
+  console.log('cartItems:', cartItems)
+  const currentUser = useAppSelector((state) => state.authReducer.currentUser)
+  
+  const orderProducts = cartItems.map((item) => {
+    return {
+      productId: item._id,
+      quantity: item.quantity
+    }
+  })
+
   const totalItems = cartItems.reduce((prev, curr) => prev + curr.quantity, 0);
   const totalSum =
     Math.round(
@@ -24,15 +38,33 @@ const CartPage = () => {
   const onDeleteFromCart = (item: CartItem) => {
     dispatch(deleteFromCart(item));
   };
+
   const onIncreaseQuantity = (id: string) => {
     dispatch(increaseQuantity(id));
   };
+
   const onDecreaseQuantity = (id: string) => {
     dispatch(decreaseQuantity(id));
   };
+
   const onEmptyCart = () => {
     dispatch(emptyCart());
   };
+
+  const onCheckout = async () => {
+    if (currentUser) {
+      const newOrder = await dispatch(createOrderAsync({userId: currentUser._id, products: orderProducts}))
+      if (newOrder.meta.requestStatus === "fulfilled") {
+        toast.success("Order successfully created")
+        dispatch(reset())
+        dispatch(emptyCart())
+        navigate("/orders")
+      }
+    } else {
+      navigate("/login")
+      toast.info("You need to log in to check out")
+    }
+  }
 
   return (
     <Box sx={{ minHeight: "40rem" }}>
@@ -72,6 +104,7 @@ const CartPage = () => {
                 color: "inherit",
                 mt: 3,
               }}
+              onClick={onCheckout}
             >
               Proceed to checkout
             </Button>

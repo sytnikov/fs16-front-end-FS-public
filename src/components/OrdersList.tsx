@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
@@ -22,40 +22,52 @@ const OrdersList = () => {
     }
   }, [currentUser, dispatch]);
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     console.log(message)
-  //   }
-  //   dispatch(fetchAllUsersAsync());
-  //   return () => {
-  //     dispatch(reset())
-  //   }
-  // }, [isError, message, dispatch]);
-
   if (isLoading) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "Order Number", width: 250 },
     { field: "totalAmount", headerName: "Total Amount", width: 200 },
-    { field: "createdAt", headerName: "Creation Date", width: 130 },
+    { field: "createdAt", headerName: "Creation Date", width: 200 },
   ];
 
   return (
-    <Box sx={{ margin: "2rem" }}>
-      <DataGrid
-        rows={updatedOrders}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
-    </Box>
+    <>
+      {orders.length === 0 && (
+        <Box className="heading">
+          <Typography sx={{ fontSize: "18px", fontWeight: "700" }}>
+            There are no orders yet.
+          </Typography>
+          <Button
+            href="/"
+            variant="contained"
+            sx={{
+              color: "inherit",
+              mt: 3,
+            }}
+          >
+            Continue shopping
+          </Button>
+        </Box>
+      )}
+      {orders.length > 0 && (
+        <Box sx={{ margin: "2rem" }}>
+        <DataGrid
+          rows={updatedOrders}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+        />
+        
+      </Box>
+      )}
+    </>
   );
 };
 

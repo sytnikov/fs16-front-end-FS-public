@@ -65,14 +65,7 @@ const authSlice = createSlice({
       state.currentUser = undefined;
       localStorage.removeItem("token");
     },
-    reset: (state) => {
-      state.accessToken = "";
-      state.currentUser = undefined;
-      state.isLoading = false;
-      state.isValidUser = false;
-      state.isError = false;
-      state.message = "";
-    },
+    reset: (state) => initialState
   },
   extraReducers: (builder) => {
     builder.addCase(loginUserAsync.pending, (state) => {
@@ -128,5 +121,5 @@ const authSlice = createSlice({
 });
 
 const authReducer = authSlice.reducer;
-export const { logoutUser } = authSlice.actions;
+export const { logoutUser, reset } = authSlice.actions;
 export default authReducer;

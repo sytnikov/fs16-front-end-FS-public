@@ -1,5 +1,6 @@
 import { Box, Button, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import { toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
 
 // import useAppSelector from "../hooks/useAppSelector";
@@ -26,9 +27,12 @@ const DashboardPage = () => {
     setIsAddProductOpen(true)
   }
   
-  const onAddProduct = (newProduct: CreateProductInput) => {
-    dispatch(createProductAsync(newProduct));
+  const onAddProduct = async (newProduct: CreateProductInput) => {
+    const createdProduct = await dispatch(createProductAsync(newProduct));
     setIsAddProductOpen(false);
+    if (createdProduct) {
+      toast.success("New product successfully created")
+    }
   }
 
   return (

@@ -44,7 +44,7 @@ export const handlers = [
           name: inputData.name,
           email: inputData.email,
           password: inputData.password,
-          role: role
+          role: role,
         };
         usersData.push(newUser);
         return res(ctx.json(newUser));

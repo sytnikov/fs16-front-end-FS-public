@@ -1,43 +1,86 @@
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import { toast } from "react-toastify";
+import {
+  DeleteOutline,
+  ModeOutlined,
+  PanoramaSharp,
+} from "@mui/icons-material";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
-import { deleteProductAsync, fetchAllProductsAsync, reset } from "../redux/reducers/productsReducer";
-import { DeleteOutline, ModeOutlined } from "@mui/icons-material";
+import {
+  deleteProductAsync,
+  fetchAllProductsAsync,
+  reset,
+  updateProductAsync,
+} from "../redux/reducers/productsReducer";
+import UpdateProductInput from "../types/UpdateProductInput";
 import Spinner from "./Spinner";
+import UpdateProductModal from "./UpdateProductModal";
 
 const ProductList = () => {
-  const {products, isLoading, isError } = useAppSelector((state) => state.productsReducer);
+  const dispatch = useAppDispatch();
+  const { products, isLoading, isError } = useAppSelector(
+    (state) => state.productsReducer
+  );
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
-  const dispatch = useAppDispatch();
-  
+  console.log('productId:', productId)
+  const [isUpdateProductOpen, setIsUpdateProductOpen] = useState(false);
+  console.log('isUpdateProductOpen:', isUpdateProductOpen)
+  const [updatingProduct, setUpdatingProduct] = useState("");
+  console.log('updatingProduct:', updatingProduct)
+
+  useEffect(() => {
+    dispatch(fetchAllProductsAsync());
+    return () => {
+      dispatch(reset());
+    };
+  }, [isError, dispatch]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  const updatingProductDetails = products.find(
+    (product) => product._id === updatingProduct
+    );
+    console.log('updatingProductDetails:', updatingProductDetails)
+    
   const updatedProducts = products.map((p) => {
     const { _id, ...rest } = p;
     return { id: _id, ...rest };
   });
 
-  useEffect(() => {
-    if (isError) {
-      toast.error("")
+  const onOpenUpdateProduct = (productId: string) => {
+    setIsUpdateProductOpen(true);
+    setUpdatingProduct(productId);
+  };
+
+  const onCloseUpdateProduct = () => {
+    setIsUpdateProductOpen(false);
+    setUpdatingProduct("");
+  };
+
+  const onUpdateProduct = async (updatedProduct: UpdateProductInput) => {
+    const product = await dispatch(updateProductAsync(updatedProduct));
+    if (product) {
+      toast.success("Product successfully updated")
     }
-    dispatch(fetchAllProductsAsync());
-    return () => {
-      dispatch(reset())
-    }
-  }, [isError, dispatch]);
+    setIsUpdateProductOpen(false);
+  };
 
-  if (isLoading) {
-    return <Spinner />
-  }
-
-  const onUpdateProduct = (id: string) => {
-
-  }
-  
   const onDeleteProduct = (id: string) => {
     setOpenConfirmation(true);
     setProductId(id);
@@ -46,7 +89,8 @@ const ProductList = () => {
   const handleDeleteConfirmed = () => {
     if (productId) {
       dispatch(deleteProductAsync(productId)).then(() => {
-        dispatch(fetchAllProductsAsync())
+        toast.success("Product successfully deleted")
+        dispatch(fetchAllProductsAsync());
       });
       setOpenConfirmation(false);
       setProductId(null);
@@ -73,19 +117,30 @@ const ProductList = () => {
     },
     { field: "name", headerName: "Name", width: 350 },
     { field: "price", headerName: "Price", width: 150 },
-    { field: "categoryId", headerName: "Category", width: 180, renderCell: (params) => <span>{params.value.name}</span> },
+    {
+      field: "categoryId",
+      headerName: "Category",
+      width: 180,
+      renderCell: (params) => <span>{params.value.name}</span>,
+    },
     {
       field: "actions",
       headerName: "Actions",
       width: 120,
       renderCell: (params) => (
         <>
-        <IconButton aria-label="update" onClick={() => onUpdateProduct(params.row.id)}>
-          <ModeOutlined />
-        </IconButton>
-        <IconButton aria-label="delete" onClick={() => onDeleteProduct(params.row.id)}>
-          <DeleteOutline />
-        </IconButton>
+          <IconButton
+            aria-label="update"
+            onClick={() => onOpenUpdateProduct(params.row.id)}
+          >
+            <ModeOutlined />
+          </IconButton>
+          <IconButton
+            aria-label="delete"
+            onClick={() => onDeleteProduct(params.row.id)}
+          >
+            <DeleteOutline />
+          </IconButton>
         </>
       ),
     },
@@ -102,6 +157,17 @@ const ProductList = () => {
         }}
         pageSizeOptions={[5, 10]}
       />
+      {isUpdateProductOpen &&
+        updatingProductDetails &&
+        (updatingProduct === updatingProductDetails._id) && (
+          <UpdateProductModal
+            isOpen={isUpdateProductOpen}
+            onClose={onCloseUpdateProduct}
+            productId={updatingProduct}
+            product={updatingProductDetails}
+            onUpdateProduct={onUpdateProduct}
+          />
+        )}
       <Dialog
         open={openConfirmation}
         onClose={handleCancelDeletion}

@@ -9,8 +9,9 @@ import ProfilePage from "../pages/ProfilePage";
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/RegisterPage";
 import ErrorPage from "../pages/ErrorPage";
-import ProtectedRoute from "./protectedRoute";
 import OrdersPage from "../pages/OrdersPage";
+import ProtectedRoute from "./protectedRoute";
+import ProtectedRouteAdmin from "./protectedRouteAdmin";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <ProtectedRoute page={DashboardPage}/>,
+        element: <ProtectedRouteAdmin page={DashboardPage}/>,
       },
       {
         path: "cart",
@@ -36,11 +37,11 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <ProfilePage />,
+        element: <ProtectedRoute page={ProfilePage}/>,
       },
       {
         path: "orders",
-        element: <OrdersPage />,
+        element: <ProtectedRoute page={OrdersPage}/>,
       },
       {
         path: "login",

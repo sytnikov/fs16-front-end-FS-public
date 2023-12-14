@@ -8,53 +8,25 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { toast } from "react-toastify";
 
 import ProductCardProps from "../types/ProductCardProps";
-import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
-import UpdateProductInput from "../types/UpdateProductInput";
-import {
-  deleteProductAsync,
-  updateProductAsync,
-} from "../redux/reducers/productsReducer";
 import Product from "../types/Product";
 import { addToCart } from "../redux/reducers/cartReducer";
-import UpdateProductModal from "./UpdateProductModal";
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
-  const [isUpdateProductOpen, setIsUpdateProductOpen] = useState(false);
-  const [updatingProduct, setUpdatingProduct] = useState("");
 
   const handleProductClick = (id: string) => {
     navigate(`/products/${id}`);
   };
 
-  const onOpenUpdateProduct = (productId: string) => {
-    setIsUpdateProductOpen(true);
-    setUpdatingProduct(productId);
-  };
-
-  const onCloseUpdateProduct = () => {
-    setIsUpdateProductOpen(false);
-    setUpdatingProduct("");
-  };
-
-  const onUpdateProduct = (updatedProduct: UpdateProductInput) => {
-    dispatch(updateProductAsync(updatedProduct));
-    setIsUpdateProductOpen(false);
-  };
-
-  const onDeleteProduct = (id: string) => {
-    dispatch(deleteProductAsync(id));
-  };
-
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));
+    toast.success("Product added to cart")
   };
 
   return (
@@ -82,28 +54,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
           Add to cart
         </Button>
-        {currentUser && currentUser.role === "ADMIN" && (
-          <Box>
-            <Button
-              size="small"
-              onClick={() => onOpenUpdateProduct(product._id)}
-            >
-              Update
-            </Button>
-            {isUpdateProductOpen && updatingProduct === product._id && (
-              <UpdateProductModal
-                isOpen={isUpdateProductOpen}
-                onClose={onCloseUpdateProduct}
-                productId={updatingProduct}
-                product={product}
-                onUpdateProduct={onUpdateProduct}
-              />
-            )}
-            <Button size="small" onClick={() => onDeleteProduct(product._id)}>
-              Delete
-            </Button>
-          </Box>
-        )}
       </CardActions>
     </Card>
   );
