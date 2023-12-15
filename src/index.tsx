@@ -3,12 +3,12 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import { PersistGate } from "redux-persist/integration/react";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import App from "./App";
 import "./index.scss";
 import store, { persistor } from "./redux/store";
 import ColorModeProvider from "./context/ColorModeContext";
-import CssBaseline from "@mui/material/CssBaseline";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

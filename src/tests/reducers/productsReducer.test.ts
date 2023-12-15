@@ -56,7 +56,7 @@ describe("Test normal productsReducer actions", () => {
 
 describe("Test async thunk productsReducer actions", () => {
   test("Should fetch all products without pagination", async () => {
-    await store.dispatch(fetchAllProductsAsync());
+    const response = await store.dispatch(fetchAllProductsAsync());
     expect(store.getState().productsReducer.products.length).toBe(3);
   });
 
@@ -76,7 +76,7 @@ describe("Test async thunk productsReducer actions", () => {
       categoryId: "1",
       images: [],
     };
-    await store.dispatch(createProductAsync(inputData));
+    const response = await store.dispatch(createProductAsync(inputData));
     expect(store.getState().productsReducer.products.length).toBe(1);
   });
 

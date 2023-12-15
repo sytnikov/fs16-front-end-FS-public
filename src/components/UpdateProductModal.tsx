@@ -9,7 +9,6 @@ import {
 
 import UpdateProductModalProps from "../types/UpdateProductModalProps";
 import UpdateProductInput from "../types/UpdateProductInput";
-import useAppDispatch from "../hooks/useAppDispatch";
 
 const UpdateProductModal: FC<UpdateProductModalProps> = ({
   isOpen,
@@ -18,7 +17,6 @@ const UpdateProductModal: FC<UpdateProductModalProps> = ({
   product,
   onUpdateProduct,
 }) => {
-  const dispatch = useAppDispatch()
 
   const [updatingProductInfo, setUpdatingProductInfo] = useState<UpdateProductInput>({
     _id: productId,
@@ -30,7 +28,6 @@ const UpdateProductModal: FC<UpdateProductModalProps> = ({
       stock: product.stock,
     }
   });
-  console.log('updatingProductInfo:', updatingProductInfo)
   
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();

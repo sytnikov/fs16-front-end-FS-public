@@ -4,17 +4,17 @@ import { Box, Button, Typography } from "@mui/material";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
-import Spinner from "./Spinner";
 import { fetchAllUserOrdersAsync } from "../redux/reducers/ordersReducer";
+import Spinner from "./Spinner";
 
 const OrdersList = () => {
+  const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.authReducer);
   const { orders, isLoading } = useAppSelector((state) => state.ordersReducer);
   const updatedOrders = orders.map((order) => {
     const { _id, ...rest } = order;
     return { id: _id, ...rest };
   });
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (currentUser) {

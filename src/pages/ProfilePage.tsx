@@ -5,17 +5,10 @@ import { Paper, Typography, Box, Avatar } from "@mui/material";
 import useAppSelector from "../hooks/useAppSelector";
 
 const ProfilePage = () => {
-  const navigate = useNavigate();
   const currentUser = useAppSelector((state) => state.authReducer.currentUser);
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/");
-    }
-  }, []);
-
   return (
-    <Box sx={{minHeight: "40rem"}}>
+    <Box sx={{ minHeight: "40rem" }}>
       <Box className="heading">
         <Typography sx={{ fontSize: "36px", fontWeight: "900" }}>
           User Profile
@@ -44,12 +37,18 @@ const ProfilePage = () => {
                   {currentUser.email}
                 </Typography>
               </Typography>
-              <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
-                Role:{" "}
-                <Typography component="span" variant="h6">
-                  {currentUser.role}
+              {currentUser && currentUser.role === "ADMIN" && (
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Role:{" "}
+                  <Typography component="span" variant="h6">
+                    {currentUser.role}
+                  </Typography>
                 </Typography>
-              </Typography>
+              )}
             </Box>
           </Box>
         )}

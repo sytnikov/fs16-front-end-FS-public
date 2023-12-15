@@ -1,12 +1,10 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { Axios, AxiosError } from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios, { AxiosError } from "axios";
 
 import { UsersReducerState } from "../../types/InitialState";
 import User from "../../types/User";
 import CreateUserInput from "../../types/CreateUserInput";
 import { baseURL } from "../../common/common";
-import useAppDispatch from "../../hooks/useAppDispatch";
-import { ErrorMessage } from "../../types/ErrorMessage";
 
 const userUrl = `${baseURL}/users`
 
@@ -43,7 +41,6 @@ export const createUserAsync = createAsyncThunk(
       return user;
     } catch (e) {
       const error = e as AxiosError;
-      console.log('error:', error)
       return rejectWithValue(error);
     }
   }

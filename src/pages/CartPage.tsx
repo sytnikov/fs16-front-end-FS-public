@@ -18,16 +18,13 @@ const CartPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const cartItems = useAppSelector((state) => state.cartReducer.cartItems);
-  console.log('cartItems:', cartItems)
   const currentUser = useAppSelector((state) => state.authReducer.currentUser)
-  
   const orderProducts = cartItems.map((item) => {
     return {
       productId: item._id,
       quantity: item.quantity
     }
   })
-
   const totalItems = cartItems.reduce((prev, curr) => prev + curr.quantity, 0);
   const totalSum =
     Math.round(

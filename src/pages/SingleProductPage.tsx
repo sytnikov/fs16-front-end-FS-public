@@ -10,13 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { toast } from "react-toastify";
 
 import useAppSelector from "../hooks/useAppSelector";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { fetchSingleProductAsync } from "../redux/reducers/productsReducer";
 import { addToCart } from "../redux/reducers/cartReducer";
 import Product from "../types/Product";
-import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
 
 const SingleProductPage = () => {
   const dispatch = useAppDispatch();
@@ -27,6 +28,10 @@ const SingleProductPage = () => {
   useEffect(() => {
     dispatch(fetchSingleProductAsync(productId));
   }, []);
+
+  if (isLoading) {
+    return <Spinner/>
+  }
 
   const onAddToCart = (product: Product) => {
     dispatch(addToCart(product));

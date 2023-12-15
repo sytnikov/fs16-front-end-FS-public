@@ -14,11 +14,11 @@ export const handlers = [
   rest.get(productURL, (req, res, ctx) => {
     return res(ctx.json(productsData));
   }),
-  rest.get("https://api.escuelajs.co/api/v1/products/1", (req, res, ctx) => {
+  rest.get("https://fullstack-backend-juzm.onrender.com/products/1", (req, res, ctx) => {
     return res(ctx.json(productsData[0]));
   }),
   rest.post(
-    "https://api.escuelajs.co/api/v1/products",
+    "https://fullstack-backend-juzm.onrender.com/products",
     async (req, res, ctx) => {
       const inputData: CreateProductInput = await req.json();
       const category = categoriesData.find(
@@ -47,7 +47,7 @@ export const handlers = [
     }
   ),
   rest.put(
-    "https://api.escuelajs.co/api/v1/products/:id",
+    "https://fullstack-backend-juzm.onrender.com/products/:id",
     async (req, res, ctx) => {
       const update = await req.json();
       const { id } = req.params;
@@ -75,7 +75,7 @@ export const handlers = [
     }
   ),
   rest.delete(
-    "https://api.escuelajs.co/api/v1/products/:id",
+    "https://fullstack-backend-juzm.onrender.com/products/:id",
     (req, res, ctx) => {
       const { id } = req.params;
       if (productsData.find((p) => p._id === id)) {

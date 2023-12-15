@@ -20,20 +20,17 @@ const initialState: AuthReducerState = {
 
 export const loginUserAsync = createAsyncThunk(
   "loginUserAsync",
-  async (cred: UserCredentials, thunkAPI) => {
+  async (cred: UserCredentials, { rejectWithValue }) => {
     try {
       const response = await axios.post<CurrentUser>(`${userUrl}/login`, cred);
-      console.log("response:", response);
       const loggedInUser = response.data;
       const accessToken = loggedInUser.accessToken;
-      console.log("accessToken:", accessToken);
       localStorage.setItem("token", accessToken);
       const user = loggedInUser;
       return user;
     } catch (e) {
       const error = e as any;
-      console.log('error Axios Login:', error)
-      return thunkAPI.rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
@@ -46,12 +43,10 @@ export const validateUserAsync = createAsyncThunk(
         `${userUrl}/validate-user`,
         getConfig()
       );
-      console.log("response from Validate:", response);
       const data: boolean = response.data;
       return data;
     } catch (e) {
       const error = e as AxiosError;
-      console.log('error:', error)
       return rejectWithValue(error);
     }
   }

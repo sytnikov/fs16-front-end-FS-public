@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -9,9 +9,9 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 import { loginUserAsync } from "../redux/reducers/authReducer";
-import { toast } from "react-toastify";
 import useAppSelector from "../hooks/useAppSelector";
 
 const LoginPage = () => {
@@ -35,17 +35,6 @@ const LoginPage = () => {
       toast.error(message);
     }
   };
-
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast.error("There's an error")
-  //   }
-  //   if (currentUser) {
-  //     toast.success("There's a user")
-  //   }
-
-  // }, [isError, toast])
-  
 
   return (
     <Container maxWidth="sm" sx={{ mt: 20, minHeight: "40rem" }}>

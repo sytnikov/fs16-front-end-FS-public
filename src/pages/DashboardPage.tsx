@@ -12,16 +12,8 @@ import AddProductModal from "../components/AddProductModal";
 import CreateProductInput from "../types/CreateProductInput";
 
 const DashboardPage = () => {
-  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-  // const currentUser = useAppSelector((state) => state.authReducer.currentUser);
-  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   if (!(currentUser && currentUser.role === "ADMIN")) {
-  //     navigate("/");
-  //   }
-  // }, [currentUser, navigate]);
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
 
   const onAddProductClick = () => {
     setIsAddProductOpen(true)

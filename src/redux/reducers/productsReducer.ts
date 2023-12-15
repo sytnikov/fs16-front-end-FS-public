@@ -80,7 +80,6 @@ export const deleteProductAsync = createAsyncThunk(
   "deletePoductAsync",
   async (_id: string, { rejectWithValue }) => {
     try {
-      console.log('👀 Enter reducer', )
       const response = await axios.delete<string>(
         `${productURL}/${_id}`,
         getConfig()

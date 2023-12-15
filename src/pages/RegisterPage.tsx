@@ -8,11 +8,11 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import { createUserAsync } from "../redux/reducers/usersReducer";
 import useAppSelector from "../hooks/useAppSelector";
-import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const dispatch = useAppDispatch();

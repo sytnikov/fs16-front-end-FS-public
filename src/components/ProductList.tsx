@@ -36,11 +36,8 @@ const ProductList = () => {
   );
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [productId, setProductId] = useState<string | null>(null);
-  console.log('productId:', productId)
   const [isUpdateProductOpen, setIsUpdateProductOpen] = useState(false);
-  console.log('isUpdateProductOpen:', isUpdateProductOpen)
   const [updatingProduct, setUpdatingProduct] = useState("");
-  console.log('updatingProduct:', updatingProduct)
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync());
@@ -56,7 +53,6 @@ const ProductList = () => {
   const updatingProductDetails = products.find(
     (product) => product._id === updatingProduct
     );
-    console.log('updatingProductDetails:', updatingProductDetails)
     
   const updatedProducts = products.map((p) => {
     const { _id, ...rest } = p;

@@ -1,16 +1,8 @@
-import { Box, Button, Tooltip, Typography } from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
-import useAppSelector from "../hooks/useAppSelector";
-import useAppDispatch from "../hooks/useAppDispatch";
 import OrdersList from "../components/OrdersList";
 
 const OrdersPage = () => {
-  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-  const currentUser = useAppSelector((state) => state.authReducer.currentUser);
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   return (
     <Box sx={{ minHeight: "40rem" }}>

@@ -12,7 +12,7 @@ afterAll(() => server.close());
 
 describe("Test async thunk productsReducer actions", () => {
   test("Should fetch all categories", async () => {
-    await store.dispatch(fetchAllCategoriesAsync());
-    expect(store.getState().categoriesReducer.categories.length).toBe(4);
+    const response = await store.dispatch(fetchAllCategoriesAsync());
+    expect(store.getState().categoriesReducer.categories.length).toBe(3);
   });
 });

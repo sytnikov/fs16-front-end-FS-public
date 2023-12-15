@@ -23,7 +23,6 @@ import getFilteredProducts from "../redux/selectors/getFilteredProducts";
 import { fetchAllCategoriesAsync } from "../redux/reducers/categoriesReducer";
 import ProductCard from "../components/ProductCard";
 import Spinner from "../components/Spinner";
-import { toast } from "react-toastify";
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +33,6 @@ const ProductsPage = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
-
   const filteredProducts = useAppSelector((state) =>
     getFilteredProducts(state, search, category)
   );
@@ -43,9 +41,6 @@ const ProductsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (isError) {
-      toast.error("")
-    }
     dispatch(fetchAllProductsAsync());
     dispatch(fetchAllCategoriesAsync());
   }, [isError, dispatch]);

@@ -1,74 +1,63 @@
-# Front-end Project
+# Introduction
 
-The main project features are represented in the picture below. If the features is starred, it is accessible only for the users with the admin rights.
+ Front-end part of the e-commerce website selling tennis products.
 
-![project-features](project-features.png)
+ ## Table of content
 
-## Architecture & Design
+ - [Technologies](#technologies)
+ - [Deployment link](#deployment-link)
+ - [Getting started](#getting-started)
+ - [Project structure](#project-structure)
+ - [Running tests](#running-tests)
+ 
 
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Page for all products, product page,
-   profile page (only available if user logins), and cart page (cart page could be a page or a modal)
-3. Create Redux store for following features:
-   - product reducer: get all products, find a single products, filter products by
-     categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
-   - user reducer: register and login
-   - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Implement unit testing for the reducers
-6. Deploy the application and rewrite README file.
+ ## Technologies
 
-To manage the state globally Redux Toolkit library is used. There are 5 reducers responsible for state management.
+ ![TypeScript](https://img.shields.io/badge/Typescript-blue)
+ ![React](https://img.shields.io/badge/React-blue)
+ ![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-blue)
+ ![React Router](https://img.shields.io/badge/React_Router-blue)
+ ![Material UI](https://img.shields.io/badge/Material_UI-blue)
+ ![SCSS](https://img.shields.io/badge/SCSS-blue)
 
-Here's the list of the main pages of the app:
+  ## Deployment link
 
-- Homepage/Store
-- Single product
-- Cart
-- Profile
-- Admin dashboard
-- Login and SignUp
+ Too check out the deployed website follow the [link](link)
 
-There are also modals implemented to add and update products.
+ ## Project structure
 
-Below is the high-level project folder structure represented.
-
-```
+ ```
  .
  ├── public
- ├── src
- |  ├── components
- |  ├── context
- |  ├── hooks
- |  ├── img
- |  ├── pages
- |  ├── redux
- |  ├── routing
- |  ├── tests
- |  ├── types
- |  ├── App.tsx
- |  ├── index.scss
- |  ├── index.tsx
- |  ├── react-app-env.d.ts
- |  ├── reportWebVitals.ts
- |  └── setup.Tests.ts
- ├── .gitignore
+ └── src
+ |   ├── common
+ |   ├── components
+ |   ├── context
+ |   ├── hooks
+ |   ├── pages
+ |   ├── redux
+ |   ├── routing
+ |   ├── tests
+ |   ├── types
+ |   |── utils
+ |   |── App.tsx
+ |   |── index.scss
+ |   |── index.ts
+ |── .gitignore
  ├── package.json
- ├── project-features.png
  ├── README.md
  └── tsconfig.json
-```
+ ```
 
-## Testing
+ ## Getting started
 
-The test cases for all the Redux store reducers have been built with Jest testing library. In this porject, unit testing approach was used. The test requests are sent to the mock server not the real API.
+ To run the project in your local environment:
 
-Run `npm test` to implement all the tests.
+ Clone the repo with the command: `git clone https://github.com/sytnikov/fs16-front-end-FS.git`.
+ Install project dependencies using `npm install` command.
+ Run `npm start` to run the project in the dev mode.
 
-## Live Application
+ ## Running tests
 
-Run `npm run build` to build the app for production to the `build` folder in the project directory. It will correctly bundle React in production mode and optimize the build for the best performance.
+ Run `npm run test` command to fire the test cases.
 
-The app is deployed with [Vercel](https://vercel.com/).
-
-[Click here](https://fs16-6-frontend-project-iota.vercel.app) to interact with the ECO website live.
