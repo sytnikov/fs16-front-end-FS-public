@@ -22,7 +22,7 @@
 
   ## Deployment link
 
- Too check out the deployed website follow the [link](link)
+ Too check out the deployed website follow the [link](https://vercel.com/sytnikov/fs16-front-end-fullstack)
 
  ## Project structure
 
