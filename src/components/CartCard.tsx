@@ -18,7 +18,7 @@ const CartCard = ({
 }: CartCardProps) => (
   <Box>
     <Card sx={{ maxWidth: 800, display: { xs: "none", md: "flex" } }}>
-      <CardMedia sx={{ width: 500 }} image={cartItem.images[0]} />
+      <CardMedia sx={{ minWidth: 300 }} image={cartItem.images[0]} />
       <CardContent sx={{ display: "flex", flexDirection: "column" }}>
         <Box>
           <Typography gutterBottom variant="h5" component="div">
