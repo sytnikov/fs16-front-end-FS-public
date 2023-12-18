@@ -5,6 +5,7 @@ import { UsersReducerState } from "../../types/InitialState";
 import User from "../../types/User";
 import CreateUserInput from "../../types/CreateUserInput";
 import { baseURL } from "../../common/common";
+import { getConfig } from "../../common/config";
 
 const userUrl = `${baseURL}/users`
 
@@ -19,12 +20,12 @@ export const fetchAllUsersAsync = createAsyncThunk(
   "fetchAllUsersAsync",
   async (_, {rejectWithValue}) => {
     try {
-      const response = await axios.get<User[]>(userUrl)
+      const response = await axios.get<User[]>(userUrl, getConfig())
       const users = response.data
       return users
     } catch (e) {
       const error = e as AxiosError
-      return rejectWithValue(error.message)
+      return rejectWithValue(error)
     }
   }
 );
@@ -72,7 +73,7 @@ const usersSlice = createSlice({
           ...state,
           isLoading: false,
           isError: true,
-          error: action.payload.message,
+          essage: action.payload.response?.data.message,
         };
       }
     })
