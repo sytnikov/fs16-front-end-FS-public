@@ -1,5 +1,4 @@
 import Product from "../../types/Product";
-import categoriesData from "./categoriesData";
 
 const productsData: Product[] = [
   {

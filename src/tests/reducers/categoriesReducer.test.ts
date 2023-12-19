@@ -10,9 +10,9 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-describe("Test async thunk productsReducer actions", () => {
+describe("Test async thunk categoriesReducer actions", () => {
   test("Should fetch all categories", async () => {
-    const response = await store.dispatch(fetchAllCategoriesAsync());
-    expect(store.getState().categoriesReducer.categories.length).toBe(3);
+    await store.dispatch(fetchAllCategoriesAsync());
+    expect(store.getState().categoriesReducer.categories.length).toBe(4);
   });
 });

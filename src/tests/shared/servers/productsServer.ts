@@ -8,17 +8,31 @@ import Product from "../../../types/Product";
 import categoriesData from "../../data/categoriesData";
 import { baseURL } from "../../../common/common";
 
-const productURL = `${baseURL}/products`
-
 export const handlers = [
-  rest.get(productURL, (req, res, ctx) => {
+  rest.get(`${baseURL}/products`, (req, res, ctx) => {
     return res(ctx.json(productsData));
   }),
-  rest.get("https://fullstack-backend-juzm.onrender.com/products/1", (req, res, ctx) => {
-    return res(ctx.json(productsData[0]));
-  }),
+
+  rest.get(
+    `${baseURL}/products/:_id`,
+    async (req, res, ctx) => {
+      const { _id } = req.params;
+      const product = productsData.find((item) => item._id === _id);
+      if (product) {
+        return res(ctx.json(product));
+      } else {
+        ctx.status(400);
+        ctx.json({
+          message: ["message: Could not find any entity of type"],
+          error: "Bad Request",
+          statusCode: 400,
+        });
+      }
+    }
+  ),
+
   rest.post(
-    "https://fullstack-backend-juzm.onrender.com/products",
+    `${baseURL}/products`,
     async (req, res, ctx) => {
       const inputData: CreateProductInput = await req.json();
       const category = categoriesData.find(
@@ -36,22 +50,26 @@ export const handlers = [
         productsData.push(newProduct);
         return res(ctx.json(newProduct));
       } else {
+        ctx.status(400);
         ctx.json({
-          path: "/api/v1/products",
-          timestamp: "2023-10-09T20:38:15.852Z",
-          name: "EntityNotFoundError",
-          message:
-            'Could not find any entity of type "Category" matching: {\n    "id": 170\n}',
+          message: [
+            "price must be a positive number",
+            "images must contain at least 1 elements",
+            "each value in images must be a URL address",
+            "images must be an array",
+          ],
+          error: "Bad Request",
+          statusCode: 400,
         });
       }
     }
   ),
   rest.put(
-    "https://fullstack-backend-juzm.onrender.com/products/:id",
+    `${baseURL}/products/:_id`,
     async (req, res, ctx) => {
       const update = await req.json();
-      const { id } = req.params;
-      const foundIndex = productsData.findIndex((p) => p._id === id);
+      const { _id } = req.params;
+      const foundIndex = productsData.findIndex((p) => p._id === _id);
       try {
         if (foundIndex > -1) {
           return res(
@@ -64,21 +82,28 @@ export const handlers = [
           ctx.status(400);
           return res(
             ctx.json({
-              message:
-                'Could not find any entity of type "Product" matching: {\n    "relations": [\n        "category"\n    ],\n    "where": {\n        "id": 5\n    }\n}',
+              message: [
+                "price must be a positive number",
+                "images must contain at least 1 elements",
+                "each value in images must be a URL address",
+                "images must be an array",
+              ],
+              error: "Bad Request",
+              statusCode: 400,
             })
           );
         }
       } catch (e) {
         const error = e as AxiosError;
+        console.log('👀 There is an error happened: ', error.message)
       }
     }
   ),
   rest.delete(
-    "https://fullstack-backend-juzm.onrender.com/products/:id",
+    `${baseURL}/products/:_id`,
     (req, res, ctx) => {
-      const { id } = req.params;
-      if (productsData.find((p) => p._id === id)) {
+      const { _id } = req.params;
+      if (productsData.find((p) => p._id === _id)) {
         return res(ctx.json(true));
       } else {
         return res(ctx.json(false));

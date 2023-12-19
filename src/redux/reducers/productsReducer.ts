@@ -14,6 +14,7 @@ export const initialState: ProductsReducerState = {
   products: [],
   isLoading: false,
   isError: false,
+  message: "",
 };
 
 export const fetchAllProductsAsync = createAsyncThunk(
@@ -83,11 +84,11 @@ export const deleteProductAsync = createAsyncThunk(
       const response = await axios.delete<string>(
         `${productURL}/${_id}`,
         getConfig()
-      );
+        );
       return response.data;
     } catch (e) {
       const error = e as AxiosError;
-      return rejectWithValue(error.message);
+      return rejectWithValue(error);
     }
   }
 );
@@ -209,16 +210,19 @@ const productsSlice = createSlice({
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       state.isLoading = false
       if (typeof action.payload === "string") {
-        state.products = state.products.filter((p) => p._id !== action.payload);
-      }
-    });
+        return {
+          ...state,
+          products: state.products.filter((p) => p._id !== action.payload)
+        }
+      }}
+    );
     builder.addCase(deleteProductAsync.rejected, (state, action) => {
       if (action.payload instanceof AxiosError) {
         return {
           ...state,
           isLoading: false,
           isError: true,
-          error: action.payload.message,
+          message: action.payload.response?.data.message
         };
       }
     });

@@ -28,6 +28,7 @@ describe("Test normal productsReducer actions", () => {
       products: productsData,
       isLoading: false,
       isError: false,
+      message: ""
     };
     const products = productsReducer(state, sortByPrice("asc")).products;
     expect(products[0]).toBe(productsData[1]);
@@ -39,6 +40,7 @@ describe("Test normal productsReducer actions", () => {
       products: productsData,
       isLoading: false,
       isError: false,
+      message: ""
     };
     const products = productsReducer(state, sortByPrice("desc")).products;
     expect(products[0]).toBe(productsData[2]);
@@ -56,12 +58,12 @@ describe("Test normal productsReducer actions", () => {
 
 describe("Test async thunk productsReducer actions", () => {
   test("Should fetch all products without pagination", async () => {
-    const response = await store.dispatch(fetchAllProductsAsync());
+    await store.dispatch(fetchAllProductsAsync());
     expect(store.getState().productsReducer.products.length).toBe(3);
   });
 
   test("Should fetch one product", async () => {
-    await store.dispatch(fetchSingleProductAsync(productsData[0]._id));
+    await store.dispatch(fetchSingleProductAsync("1"));
     const product = store.getState().productsReducer.product;
     if (product) {
       expect(product).toMatchObject(productsData[0]);
@@ -76,7 +78,7 @@ describe("Test async thunk productsReducer actions", () => {
       categoryId: "1",
       images: [],
     };
-    const response = await store.dispatch(createProductAsync(inputData));
+    await store.dispatch(createProductAsync(inputData));
     expect(store.getState().productsReducer.products.length).toBe(1);
   });
 
@@ -100,17 +102,24 @@ describe("Test async thunk productsReducer actions", () => {
         "https://i.imgur.com/imQx3Az.jpeg",
         "https://i.imgur.com/aCDF0yh.jpeg",
       ],
-      categoryId: "3"
+      categoryId: {
+        _id: "6569a4a897a958cf8de2ce89",
+        name: "Equipment",
+        images: [
+          "https://img.tenniswarehouse-europe.com/fpcache/1176/marketing/PERCEPTFP-md.jpg",
+        ],
+      },
     });
   });
 
   test("Should delete an existing product", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync("1"));
-    expect(resultAction.payload).toBe("1");
+    const response = await store.dispatch(deleteProductAsync("3"));
+    expect(response.payload).toBe(true);
+    expect(response.meta.arg).toBe("3")
   });
 
   test("Should throw an error while deleting a non-existing product", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync("400"));
-    expect(resultAction.payload).toBe("The product cannot be deleted");
+    const response = await store.dispatch(deleteProductAsync("200"));
+    expect(response.payload).toBe(false);
   });
 });

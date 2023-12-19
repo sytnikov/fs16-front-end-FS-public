@@ -10,6 +10,7 @@ export type ProductsReducerState = {
   product?: Product;
   isLoading: boolean;
   isError: boolean;
+  message: string;
 }
 
 export type CategoriesReducerState = {
