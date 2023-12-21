@@ -6,15 +6,15 @@ import productsData from "../../data/productsData";
 import CreateProductInput from "../../../types/CreateProductInput";
 import Product from "../../../types/Product";
 import categoriesData from "../../data/categoriesData";
-import { baseURL } from "../../../common/common";
+import { testURL } from "../../../common/common";
 
 export const handlers = [
-  rest.get(`${baseURL}/products`, (req, res, ctx) => {
+  rest.get(`${testURL}/products`, (req, res, ctx) => {
     return res(ctx.json(productsData));
   }),
 
   rest.get(
-    `${baseURL}/products/:_id`,
+    `${testURL}/products/:_id`,
     async (req, res, ctx) => {
       const { _id } = req.params;
       const product = productsData.find((item) => item._id === _id);
@@ -32,7 +32,7 @@ export const handlers = [
   ),
 
   rest.post(
-    `${baseURL}/products`,
+    `${testURL}/products`,
     async (req, res, ctx) => {
       const inputData: CreateProductInput = await req.json();
       const category = categoriesData.find(
@@ -65,7 +65,7 @@ export const handlers = [
     }
   ),
   rest.put(
-    `${baseURL}/products/:_id`,
+    `${testURL}/products/:_id`,
     async (req, res, ctx) => {
       const update = await req.json();
       const { _id } = req.params;
@@ -100,7 +100,7 @@ export const handlers = [
     }
   ),
   rest.delete(
-    `${baseURL}/products/:_id`,
+    `${testURL}/products/:_id`,
     (req, res, ctx) => {
       const { _id } = req.params;
       if (productsData.find((p) => p._id === _id)) {

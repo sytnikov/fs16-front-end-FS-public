@@ -40,7 +40,6 @@ describe("Test normal authReducer actions", () => {
 describe("Test async thunk authReducer actions", () => {
   test("Should login user with valid credentials", async ()=>{
     const response = await store.dispatch(loginUserAsync({email: "john@mail.com", password: "changeme" }))
-    console.log('response:', response)
     expect(response.payload).toBe(`test-access-token_${usersData[0]._id}`)
   })
   

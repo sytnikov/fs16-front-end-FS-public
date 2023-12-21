@@ -4,16 +4,16 @@ import { setupServer } from "msw/node";
 import usersData from "../../data/usersData";
 import CreateUserInput from "../../../types/CreateUserInput";
 import User from "../../../types/User";
-import { baseURL } from "../../../common/common";
+import { testURL } from "../../../common/common";
 
 export const access_token = "test-access-token";
 
 export const handlers = [
-  rest.get(`${baseURL}/users`, (req, res, ctx) => {
+  rest.get(`${testURL}/users`, (req, res, ctx) => {
     return res(ctx.json(usersData));
   }),
 
-  rest.post(`${baseURL}/users/login`, async (req, res, ctx) => {
+  rest.post(`${testURL}/users/login`, async (req, res, ctx) => {
     const { email, password } = await req.json();
     const foundUser = usersData.find(
       (u) => u.email === email && u.password === password
@@ -28,7 +28,7 @@ export const handlers = [
     }
   }),
 
-  rest.post(`${baseURL}/users/register`, async (req, res, ctx) => {
+  rest.post(`${testURL}/users/register`, async (req, res, ctx) => {
     const inputData: CreateUserInput = await req.json();
     const role = "USER";
     if (inputData) {

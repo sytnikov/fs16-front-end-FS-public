@@ -2,11 +2,11 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import categoriesData from "../../data/categoriesData";
-import { baseURL } from "../../../common/common";
+import { testURL } from "../../../common/common";
 
 export const handlers = [
   rest.get(
-    `${baseURL}/categories`,
+    `${testURL}/categories`,
     async (req, res, ctx) => {
       return res(ctx.json(categoriesData));
     }
