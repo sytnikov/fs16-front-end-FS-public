@@ -27,7 +27,7 @@ const SingleProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchSingleProductAsync(productId));
-  }, []);
+  }, [dispatch, productId]);
 
   if (isLoading) {
     return <Spinner/>

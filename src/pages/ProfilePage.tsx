@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Paper, Typography, Box, Avatar } from "@mui/material";
 
 import useAppSelector from "../hooks/useAppSelector";

@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 import {
   DeleteOutline,
   ModeOutlined,
-  PanoramaSharp,
 } from "@mui/icons-material";
 
 import useAppDispatch from "../hooks/useAppDispatch";
