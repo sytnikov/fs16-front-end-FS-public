@@ -27,3 +27,4 @@ package-lock.json
 # ansible
 inventory.ini 
 playbook.yml
+Makefile
