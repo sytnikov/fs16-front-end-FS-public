@@ -22,7 +22,7 @@
 
   ## Deployment link
 
- Too check out the deployed website follow the [link](https://fs16-front-end-fullstack-sytnikov.vercel.app/)
+ Too check out the deployed website follow the [link](https://tennis-store.sytnikov.bio)
 
  ## Project structure
 
@@ -53,7 +53,7 @@
 
  To run the project in your local environment:
 
- Clone the repo with the command: `git clone https://github.com/sytnikov/fs16-front-end-FS.git`.
+ Clone the repo with the command: `git clone https://github.com/sytnikov/tennis-store-frontend.git`.
  Install project dependencies using `npm install` command.
  Run `npm start` to run the project in the dev mode.
 
